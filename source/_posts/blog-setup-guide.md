@@ -1,7 +1,12 @@
 ---
 title: 有手就行的博客搭建指南：Hexo + GitHub Pages
 date: 2025-10-13 21:44:50
+categories:
+  - TECH
 tags:
+  - hexo
+  - github
+  - blog
 excerpt: 一个基于Hexo和GitHub Pages并借助GitHub Actions实现自动部署的个人博客搭建方案。
 ---
 
