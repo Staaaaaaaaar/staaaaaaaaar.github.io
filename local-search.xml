@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>ICS | 拆弹！我吗？</title>
+    <link href="/2025/10/14/ics-bomblab/"/>
+    <url>/2025/10/14/ics-bomblab/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><h2 id="熟悉gdb工具"><a href="#熟悉gdb工具" class="headerlink" title="熟悉gdb工具"></a>熟悉gdb工具</h2><p>建议事先阅读CSAPP中的3.10.2章节，这里给出部分指令参考：</p><table><thead><tr><th>指令</th><th>含义</th><th>描述</th></tr></thead><tbody><tr><td>r</td><td>run</td><td>开始执行程序，直到下一个断点或程序结束</td></tr><tr><td>b</td><td>break</td><td>在指定位置设置断点</td></tr><tr><td>q</td><td>quit</td><td>退出 GDB 调试器</td></tr><tr><td>ni</td><td>next instruction</td><td>执行下一条指令</td></tr><tr><td>si</td><td>step instruction</td><td>执行当前指令，若是函数调用则进入函数</td></tr><tr><td>n</td><td>next</td><td>执行下一行代码</td></tr><tr><td>s</td><td>step</td><td>执行下一行代码，若有函数调用则进入函数</td></tr><tr><td>c</td><td>continue</td><td>从当前位置继续执行程序，直到下一个断点或程序结束</td></tr><tr><td>p</td><td>print</td><td>打印变量的值</td></tr><tr><td>x</td><td>examine</td><td>打印内存中的值</td></tr><tr><td>j</td><td>jump</td><td>跳转到程序指定位置</td></tr><tr><td>layout asm</td><td>assembly layout</td><td>显示汇编代码视图</td></tr><tr><td>layout regs</td><td>register layout</td><td>显示当前的寄存器状态和它们的值</td></tr></tbody></table><h2 id="了解炸弹结构"><a href="#了解炸弹结构" class="headerlink" title="了解炸弹结构"></a>了解炸弹结构</h2><p>首先，查看一下给出的 <code>bomb.c</code> 文件，了解炸弹的整体结构。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>    input = read_line();<br>    phase_1(input);<br>    phase_defused(fp);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Phase 1 defused. How about the next one?\n&quot;</span>);<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><p>炸弹程序包含六个 <code>phase</code> ，每个 <code>phase</code> 都会读入一行输入，然后调用一个 <code>phase_defused</code> 函数来验证输入。</p><p>接着，我们反汇编 <code>bomb</code> 可执行文件，查看每个炸弹的细节。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">objdump -d bomb &gt; bomb.asm<br></code></pre></td></tr></table></figure><p>阅读汇编代码，我们发现每个 <code>phase</code> 函数都包含一个 <code>explode_bomb</code> 的调用指令，形如：</p><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">27c1:   e8 <span class="hljs-number">1d</span> <span class="hljs-number">08</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       <span class="hljs-keyword">call</span>   2fe3 &lt;explode_bomb&gt;<br></code></pre></td></tr></table></figure><p>显而易见，这个函数会在输入错误时引爆炸弹，这是我们不想看到的。</p><h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><h1 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h1><p>前文提到，我们不希望程序运行 <code>explode_bomb</code> 函数，因此我们利用 <code>gdb</code> 工具给 <code>explode_bomb</code> 设置断点，防止程序继续执行到引爆炸弹的指令。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">gdb ./bomb<br>(gdb) b explode_bomb<br></code></pre></td></tr></table></figure><h1 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase 1"></a>Phase 1</h1><h1 id="Phase-2"><a href="#Phase-2" class="headerlink" title="Phase 2"></a>Phase 2</h1><h1 id="Phase-3"><a href="#Phase-3" class="headerlink" title="Phase 3"></a>Phase 3</h1><h1 id="Phase-4"><a href="#Phase-4" class="headerlink" title="Phase 4"></a>Phase 4</h1><h1 id="Phase-5"><a href="#Phase-5" class="headerlink" title="Phase 5"></a>Phase 5</h1><h1 id="Phase-6"><a href="#Phase-6" class="headerlink" title="Phase 6"></a>Phase 6</h1><h1 id="Secret-Phase"><a href="#Secret-Phase" class="headerlink" title="Secret Phase"></a>Secret Phase</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>NOTE</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>pku</tag>
+      
+      <tag>ics</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>有手就行的博客搭建指南：Hexo + GitHub Pages</title>
     <link href="/2025/10/13/blog-setup-guide/"/>
     <url>/2025/10/13/blog-setup-guide/</url>
