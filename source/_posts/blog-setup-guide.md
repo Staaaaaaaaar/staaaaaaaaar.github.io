@@ -83,7 +83,7 @@ git submodule init
 git submodule update
 ```
 {% note warning %}
-此处的 `<repo-url>` 必须为HTTPS地址。若在拉取过程中遇到连接问题，可在运行 `git submodule update` 后先将 `.gitmodules` 文件 `commit` 到本地仓库保存，然后手动更改 `.gitmodules` 中的URL为SSH形式。接着运行以下命令更新子模块：
+此处的 `<repo-url>` 必须为HTTPS地址。若在拉取过程中遇到连接问题，可在运行 `git submodule init` 后先将 `.gitmodules` 文件 `commit` 到本地仓库保存，然后手动更改 `.gitmodules` 中的URL为SSH形式。接着运行以下命令更新子模块：
 ```bash
 git submodule sync
 git submodule update
