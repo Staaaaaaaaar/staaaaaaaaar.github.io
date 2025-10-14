@@ -29,7 +29,7 @@ git --version
 
 在 GitHub 上新建一个仓库，需要特别注意的是仓库名需要为 `<your_github_username>.github.io` 。
 
-![](/img/create-repo.png)
+![](/img/blog-setup-guide/create-repo.png)
 
 # 搭建 Hexo 博客框架
 
@@ -198,11 +198,11 @@ git push origin main
 
 若进展顺利，GitHub Actions 会自动运行工作流，并将生成的静态文件推送到远程仓库的 `gh-pages` 分支。
 
-![](/img/deploy-success.png)
+![](/img/blog-setup-guide/deploy-success.png)
 
 2. 在 GitHub 仓库页面，进入 `Settings` -> `Pages` ，在 `Source` 选项中选择 `Deploy from a branch` ，选择 `gh-pages` 分支 `/(root)` ，点击 `Save` 保存。
 
-![](/img/github-pages.png)
+![](/img/blog-setup-guide/github-pages.png)
 
 3. 访问 `https://<your_github_username>.github.io` 即可看到你的博客上线了！
 
