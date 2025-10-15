@@ -6,7 +6,7 @@ categories:
 tags:
   - pku
   - ics
-excerpt: 北京大学2025年秋季学期计算机系统导论Bomb Lab记录。
+excerpt: 北京大学 2025 年秋季学期计算机系统导论 Bomb Lab 记录。
 ---
 
 # 前置准备

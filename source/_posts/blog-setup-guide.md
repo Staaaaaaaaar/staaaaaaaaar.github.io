@@ -8,7 +8,7 @@ tags:
   - fluid
   - github
   - blog
-excerpt: 一个基于Hexo和GitHub Pages并借助GitHub Actions实现自动部署的个人博客搭建方案。
+excerpt: 一个基于 Hexo 和 GitHub Pages 并借助 GitHub Actions 实现自动部署的个人博客搭建方案。
 ---
 
 # 前言
@@ -232,9 +232,6 @@ git push origin main
 {% note info %}
 详细开发指南请参考[Hexo 官方文档](https://hexo.io/zh-cn/docs/)和[主题用户手册](https://hexo.fluid-dev.com/docs/guide/)。
 {% endnote %}
-
-
-
 
 {% note light %}
 <span class="iconfont icon-chaolianjie"></span> [在 GitHub Pages 上部署 Hexo](https://hexo.io/zh-cn/docs/github-pages)
