@@ -5,6 +5,7 @@ categories:
   - TECH
 tags:
   - hexo
+  - fluid
   - github
   - blog
 excerpt: 一个基于Hexo和GitHub Pages并借助GitHub Actions实现自动部署的个人博客搭建方案。
