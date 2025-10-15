@@ -803,3 +803,8 @@ struct node {
 ```
 
 # Secret Phase
+
+
+{% note light %}
+[更适合北大宝宝体质的 Bomb Lab 踩坑记](https://arthals.ink/blog/bomb-lab)
+{% endnote %}
