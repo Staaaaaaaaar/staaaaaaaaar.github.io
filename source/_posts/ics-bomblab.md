@@ -804,7 +804,387 @@ struct node {
 
 # Secret Phase
 
+如果仔细查看汇编代码 `phase_defused` 的部分，会发现其中有三个函数的调用：
+
+- `abracadabra`
+- `alohomora`
+- `secret_phase`
+
+想要破解 secret phase，我们需要先从 `phase_defused` 入手。
+
+## phase_defused
+
+1. 函数起始，执行`endbr64`安全指令，随后将`%rbx`寄存器入栈保存
+2. 将第一个参数（`%rdi`）的值存入`%rbx`寄存器，保存该参数指针
+3. 向`%rdi`指向的内存地址写入`0x0`（初始化该地址的值为 0）
+4. 设置参数：将`%rdi`的值赋给`%rsi`（第二个参数），将`0x1`赋给`%edi`（第一个参数），调用`send_msg`函数发送消息
+
+```x86asm
+00000000000031ec <phase_defused>:
+    31ec:	f3 0f 1e fa          	endbr64
+    31f0:	53                   	push   %rbx
+    31f1:	48 89 fb             	mov    %rdi,%rbx
+    31f4:	c7 07 00 00 00 00    	movl   $0x0,(%rdi)
+    31fa:	48 89 fe             	mov    %rdi,%rsi
+    31fd:	bf 01 00 00 00       	mov    $0x1,%edi
+    3202:	e8 7a fc ff ff       	call   2e81 <send_msg>
+    ; ...
+```
+
+5. 检查`%rbx`指向的内存地址的值是否等于`0x1`：
+   - 若不等于（`jne`），跳转到步骤 6
+   - 若等于，继续步骤 7
+6. 打印一些字符串，并调用`exit`函数退出程序
+7. 检查`num_input_strings`（内存地址`0x63c5(%rip)`）的值是否等于`0x6`：
+   - 若不等于，执行`pop %rbx`和`ret`指令，函数返回
+   - 若等于（`je`），跳转到步骤 8
+
+```x86asm
+00000000000031ec <phase_defused>:
+    ; ...
+    3207:	83 3b 01             	cmpl   $0x1,(%rbx)
+    320a:	75 0b                	jne    3217 <phase_defused+0x2b>
+    320c:	83 3d c5 63 00 00 06 	cmpl   $0x6,0x63c5(%rip)        # 95d8 <num_input_strings>
+    3213:	74 22                	je     3237 <phase_defused+0x4b>
+    3215:	5b                   	pop    %rbx
+    3216:	c3                   	ret
+    3217:	48 8d 35 da 21 00 00 	lea    0x21da(%rip),%rsi        # 53f8 <array.0+0xb8>
+    321e:	bf 01 00 00 00       	mov    $0x1,%edi
+    3223:	b8 00 00 00 00       	mov    $0x0,%eax
+    3228:	e8 53 f1 ff ff       	call   2380 <__printf_chk@plt>
+    322d:	bf 08 00 00 00       	mov    $0x8,%edi
+    3232:	e8 79 f1 ff ff       	call   23b0 <exit@plt>
+    ; ...
+```
+
+8. 调用`abracadabra`函数，检查其返回值（`%eax`）：
+   - 若返回值为 0，打印一些字符串，随后跳转到步骤 7 中"不等于时"的返回逻辑
+   - 若返回值不为 0（`jne`），跳转到步骤 9
+9. 调用`alohomora`函数，检查其返回值（`%eax`）：
+   - 若返回值为 0（`je`），跳转到步骤 10
+   - 若返回值不为 0，打印一些字符串，随后调用`secret_phase`函数，再跳转到步骤 8 中"返回值为 0 时"的逻辑
+10. 打印一些字符串，随后跳转到步骤 8 中"返回值为 0 时"的打印逻辑
+
+```x86asm
+00000000000031ec <phase_defused>:
+    ; ...
+    3237:	e8 48 f4 ff ff       	call   2684 <abracadabra>
+    323c:	85 c0                	test   %eax,%eax
+    323e:	75 1a                	jne    325a <phase_defused+0x6e>
+    3240:	48 8d 3d 11 23 00 00 	lea    0x2311(%rip),%rdi        # 5558 <array.0+0x218>
+    3247:	e8 34 f0 ff ff       	call   2280 <puts@plt>
+    324c:	48 8d 3d 4d 23 00 00 	lea    0x234d(%rip),%rdi        # 55a0 <array.0+0x260>
+    3253:	e8 28 f0 ff ff       	call   2280 <puts@plt>
+    3258:	eb bb                	jmp    3215 <phase_defused+0x29>
+    325a:	e8 b2 f4 ff ff       	call   2711 <alohomora>
+    325f:	85 c0                	test   %eax,%eax
+    3261:	74 30                	je     3293 <phase_defused+0xa7>
+    3263:	48 8d 3d fe 21 00 00 	lea    0x21fe(%rip),%rdi        # 5468 <array.0+0x128>
+    326a:	e8 11 f0 ff ff       	call   2280 <puts@plt>
+    326f:	48 8d 3d 1a 22 00 00 	lea    0x221a(%rip),%rdi        # 5490 <array.0+0x150>
+    3276:	e8 05 f0 ff ff       	call   2280 <puts@plt>
+    327b:	48 8d 3d 46 22 00 00 	lea    0x2246(%rip),%rdi        # 54c8 <array.0+0x188>
+    3282:	e8 f9 ef ff ff       	call   2280 <puts@plt>
+    3287:	b8 00 00 00 00       	mov    $0x0,%eax
+    328c:	e8 f7 f8 ff ff       	call   2b88 <secret_phase>
+    3291:	eb ad                	jmp    3240 <phase_defused+0x54>
+    3293:	48 8d 3d 7e 22 00 00 	lea    0x227e(%rip),%rdi        # 5518 <array.0+0x1d8>
+    329a:	e8 e1 ef ff ff       	call   2280 <puts@plt>
+    329f:	48 8d 3d 22 22 00 00 	lea    0x2222(%rip),%rdi        # 54c8 <array.0+0x188>
+    32a6:	e8 d5 ef ff ff       	call   2280 <puts@plt>
+    32ab:	eb 93                	jmp    3240 <phase_defused+0x54>
+```
+
+由于我们的前六个 phase 都已顺利破解，并没有调用 `exit`，因此开启 secret_phase 的关键在于步骤 7。步骤 7 要求 `num_input_strings` 的值为 6，而这个值正是我们在前面的 phase 2 和 phase 6 中输入的数字数量。可见 secret phase 的只有可能在 phase 2 和 phase 6 之后触发。
+
+## abracadabra
+
+1. 函数起始，执行`endbr64`安全指令，随后在栈上分配`0x98`字节空间
+2. 从`%fs:0x28`（栈金丝雀存储位置）读取值到`%rax`，并将其保存到栈上`0x88(%rsp)`位置
+3. 将`%eax`清零，准备后续操作
+
+```x86asm
+0000000000002684 <abracadabra>:
+    2684:	f3 0f 1e fa          	endbr64
+    2688:	48 81 ec 98 00 00 00 	sub    $0x98,%rsp
+    268f:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    2696:	00 00
+    2698:	48 89 84 24 88 00 00 	mov    %rax,0x88(%rsp)
+    269f:	00
+    26a0:	31 c0                	xor    %eax,%eax
+    ; ...
+```
+
+4. 加载地址到寄存器，设置`sscanf`参数：
+   - `%rcx` = `0xc(%rsp)`（第三个输出参数地址）
+   - `%rdx` = `0x8(%rsp)`（第二个输出参数地址）
+   - `%r8` = `0x10(%rsp)`（第一个输出参数地址）
+   - `%rsi` = 格式字符串地址（`0x2aa3(%rip)`，即`515b`）
+   - `%rdi` = 输入字符串地址（`0x7089(%rip)`，即`9748`，属于`input_strings`）
+5. 调用`__isoc99_sscanf`函数，解析输入字符串并将结果存入栈上`0x8`、`0xc`、`0x10`位置
+
+   {% note info %}
+   通过调试发现，调用 `__isoc99_sscanf` 前，`%rsi` 处储存的格式字符串为`"%d %d %s"`，而 `%rdi` 处储存的输入字符串为正是 phase 4 的输入。
+   {% endnote %}
+
+```x86asm
+0000000000002684 <abracadabra>:
+    ; ...
+    26a2:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+    26a7:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+    26ac:	4c 8d 44 24 10       	lea    0x10(%rsp),%r8
+    26b1:	48 8d 35 a3 2a 00 00 	lea    0x2aa3(%rip),%rsi        # 515b <_IO_stdin_used+0x15b>
+    26b8:	48 8d 3d 89 70 00 00 	lea    0x7089(%rip),%rdi        # 9748 <input_strings+0x168>
+    26bf:	e8 9c fc ff ff       	call   2360 <__isoc99_sscanf@plt>
+    ; ...
+```
+
+6. 检查`sscanf`返回值（`%eax`）是否等于`3`（成功匹配 3 个值）：
+   - 若等于`3`（`je`），跳至步骤 7
+   - 若不等于`3`，设置`%eax`为`0`，跳至步骤 9
+7. 设置参数调用`strings_not_equal`函数：
+
+   - `%rdi` = 栈上`0x10`位置（第三个解析结果）
+   - `%rsi` = 目标字符串地址（`0x2a73(%rip)`，即`5168`）
+
+   {% note info %}
+   调试可知，`0x2a73(%rip)` 处的字符串为`"...VeniVidiViciTwoThousandYearsAgo?"`。
+   {% endnote %}
+
+8. 检查`strings_not_equal`返回值（`%eax`）：
+   - 若返回`0`（字符串相等，`je`），设置`%eax`为`1`，跳至步骤 9
+   - 若返回非`0`（字符串不相等），设置`%eax`为`0`，跳至步骤 9
+9. 进行栈溢出检查：
+   - 从栈上`0x88(%rsp)`取出之前保存的栈金丝雀，与`%fs:0x28`原值比较
+   - 若不等（`jne`），调用`__stack_chk_fail`处理栈溢出
+   - 若相等，恢复栈空间（`add $0x98,%rsp`）并返回（`ret`）
+
+```x86asm
+0000000000002684 <abracadabra>:
+    ; ...
+    26c4:	83 f8 03             	cmp    $0x3,%eax
+    26c7:	74 20                	je     26e9 <abracadabra+0x65>
+    26c9:	b8 00 00 00 00       	mov    $0x0,%eax
+    26ce:	48 8b 94 24 88 00 00 	mov    0x88(%rsp),%rdx
+    26d5:	00
+    26d6:	64 48 2b 14 25 28 00 	sub    %fs:0x28,%rdx
+    26dd:	00 00
+    26df:	75 2b                	jne    270c <abracadabra+0x88>
+    26e1:	48 81 c4 98 00 00 00 	add    $0x98,%rsp
+    26e8:	c3                   	ret
+    26e9:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+    26ee:	48 8d 35 73 2a 00 00 	lea    0x2a73(%rip),%rsi        # 5168 <_IO_stdin_used+0x168>
+    26f5:	e8 d4 05 00 00       	call   2cce <strings_not_equal>
+    26fa:	85 c0                	test   %eax,%eax
+    26fc:	74 07                	je     2705 <abracadabra+0x81>
+    26fe:	b8 00 00 00 00       	mov    $0x0,%eax
+    2703:	eb c9                	jmp    26ce <abracadabra+0x4a>
+    2705:	b8 01 00 00 00       	mov    $0x1,%eax
+    270a:	eb c2                	jmp    26ce <abracadabra+0x4a>
+    270c:	e8 9f fb ff ff       	call   22b0 <__stack_chk_fail@plt>
+```
+
+因此，我们需要在 phase 4 的输入的两个数字后，添加一个字符串：
+
+```text
+...VeniVidiViciTwoThousandYearsAgo?
+```
+
+## alohomora
+
+1. 函数起始，执行`endbr64`安全指令，随后在栈上分配`0x88`字节空间
+2. 从`%fs:0x28`（栈金丝雀存储位置）读取值到`%rax`，并将其保存到栈上`0x78(%rsp)`位置
+3. 将`%eax`清零（`xor %eax,%eax`），准备后续操作
+
+```x86asm
+0000000000002711 <alohomora>:
+    2711:	f3 0f 1e fa          	endbr64
+    2715:	48 81 ec 88 00 00 00 	sub    $0x88,%rsp
+    271c:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    2723:	00 00
+    2725:	48 89 44 24 78       	mov    %rax,0x78(%rsp)
+    272a:	31 c0                	xor    %eax,%eax
+    ; ...
+```
+
+4. 计算输入字符串地址：通过`lea 0x6f25(%rip),%rax`获取`input_strings+0x78`，并跳转至步骤 5
+
+   {% note info %}
+   通过调试发现，`%rax` 处储存的字符串为正是 phase 2 的输入。
+   {% endnote %}
+
+5. 遍历字符串寻找结束符：
+   - 检查`%rax`指向的字节是否为`0x0`（字符串结束符）
+   - 若不是（`jne`），将`%rax`加`1`（移动到下一个字符），重复检查
+   - 若是，将`%rax`减`1`（回退到最后一个有效字符）
+
+```x86asm
+0000000000002711 <alohomora>:
+    ; ...
+    272c:	48 8d 05 25 6f 00 00 	lea    0x6f25(%rip),%rax        # 9658 <input_strings+0x78>
+    2733:	eb 04                	jmp    2739 <alohomora+0x28>
+    2735:	48 83 c0 01          	add    $0x1,%rax
+    2739:	80 38 00             	cmpb   $0x0,(%rax)
+    273c:	75 f7                	jne    2735 <alohomora+0x24>
+    273e:	48 83 e8 01          	sub    $0x1,%rax
+    ; ...
+```
+
+6. 初始化目标缓冲区指针：将栈顶地址（`%rsp`）赋给`%rdx`（作为新字符串的存储起始位置），跳转至步骤 7
+7. 反向复制字符串（从原字符串末尾向起始位置）：
+   - 读取`%rax`指向的字符到`%ecx`（`movzbl (%rax),%ecx`）
+   - 检查该字符是否为空格（`0x20`）：
+     - 若是（`je`），跳转至步骤 8（结束复制）
+     - 若不是，检查`%rax`是否未到达原字符串起始地址（`%rsi`）：
+       - 若未到达（`jne`），将字符存入`%rdx`指向的栈缓冲区，`%rdx`加`1`（移动缓冲区指针），`%rax`减`1`（移动原字符串指针到前一个字符），重复步骤 7
+       - 若已到达，跳转至步骤 8
+8. 为新字符串添加结束符：在`%rdx`指向的位置写入`0x0`（`movb $0x0,(%rdx)`）
+
+```x86asm
+0000000000002711 <alohomora>:
+    ; ...
+    2742:	48 89 e2             	mov    %rsp,%rdx
+    2745:	eb 0a                	jmp    2751 <alohomora+0x40>
+    2747:	88 0a                	mov    %cl,(%rdx)
+    2749:	48 83 c2 01          	add    $0x1,%rdx
+    274d:	48 83 e8 01          	sub    $0x1,%rax
+    2751:	0f b6 08             	movzbl (%rax),%ecx
+    2754:	80 f9 20             	cmp    $0x20,%cl
+    2757:	74 0c                	je     2765 <alohomora+0x54>
+    2759:	48 8d 35 f8 6e 00 00 	lea    0x6ef8(%rip),%rsi        # 9658 <input_strings+0x78>
+    2760:	48 39 f0             	cmp    %rsi,%rax
+    2763:	75 e2                	jne    2747 <alohomora+0x36>
+    2765:	c6 02 00             	movb   $0x0,(%rdx)
+    ; ...
+```
+
+9. 比较字符串：调用`strings_not_equal`函数，比较栈上的新字符串（`%rdi=%rsp`）与目标字符串（`%rsi=0x2a1e(%rip)`）
+   {% note info %}
+   调试可知，`0x2a1e(%rip)` 处的目标字符串为`"...diaSecnOraseaCsuiluJsuiaGtahTwonKUoD"`。
+   {% endnote %}
+10. 根据比较结果设置返回值：
+    - 若字符串相等（`strings_not_equal`返回`0`，`je`），设置`%eax`为`1`
+    - 若字符串不相等，设置`%eax`为`0`
+11. 进行栈溢出检查：
+    - 从栈上`0x78(%rsp)`取出之前保存的栈金丝雀，与`%fs:0x28`原值比较
+    - 若不等（`jne`），调用`__stack_chk_fail`处理栈溢出
+    - 若相等，恢复栈空间（`add $0x88,%rsp`）并返回（`ret`）
+
+```x86asm
+0000000000002711 <alohomora>:
+    ; ...
+    2768:	48 89 e7             	mov    %rsp,%rdi
+    276b:	48 8d 35 1e 2a 00 00 	lea    0x2a1e(%rip),%rsi        # 5190 <_IO_stdin_used+0x190>
+    2772:	e8 57 05 00 00       	call   2cce <strings_not_equal>
+    2777:	85 c0                	test   %eax,%eax
+    2779:	74 1d                	je     2798 <alohomora+0x87>
+    277b:	b8 00 00 00 00       	mov    $0x0,%eax
+    2780:	48 8b 54 24 78       	mov    0x78(%rsp),%rdx
+    2785:	64 48 2b 14 25 28 00 	sub    %fs:0x28,%rdx
+    278c:	00 00
+    278e:	75 0f                	jne    279f <alohomora+0x8e>
+    2790:	48 81 c4 88 00 00 00 	add    $0x88,%rsp
+    2797:	c3                   	ret
+    2798:	b8 01 00 00 00       	mov    $0x1,%eax
+    279d:	eb e1                	jmp    2780 <alohomora+0x6f>
+    279f:	e8 0c fb ff ff       	call   22b0 <__stack_chk_fail@plt>
+```
+
+因此，我们需要在 phase 2 的输入中，添加一个字符串：
+
+```text
+DoUKnowThatGaiusJuliusCaesarOnceSaid...
+```
+
+## secret_phase
+
+1. 函数起始，执行`endbr64`安全指令，随后将`%rbx`寄存器入栈保存，并在栈上分配`0x10`字节空间
+2. 从`%fs:0x28`（栈金丝雀存储位置）读取值到`%rax`，并将其保存到栈上`0x8(%rsp)`位置
+3. 将`%eax`清零（`xor %eax,%eax`），准备后续操作
+
+```x86asm
+0000000000002b88 <secret_phase>:
+    2b88:	f3 0f 1e fa          	endbr64
+    2b8c:	53                   	push   %rbx
+    2b8d:	48 83 ec 10          	sub    $0x10,%rsp
+    2b91:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    2b98:	00 00
+    2b9a:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+    2b9f:	31 c0                	xor    %eax,%eax
+    ; ...
+```
+
+4. 调用`read_line`函数读取输入行，返回的输入字符串地址存入`%rax`
+5. 设置`strtol`参数：
+   - `%rdi` = 输入字符串地址（`%rax`）
+   - `%edx` = 基数`0xa`（十进制）
+   - `%esi` = `0x0`（不保存结束指针）
+     调用`strtol@plt`将输入字符串以十进制转换为长整数，结果存入`%rbx`
+6. 加载`n1`的地址（`0x64ee(%rip)`）到`%rdi`，调用`get_sum`函数，其返回值存入`%eax`
+   {% note info %}
+   我们无需关心 `n1` 的具体内容，也无需知道知道 `get_sum` 的逻辑。通过调试可得其返回值 `%eax` 为 62。
+   {% endnote %}
+7. 比较`get_sum`的返回值（`%eax`）与`strtol`转换的整数（`%ebx`）：
+   - 若不等（`jne`），跳至步骤 8
+   - 若相等，继续步骤 9
+8. 调用`explode_bomb`函数（触发炸弹爆炸），随后跳至步骤 9 中"打印信息"的起始位置
+
+```x86asm
+0000000000002b88 <secret_phase>:
+    ; ...
+    2ba1:	e8 08 05 00 00       	call   30ae <read_line>
+    2ba6:	48 89 c7             	mov    %rax,%rdi
+    2ba9:	ba 0a 00 00 00       	mov    $0xa,%edx
+    2bae:	be 00 00 00 00       	mov    $0x0,%esi
+    2bb3:	e8 68 f7 ff ff       	call   2320 <strtol@plt>
+    2bb8:	48 89 c3             	mov    %rax,%rbx
+    2bbb:	48 8d 3d ee 64 00 00 	lea    0x64ee(%rip),%rdi        # 90b0 <n1>
+    2bc2:	e8 71 ff ff ff       	call   2b38 <get_sum>
+    2bc7:	39 d8                	cmp    %ebx,%eax
+    2bc9:	75 50                	jne    2c1b <secret_phase+0x93>
+    ; ...
+    2c1b:	e8 c3 03 00 00       	call   2fe3 <explode_bomb>
+    ; ...
+```
+
+9. 依次加载 4 个特定字符串地址到`%rdi`，并调用`puts`打印这些字符串
+10. 加载栈上`0x4(%rsp)`地址到`%rdi`，调用`phase_defused`函数
+11. 进行栈溢出检查：
+    - 从栈上`0x8(%rsp)`取出之前保存的栈金丝雀，与`%fs:0x28`原值比较
+    - 若不等（`jne`），调用`__stack_chk_fail`处理栈溢出
+    - 若相等，恢复栈空间（`add $0x10,%rsp`），弹出`%rbx`寄存器并返回（`ret`）
+
+```x86asm
+0000000000002b88 <secret_phase>:
+    ; ...
+    2bcb:	48 8d 3d 4e 26 00 00 	lea    0x264e(%rip),%rdi        # 5220 <_IO_stdin_used+0x220>
+    2bd2:	e8 a9 f6 ff ff       	call   2280 <puts@plt>
+    2bd7:	48 8d 3d 6a 26 00 00 	lea    0x266a(%rip),%rdi        # 5248 <_IO_stdin_used+0x248>
+    2bde:	e8 9d f6 ff ff       	call   2280 <puts@plt>
+    2be3:	48 8d 3d a6 26 00 00 	lea    0x26a6(%rip),%rdi        # 5290 <_IO_stdin_used+0x290>
+    2bea:	e8 91 f6 ff ff       	call   2280 <puts@plt>
+    2bef:	48 8d 3d d2 26 00 00 	lea    0x26d2(%rip),%rdi        # 52c8 <_IO_stdin_used+0x2c8>
+    2bf6:	e8 85 f6 ff ff       	call   2280 <puts@plt>
+    2bfb:	48 8d 7c 24 04       	lea    0x4(%rsp),%rdi
+    2c00:	e8 e7 05 00 00       	call   31ec <phase_defused>
+    2c05:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+    2c0a:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax
+    2c11:	00 00
+    2c13:	75 0d                	jne    2c22 <secret_phase+0x9a>
+    2c15:	48 83 c4 10          	add    $0x10,%rsp
+    2c19:	5b                   	pop    %rbx
+    2c1a:	c3                   	ret
+    2c1b:	e8 c3 03 00 00       	call   2fe3 <explode_bomb>
+    2c20:	eb a9                	jmp    2bcb <secret_phase+0x43>
+    2c22:	e8 89 f6 ff ff       	call   22b0 <__stack_chk_fail@plt>
+```
+
+因此，我们还需要在所有输入中新增一行，填入 secret phase 的答案：
+
+```text
+62
+```
 
 {% note light %}
-[更适合北大宝宝体质的 Bomb Lab 踩坑记](https://arthals.ink/blog/bomb-lab)
+<span class="iconfont icon-chaolianjie"></span> [更适合北大宝宝体质的 Bomb Lab 踩坑记](https://arthals.ink/blog/bomb-lab)
 {% endnote %}
