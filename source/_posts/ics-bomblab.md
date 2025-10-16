@@ -687,7 +687,7 @@ int main() {
     // 第一阶段：检查输入合法性（无重复且1-6）
     while (rbp <= 5) {
         rax = rbp;
-        rax = [rsp + rax * 4];
+        rax = *(rsp + rax * 4);
         rax -= 1;
 
         if (0 <= rax <= 5) {  // 注意 2ab8 处的 ja
@@ -696,8 +696,8 @@ int main() {
             while (rbx <= 5) {
                 rax = rbp;
                 rdx = rbx;
-                rdi = [rsp + rdx * 4];
-                if ([rsp + rax * 4] == rdi) explode_bomb();
+                rdi = *(rsp + rdx * 4);
+                if (*(rsp + rax * 4) == rdi) explode_bomb();
                 rbx += 1;
             }
             rbp = r12;
@@ -711,7 +711,7 @@ int main() {
         rcx = rax;
         rdx = 7;
         rdx -= *(rsp + rcx * 4);  // 7 - 原输入值
-        [rsp + rcx * 4] = rdx;
+        *(rsp + rcx * 4) = rdx;
         rax += 1;
     }
 
@@ -721,7 +721,7 @@ int main() {
         rax = 1;
         rdx = rip + 0x664a;  // 调试时可查看，发现是链表节点的起始地址
         rcx = rsi;  // index
-        while ([rsp + rcx * 4] > rax) {
+        while (*(rsp + rcx * 4) > rax) {
             rdx = *(rdx + 0x8);  // 移动到下一个节点
             rax += 1;
             rcx = rsi;
@@ -731,12 +731,12 @@ int main() {
     }
 
     // 第四阶段：重新构建链表
-    rbx = [rsp + 0x20];  // 第一个储存的节点地址
+    rbx = *(rsp + 0x20);  // 第一个储存的节点地址
     rcx = rbx;
     rax = 1;
     while (rax <= 5) {
         rdx = rax;
-        rdx = [rsp + 0x20 + rdx * 8];
+        rdx = *(rsp + 0x20 + rdx * 8);
         *(rcx + 0x8) = rdx;
         rax += 1;
         rcx = rdx;  // 新节点地址
