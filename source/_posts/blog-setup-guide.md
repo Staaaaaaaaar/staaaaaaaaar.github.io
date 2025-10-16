@@ -233,6 +233,8 @@ git push origin main
 详细开发指南请参考[Hexo 官方文档](https://hexo.io/zh-cn/docs/)和[主题用户手册](https://hexo.fluid-dev.com/docs/guide/)。
 {% endnote %}
 
+---
+
 {% note light %}
 <span class="iconfont icon-chaolianjie"></span> [在 GitHub Pages 上部署 Hexo](https://hexo.io/zh-cn/docs/github-pages)
 <span class="iconfont icon-chaolianjie"></span> [Hexo Fluid 用户手册](https://hexo.fluid-dev.com/docs/start/)
