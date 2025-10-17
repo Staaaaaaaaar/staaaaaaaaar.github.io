@@ -18,11 +18,11 @@
 
 # 用于浏览器标签的图标
 # Icon for browser tab
-favicon: /img/fluid.png
+favicon: /img/ico.svg
 
 # 用于苹果设备的图标
 # Icon for Apple touch
-apple_touch_icon: /img/fluid.png
+apple_touch_icon: /img/ico.svg
 
 # 浏览器标签页中的标题分隔符，效果：文章名 - 站点名
 # Title separator in browser tab, eg: article - site
@@ -63,8 +63,8 @@ code:
       # 在链接中挑选 style 填入
       # Select a style in the link
       # See: https://highlightjs.org/demo/
-      style: "github gist"
-      style_dark: "dark"
+      style: "github"
+      style_dark: "github-dark-dimmed"
 
     prismjs:
       # 在下方链接页面右侧的圆形按钮挑选 style 填入，也可以直接填入 css 链接
@@ -314,7 +314,7 @@ web_analytics:
 # Canonical, to specify a canonical URL for Google Search, need to set up `url: http://yourdomain.com` in hexo _config.yml
 # See: https://support.google.com/webmasters/answer/139066
 canonical:
-  enable: false
+  enable: true
 
 # 对页面中的图片和评论插件进行懒加载处理，可见范围外的元素不会提前加载
 # Lazy loading of images and comment plugin on the page
