@@ -78,7 +78,7 @@ cd <your_github_username>.github.io
 
 ## 配置主题
 
-选择一个心仪 Hexo 主题，这里以[Fluid](https://github.com/fluid-dev/hexo-theme-fluid)为例。
+选择一个心仪 Hexo 主题，这里以 [Fluid](https://github.com/fluid-dev/hexo-theme-fluid) 为例。
 
 1. 将主题仓库添加为子模块：
 
@@ -109,7 +109,7 @@ git submodule update
 theme: fluid
 ```
 
-4. 在仓库目录下创建 `_config.fluid.yml` ，将主题的 `_config.yml` 内容复制过去，原因参见[Fluid 用户手册](https://hexo.fluid-dev.com/docs/guide/#%E8%A6%86%E7%9B%96%E9%85%8D%E7%BD%AE)。
+4. 在仓库目录下创建 `_config.fluid.yml` ，将主题的 `_config.yml` 内容复制过去，原因参见 [Fluid 用户手册](https://hexo.fluid-dev.com/docs/guide/#%E8%A6%86%E7%9B%96%E9%85%8D%E7%BD%AE)。
 
 ## 本地部署
 
