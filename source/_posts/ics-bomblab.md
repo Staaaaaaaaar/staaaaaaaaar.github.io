@@ -6,7 +6,7 @@ categories:
 tags:
   - pku
   - ics
-excerpt: 北京大学 2025 年秋季学期计算机系统导论 Bomb Lab 记录。
+excerpt: 北京大学 2025 年秋季学期计算机系统导论 Bomb Lab
 ---
 
 # 前置准备
@@ -1187,6 +1187,4 @@ DoUKnowThatGaiusJuliusCaesarOnceSaid...
 
 ---
 
-{% note light %}
-<span class="iconfont icon-chaolianjie"></span> [更适合北大宝宝体质的 Bomb Lab 踩坑记](https://arthals.ink/blog/bomb-lab)
-{% endnote %}
+<i class="iconfont icon-href"></i> [更适合北大宝宝体质的 Bomb Lab 踩坑记](https://arthals.ink/blog/bomb-lab)
