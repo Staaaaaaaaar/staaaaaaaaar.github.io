@@ -1,5 +1,5 @@
 ---
-title: ICS | 拆弹！我吗？
+title: ICS - Bomb Lab | 拆弹！我吗？
 date: 2025-10-14 10:08:28
 categories:
   - NOTE
