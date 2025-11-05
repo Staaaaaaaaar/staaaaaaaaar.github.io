@@ -1,0 +1,858 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.svg">
+  <link rel="icon" href="/img/ico.svg">
+  
+    <link rel="canonical" href="https://staaaaaaaaar.github.io/2025/11/05/ics-archlab/"/>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sam">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="北京大学 2025 年秋季学期计算机系统导论 - Arch Lab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ICS - Arch Lab | 处理器太慢怎么办？">
+<meta property="og:url" content="https://staaaaaaaaar.github.io/2025/11/05/ics-archlab/index.html">
+<meta property="og:site_name" content="Sam&#39;s Blog">
+<meta property="og:description" content="北京大学 2025 年秋季学期计算机系统导论 - Arch Lab">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://staaaaaaaaar.github.io/img/ics-archlab/execute-stage.png">
+<meta property="article:published_time" content="2025-11-05T11:28:43.000Z">
+<meta property="article:modified_time" content="2025-11-05T14:48:58.858Z">
+<meta property="article:author" content="Sam">
+<meta property="article:tag" content="ics">
+<meta property="article:tag" content="pku">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://staaaaaaaaar.github.io/img/ics-archlab/execute-stage.png">
+  
+  
+  
+  <title>ICS - Arch Lab | 处理器太慢怎么办？ - Sam&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5041124_rijwqilvw8k.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"staaaaaaaaar.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"3a3Cp4NiDrGee9qpOahv5XgE-gzGzoHsz","app_key":"BESWGe4b2P4LbQ81Wqhin03D","server_url":"https://3a3cp4ni.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sam&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ICS - Arch Lab | 处理器太慢怎么办？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-05 11:28" pubdate>
+          November 5, 2025 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          33k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          275 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ICS - Arch Lab | 处理器太慢怎么办？</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    Last updated on November 5, 2025 pm
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在 Arch Lab 中，我们将熟悉流水线 Y86-64 处理器的设计与实现，并对该处理器及一个基准测试程序进行优化，以实现性能最大化。实验分为三个部分：</p>
+<ul>
+<li>Part A：编写一些简单的 Y86-64 程序，并熟悉 Y86-64 相关工具的使用。</li>
+<li>Part B：为 SEQ 模拟器扩展新的指令并完善 CPU 流水线的实现过程。</li>
+<li>Part C：对 Y86-64 基准测试程序及其架构设计进行优化。</li>
+</ul>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="Y86-64-指令集架构"><a href="#Y86-64-指令集架构" class="headerlink" title="Y86-64 指令集架构"></a>Y86-64 指令集架构</h2><p>Y86-64 是基于 x86-64 简化而来的指令集，定义了指令格式、寄存器组、寻址方式及程序状态码，是 Arch Lab 中处理器设计的指令规范。</p>
+<h2 id="HCL-硬件描述语言"><a href="#HCL-硬件描述语言" class="headerlink" title="HCL 硬件描述语言"></a>HCL 硬件描述语言</h2><p>HCL 是用于描述硬件逻辑的简化语言，重点支持组合逻辑与时序逻辑表达，是实现处理器模拟器控制逻辑的核心工具。</p>
+<h2 id="SEQ-架构"><a href="#SEQ-架构" class="headerlink" title="SEQ 架构"></a>SEQ 架构</h2><p>SEQ 是基础的单周期处理器架构，每条指令的取指、译码、执行等阶段串行完成，是理解流水线架构的基础模型。</p>
+<h2 id="PIPE-架构"><a href="#PIPE-架构" class="headerlink" title="PIPE 架构"></a>PIPE 架构</h2><p>PIPE 是将指令执行拆解为多个流水线阶段并行处理的架构，可提升指令吞吐量，需解决数据冒险、控制冒险等关键问题。</p>
+<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>参考指导文档进行环境配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl --proto <span class="hljs-string">&#x27;=https&#x27;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh<br>rustup install 1.90<br>rustup default 1.90<br></code></pre></td></tr></table></figure>
+
+<p>在每次更改 Rust 源码后，应重新构建项目。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> archlab-project<br>cargo build<br></code></pre></td></tr></table></figure>
+
+<h2 id="工具集"><a href="#工具集" class="headerlink" title="工具集"></a>工具集</h2><p>构建项目后，将产生一个 <code>archlab-project/target</code> 文件夹来存储输出的二进制文件和其他中间文件。输出的可执行文件是：</p>
+<ul>
+<li>Y86-64 汇编器：target&#x2F;debug&#x2F;yas</li>
+<li>Y86-64 调试器：target&#x2F;debug&#x2F;ydb</li>
+<li>Y86-64 ISA 模拟器：target&#x2F;debug&#x2F;yis</li>
+<li>Y86-64 流水线模拟器：target&#x2F;debug&#x2F;ysim</li>
+<li>本地评分器：target&#x2F;debug&#x2F;grader</li>
+</ul>
+<p>可通过以下命令启动本地评分器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> archlab-project<br>cargo build<br>./target/debug/grader part-a<br>./target/debug/grader part-b<br>./target/debug/grader part-c<br>./target/debug/grader autolab<br></code></pre></td></tr></table></figure>
+
+<p>其余工具详情可参看 <code>archlab-project/README.md</code>。</p>
+<h2 id="git-init"><a href="#git-init" class="headerlink" title="git init"></a>git init</h2><p>为了便于管理代码版本，笔者建议在 <code>archlab-project</code> 目录下初始化一个 Git 仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> archlab-project<br>git init<br></code></pre></td></tr></table></figure>
+
+<p>用于追踪代码变更。</p>
+<h1 id="Part-A"><a href="#Part-A" class="headerlink" title="Part A"></a>Part A</h1><p>Part A 中，我们将在 <code>archlab-project/misc</code> 目录下开展工作。我们的任务是编写三个 Y86-64 程序实现三个函数。</p>
+<h2 id="sum-ys"><a href="#sum-ys" class="headerlink" title="sum.ys"></a>sum.ys</h2><p>参照给出的示例代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* linked list element */</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ELE</span> &#123;</span><br>    <span class="hljs-type">long</span> val;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ELE</span> *<span class="hljs-title">next</span>;</span><br>&#125; *list_ptr;<br><br><span class="hljs-comment">/* sum_list - Sum the elements of a linked list */</span><br><span class="hljs-type">long</span> <span class="hljs-title function_">sum_list</span><span class="hljs-params">(list_ptr ls)</span><br>&#123;<br>    <span class="hljs-type">long</span> val = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (ls) &#123;<br>    val += ls-&gt;val;<br>    ls = ls-&gt;next;<br>    &#125;<br>    <span class="hljs-keyword">return</span> val;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是一段链表的求和函数，我们可以在 <code>sum.ys</code> 中编写如下 Y86-64 程序：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-meta">    .pos</span> <span class="hljs-number">0</span>                  <span class="hljs-comment">; 设置当前汇编地址为0（程序起始地址）</span><br>    irmovq stack, %rsp      <span class="hljs-comment">; 初始化栈指针%rsp，指向stack标签处（栈起始地址）</span><br>    <span class="hljs-keyword">call</span> main               <span class="hljs-comment">; 调用main函数</span><br>    halt                    <span class="hljs-comment">; 程序执行结束，停机</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">    .align</span> <span class="hljs-number">8</span>                <span class="hljs-comment">; 后续数据按8字节对齐</span><br><span class="hljs-symbol">ele1:</span>                       <span class="hljs-comment">; 链表第一个节点</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0x00d</span><br><span class="hljs-meta">    .quad</span> ele2<br><span class="hljs-symbol">ele2:</span>                       <span class="hljs-comment">; 链表第二个节点</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0x0e0</span><br><span class="hljs-meta">    .quad</span> ele3<br><span class="hljs-symbol">ele3:</span>                       <span class="hljs-comment">; 链表第三个节点</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xf00</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">main:</span>                       <span class="hljs-comment">; main函数入口</span><br>    irmovq ele1, %rdi       <span class="hljs-comment">; 将第一个链表节点ele1的地址存入%rdi</span><br>    <span class="hljs-keyword">call</span> sum_list           <span class="hljs-comment">; 调用sum_list函数</span><br>    <span class="hljs-keyword">ret</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">sum_list:</span>                   <span class="hljs-comment">; sum_list函数入口</span><br>    xorq %rax, %rax         <span class="hljs-comment">; 将%rax清零</span><br><span class="hljs-symbol">Loop:</span>                       <span class="hljs-comment">; 遍历链表</span><br>    andq %rdi, %rdi         <span class="hljs-comment">; 检查%rdi是否为0</span><br>    <span class="hljs-keyword">je</span> Done                 <span class="hljs-comment">; 若%rdi为0（链表结束），跳转到Done</span><br>    mrmovq (%rdi), %rcx     <span class="hljs-comment">; 从%rdi指向的地址（当前节点的val字段）读取值到%rcx</span><br>    addq %rcx, %rax         <span class="hljs-comment">; 将%rcx（当前节点val）加到%rax</span><br>    mrmovq <span class="hljs-number">8</span>(%rdi), %rdi    <span class="hljs-comment">; 从%rdi+8地址（当前节点的next字段）读取下一个节点地址到%rdi</span><br>    <span class="hljs-keyword">jmp</span> <span class="hljs-keyword">Loop</span>                <span class="hljs-comment">; 跳回Loop，继续处理下一个节点</span><br><span class="hljs-symbol">Done:</span>                       <span class="hljs-comment">; 遍历结束</span><br>    <span class="hljs-keyword">ret</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">    .pos</span> <span class="hljs-number">0x200</span>              <span class="hljs-comment">; 设置栈的起始地址为0x200（确保栈有足够空间）</span><br><span class="hljs-symbol">stack:</span>                      <span class="hljs-comment">; 栈起始位置标记</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="rsum-ys"><a href="#rsum-ys" class="headerlink" title="rsum.ys"></a>rsum.ys</h2><p>参照给出的示例代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* linked list element */</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ELE</span> &#123;</span><br>    <span class="hljs-type">long</span> val;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ELE</span> *<span class="hljs-title">next</span>;</span><br>&#125; *list_ptr;<br><br><span class="hljs-comment">/* rsum_list - Recursive version of sum_list */</span><br><span class="hljs-type">long</span> <span class="hljs-title function_">rsum_list</span><span class="hljs-params">(list_ptr ls)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (!ls)<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-type">long</span> val = ls-&gt;val;<br>    <span class="hljs-type">long</span> rest = rsum_list(ls-&gt;next);<br>    <span class="hljs-keyword">return</span> val + rest;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是一段链表的递归求和函数，我们可以在 <code>rsum.ys</code> 中编写如下 Y86-64 程序：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-meta">    .pos</span> <span class="hljs-number">0</span>                  <span class="hljs-comment">; 设置当前汇编地址为0（程序起始地址）</span><br>    irmovq stack, %rsp      <span class="hljs-comment">; 初始化栈指针%rsp，指向stack标签处（栈起始地址）</span><br>    <span class="hljs-keyword">call</span> main               <span class="hljs-comment">; 调用main函数</span><br>    halt                    <span class="hljs-comment">; 程序执行结束，停机</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">    .align</span> <span class="hljs-number">8</span>                <span class="hljs-comment">; 后续数据按8字节对齐</span><br><span class="hljs-symbol">ele1:</span>                       <span class="hljs-comment">; 链表第一个节点</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0x00d</span><br><span class="hljs-meta">    .quad</span> ele2<br><span class="hljs-symbol">ele2:</span>                       <span class="hljs-comment">; 链表第二个节点</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0x0e0</span><br><span class="hljs-meta">    .quad</span> ele3<br><span class="hljs-symbol">ele3:</span>                       <span class="hljs-comment">; 链表第三个节点</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xf00</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">main:</span>                       <span class="hljs-comment">; main函数入口</span><br>    irmovq ele1, %rdi       <span class="hljs-comment">; 将第一个链表节点ele1的地址存入%rdi</span><br>    <span class="hljs-keyword">call</span> rsum_list          <span class="hljs-comment">; 调用递归求和函数rsum_list</span><br>    <span class="hljs-keyword">ret</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">rsum_list:</span>                  <span class="hljs-comment">; rsum_list函数入口</span><br>    andq %rdi, %rdi         <span class="hljs-comment">; 检查%rdi（当前链表节点地址）是否为0（判断是否为空节点）</span><br>    <span class="hljs-keyword">je</span> Else                 <span class="hljs-comment">; 若为空节点（链表结束），跳转到Else（递归终止条件）</span><br>    pushq %rbx              <span class="hljs-comment">; 保存%rbx（被调用者保存寄存器，递归调用中需保留其值，避免被后续调用覆盖）</span><br>    mrmovq (%rdi), %rbx     <span class="hljs-comment">; 从当前节点（%rdi指向）的val字段读取值到%rbx（暂存当前节点的值）</span><br>    mrmovq <span class="hljs-number">8</span>(%rdi), %rdi    <span class="hljs-comment">; 从当前节点的next字段（%rdi+8地址）读取下一个节点地址到%rdi（更新参数为下一个节点）</span><br>    <span class="hljs-keyword">call</span> rsum_list          <span class="hljs-comment">; 递归调用rsum_list，计算剩余链表的和（结果将存于%rax）</span><br>    addq %rbx, %rax         <span class="hljs-comment">; 将当前节点的值（%rbx）加到剩余链表的和（%rax）中，得到当前链表的总和</span><br>    popq %rbx               <span class="hljs-comment">; 恢复%rbx的值（从栈中弹出之前保存的值）</span><br>    <span class="hljs-keyword">ret</span>                     <span class="hljs-comment">; 返回当前计算的总和（结果在%rax中）</span><br><span class="hljs-symbol">Else:</span>                       <span class="hljs-comment">; 递归终止条件标签（空链表处理）</span><br>    xorq %rax, %rax         <span class="hljs-comment">; 将%rax清零（空链表的和为0，作为递归的基线返回值）</span><br>    <span class="hljs-keyword">ret</span>                     <span class="hljs-comment">; 返回0（结果在%rax中）</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">    .pos</span> <span class="hljs-number">0x200</span>              <span class="hljs-comment">; 设置栈的起始地址为0x200（确保栈有足够空间）</span><br><span class="hljs-symbol">stack:</span>                      <span class="hljs-comment">; 栈起始位置标记</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="bubble-ys"><a href="#bubble-ys" class="headerlink" title="bubble.ys"></a>bubble.ys</h2><p>参照给出的示例代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* bubble_sort - Sort long numbers at data in ascending order */</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">bubble_sort</span><span class="hljs-params">(<span class="hljs-type">long</span> *data, <span class="hljs-type">long</span> count)</span><br>&#123;<br>     <span class="hljs-type">long</span> *i, *last;<br>     <span class="hljs-keyword">for</span>(last = data + count - <span class="hljs-number">1</span>; last &gt; data; last--) &#123;<br>         <span class="hljs-keyword">for</span>(i = data; i &lt; last; i++) &#123;<br>             <span class="hljs-keyword">if</span>(*(i + <span class="hljs-number">1</span>) &lt; *i) &#123;<br>                 <span class="hljs-type">long</span> t = *(i + <span class="hljs-number">1</span>);<br>                 *(i + <span class="hljs-number">1</span>) = *i;<br>                 *i = t;<br>             &#125;<br>         &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是一段冒泡排序函数，我们可以在 <code>bubble.ys</code> 中编写如下 Y86-64 程序：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-meta">    .pos</span> <span class="hljs-number">0</span>                  <span class="hljs-comment">; 设置当前汇编地址为0（程序起始地址）</span><br>    irmovq  stack, %rsp     <span class="hljs-comment">; 初始化栈指针%rsp，指向stack标签处（栈起始地址）</span><br>    <span class="hljs-keyword">call</span> main               <span class="hljs-comment">; 调用main函数（跳转到main执行，返回地址压栈）</span><br>    halt                    <span class="hljs-comment">; 程序执行结束，停机</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">    .align</span> <span class="hljs-number">8</span>                <span class="hljs-comment">; 后续数据按8字节对齐</span><br><span class="hljs-symbol">array:</span>                      <span class="hljs-comment">; 待排序的数组（存储6个long类型元素）</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xbca</span>             <span class="hljs-comment">; 数组元素1：0xbca</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xcba</span>             <span class="hljs-comment">; 数组元素2：0xcba</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xacb</span>             <span class="hljs-comment">; 数组元素3：0xacb</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xcab</span>             <span class="hljs-comment">; 数组元素4：0xcab</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xabc</span>             <span class="hljs-comment">; 数组元素5：0xabc</span><br><span class="hljs-meta">    .quad</span> <span class="hljs-number">0xbac</span>             <span class="hljs-comment">; 数组元素6：0xbac</span><br><br><span class="hljs-comment">; 寄存器用途说明：</span><br><span class="hljs-comment">; %rdi：存放数组起始地址data</span><br><span class="hljs-comment">; %rsi：存放数组元素个数count</span><br><span class="hljs-comment">; %rbx：存放当前内层循环变量i（地址）</span><br><span class="hljs-comment">; %rcx：存放外层循环变量last（地址）</span><br><span class="hljs-comment">; %rdx：临时变量（用于计算、比较等）</span><br><span class="hljs-comment">; %r9：常量1（用于减法运算）</span><br><span class="hljs-comment">; %r10：常量8（每个long元素占8字节，用于地址偏移计算）</span><br><span class="hljs-comment">; %r11、%r12：临时存放数组元素（用于比较和交换）</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">bubble_sort:</span>                <span class="hljs-comment">; 冒泡排序函数入口</span><br>    irmovq <span class="hljs-number">$1</span>, %r9          <span class="hljs-comment">; 初始化%r9为1（用于count-1等减法）</span><br>    irmovq <span class="hljs-number">$8</span>, %r10         <span class="hljs-comment">; 初始化%r10为8（每个元素8字节，地址偏移量）</span><br>    rrmovq %rdi, %rcx       <span class="hljs-comment">; 将数组起始地址data复制到%rcx（用于计算last初始地址）</span><br>    rrmovq %rsi, %rdx       <span class="hljs-comment">; 将元素个数count复制到%rdx（临时存储count）</span><br>    subq %r9, %rdx          <span class="hljs-comment">; %rdx = count - 1（计算last的索引偏移量）</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Loop_1:</span>                     <span class="hljs-comment">; 计算last初始地址的循环（last = data + (count-1)*8）</span><br>    andq %rdx, %rdx         <span class="hljs-comment">; 检查%rdx（剩余偏移次数）是否为0</span><br>    <span class="hljs-keyword">je</span> Loop_2               <span class="hljs-comment">; 若偏移次数为0，说明last初始地址计算完成，跳至外层循环入口</span><br>    addq %r10, %rcx         <span class="hljs-comment">; %rcx += 8（每次偏移一个元素地址，累计(count-1)次）</span><br>    subq %r9, %rdx          <span class="hljs-comment">; %rdx -= 1（剩余偏移次数减1）</span><br>    <span class="hljs-keyword">jmp</span> Loop_1              <span class="hljs-comment">; 继续循环计算last地址</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Loop_2:</span>                     <span class="hljs-comment">; 外层循环入口</span><br>    rrmovq %rcx, %rdx       <span class="hljs-comment">; 将当前last地址复制到%rdx</span><br>    subq %rdi, %rdx         <span class="hljs-comment">; %rdx = last - data（计算last与数组起始地址的偏移）</span><br>    <span class="hljs-keyword">jle</span> Done_2              <span class="hljs-comment">; 若偏移&lt;=0（last &lt;= data），外层循环结束，跳至Done_2</span><br><br>    rrmovq %rdi, %rbx       <span class="hljs-comment">; 初始化内层循环变量i为data（%rbx = data）</span><br><span class="hljs-symbol">Loop_3:</span>                     <span class="hljs-comment">; 内层循环入口</span><br>    rrmovq %rcx, %rdx       <span class="hljs-comment">; 将当前last地址复制到%rdx</span><br>    subq %rbx, %rdx         <span class="hljs-comment">; %rdx = last - i（计算i与last的偏移）</span><br>    <span class="hljs-keyword">jle</span> Done_3              <span class="hljs-comment">; 若偏移&lt;=0（i &gt;= last），内层循环结束，跳至Done_3</span><br><br>    mrmovq (%rbx), %r11     <span class="hljs-comment">; 读取i指向的元素：%r11 = *i</span><br>    mrmovq <span class="hljs-number">8</span>(%rbx), %r12    <span class="hljs-comment">; 读取i+1指向的元素：%r12 = *(i+1)</span><br><br>    subq %r12, %r11         <span class="hljs-comment">; 计算*i - *(i+1)（用于比较大小）</span><br>    <span class="hljs-keyword">jle</span> Else                <span class="hljs-comment">; 若*i &lt;= *(i+1)，无需交换，跳至Else</span><br><br>    mrmovq (%rbx), %r11     <span class="hljs-comment">; 重新读取*i</span><br>    mrmovq <span class="hljs-number">8</span>(%rbx), %r12    <span class="hljs-comment">; 重新读取*(i+1)</span><br>    rmmovq %r11, <span class="hljs-number">8</span>(%rbx)    <span class="hljs-comment">; 将*i存入i+1的位置：*(i+1) = *i</span><br>    rmmovq %r12, (%rbx)     <span class="hljs-comment">; 将*(i+1)存入i的位置：*i = *(i+1)</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Else:</span><br>    addq %r10, %rbx         <span class="hljs-comment">; i += 1（地址加8，移动到下一个元素）</span><br>    <span class="hljs-keyword">jmp</span> Loop_3              <span class="hljs-comment">; 跳回内层循环，继续下一次迭代</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Done_3:</span>                     <span class="hljs-comment">; 内层循环结束</span><br>    subq %r10, %rcx         <span class="hljs-comment">; last -= 1（地址减8，移动到前一个元素）</span><br>    <span class="hljs-keyword">jmp</span> Loop_2              <span class="hljs-comment">; 跳回外层循环，继续下一次迭代</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Done_2:</span>                     <span class="hljs-comment">; 外层循环结束</span><br>    <span class="hljs-keyword">ret</span>                     <span class="hljs-comment">; 从bubble_sort函数返回</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">main:</span>                       <span class="hljs-comment">; main函数入口</span><br>    irmovq array, %rdi      <span class="hljs-comment">; 将数组起始地址array存入%rdi</span><br>    irmovq <span class="hljs-number">$6</span>, %rsi         <span class="hljs-comment">; 将元素个数6存入%rsi</span><br>    <span class="hljs-keyword">call</span> bubble_sort        <span class="hljs-comment">; 调用冒泡排序函数bubble_sort</span><br>    <span class="hljs-keyword">ret</span>                     <span class="hljs-comment">; 从main函数返回（返回到call main的下一条指令，即halt）</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">    .pos</span> <span class="hljs-number">0x200</span>              <span class="hljs-comment">; 设置栈的起始地址为0x200（确保栈有足够空间）</span><br><span class="hljs-symbol">stack:</span>                      <span class="hljs-comment">; 栈起始位置标记</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Part-B"><a href="#Part-B" class="headerlink" title="Part B"></a>Part B</h1><p>Part B 中，我们将在 <code>archlab-project/sim/src/architectures/extra</code> 目录下开展工作。我们的任务是逐步完善一系列处理器架构。它们均使用 HCL 语言描述，我们只需修改相应的占位符为正确的表达式。占位符一共有三种：</p>
+<ul>
+<li><strong>BOOL_PLACEHOLDER</strong></li>
+<li><strong>U8_PLACEHOLDER</strong></li>
+<li><strong>U64_PLACEHOLDER</strong></li>
+</ul>
+<h2 id="seq-full-rs"><a href="#seq-full-rs" class="headerlink" title="seq_full.rs"></a>seq_full.rs</h2><p>在 <code>seq_full.rs</code> 中，我们需要扩展 SEQ 处理器以支持以下指令：</p>
+<ul>
+<li>iopq V, rB</li>
+</ul>
+<p>Fetch 阶段，需要保证 IOPQ 是一条有效指令，需要读取寄存器和立即数。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-type">bool</span> instr_valid = icode <span class="hljs-keyword">in</span> <span class="hljs-comment">// CMOVX is the same as RRMOVQ</span><br>    &#123; NOP, HALT, CMOVX, IRMOVQ, RMMOVQ, MRMOVQ,<br>    OPQ, IOPQ, JX, CALL, RET, PUSHQ, POPQ &#125;;<br><br><span class="hljs-comment">// Does fetched instruction require a regid byte?</span><br><span class="hljs-type">bool</span> need_regids =<br>    icode <span class="hljs-keyword">in</span> &#123; CMOVX, OPQ, IOPQ, PUSHQ, POPQ, IRMOVQ, RMMOVQ, MRMOVQ &#125;;<br><br><span class="hljs-comment">// Does fetched instruction require a constant word?</span><br><span class="hljs-type">bool</span> need_valC = icode <span class="hljs-keyword">in</span> &#123; IRMOVQ, RMMOVQ, MRMOVQ, JX, CALL, IOPQ &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>Decode 阶段，与 OPQ 指令类似，需要将 rB 设置为 srcB 从寄存器文件中取值，并将写入地址 dstE 设置为 rB。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-comment">// What register should be used as the B source?</span><br><span class="hljs-type">u8</span> srcB = [<br>    icode <span class="hljs-keyword">in</span> &#123; OPQ, RMMOVQ, MRMOVQ, IOPQ &#125; : ialign.rB;<br>    icode <span class="hljs-keyword">in</span> &#123; PUSHQ, POPQ, CALL, RET &#125; : RSP;<br>    <span class="hljs-literal">true</span> : RNONE; <span class="hljs-comment">// Don&#x27;t need register</span><br>];<br><span class="hljs-comment">// What register should be used as the E destination?</span><br><span class="hljs-type">u8</span> dstE = [<br>    icode <span class="hljs-keyword">in</span> &#123; CMOVX &#125; &amp;&amp; cnd : ialign.rB;<br>    icode <span class="hljs-keyword">in</span> &#123; IRMOVQ, OPQ, IOPQ &#125; : ialign.rB;<br>    icode <span class="hljs-keyword">in</span> &#123; PUSHQ, POPQ, CALL, RET &#125; : RSP;<br>    <span class="hljs-literal">true</span> : RNONE; <span class="hljs-comment">// Don&#x27;t write any register</span><br>];<br></code></pre></td></tr></table></figure>
+
+<p>Execute 阶段，需要指定 ALU 的输入，并更新条件码。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-comment">// Select input A to ALU</span><br><span class="hljs-type">u64</span> aluA = [<br>    icode <span class="hljs-keyword">in</span> &#123; CMOVX, OPQ &#125; : reg_read.valA;<br>    icode <span class="hljs-keyword">in</span> &#123; IRMOVQ, RMMOVQ, MRMOVQ, IOPQ &#125; : ialign.valC;<br>    icode <span class="hljs-keyword">in</span> &#123; CALL, PUSHQ &#125; : NEG_8;<br>    icode <span class="hljs-keyword">in</span> &#123; RET, POPQ &#125; : <span class="hljs-number">8</span>;<br>    <span class="hljs-comment">// Other instructions don&#x27;t need ALU</span><br>];<br><br><span class="hljs-comment">// Select input B to ALU</span><br><span class="hljs-type">u64</span> aluB = [<br>    icode <span class="hljs-keyword">in</span> &#123; RMMOVQ, MRMOVQ, OPQ, IOPQ, CALL,<br>              PUSHQ, RET, POPQ &#125; : reg_read.valB;<br>    icode <span class="hljs-keyword">in</span> &#123; CMOVX, IRMOVQ &#125; : <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// Other instructions don&#x27;t need ALU</span><br>];<br><br><span class="hljs-comment">// Set the ALU function</span><br><span class="hljs-type">u8</span> alufun = [<br>    icode == OPQ : ifun;<br>    icode == IOPQ : ifun;<br>    <span class="hljs-literal">true</span> : ADD;<br>];<br><br><span class="hljs-comment">// Should the condition codes be updated?</span><br><span class="hljs-type">bool</span> set_cc = icode <span class="hljs-keyword">in</span> &#123; OPQ, IOPQ &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>其余阶段无需调整。</p>
+<h2 id="pipe-s3a-rs"><a href="#pipe-s3a-rs" class="headerlink" title="pipe_s3a.rs"></a>pipe_s3a.rs</h2><p>在 <code>pipe_s3a.rs</code> 中，我们需要在 <code>pipe_s2.rs</code> 的基础上进一步优化。我们发现 <code>pipe_s2</code> 的关键路径长度为 7，而计算 <code>f_pc</code> 的依赖路径过长。为了减少 <code>f_pc</code> 的依赖路径长度，我们进一步拆分了流水线阶段，将解码阶段与随后执行、存储和写回阶段分开。然而，这样做引入了新的问题：</p>
+<ul>
+<li><p><code>reg_read</code> 和 <code>reg_write</code> 现在位于不同的流水线阶段，这可能导致数据冒险。</p>
+</li>
+<li><p>用于计算 <code>f_pc</code> 的操作数也被拆分到不同的流水线阶段，这实际上是不正确的，因为在特定时间点位于不同流水线阶段的值属于不同的指令。</p>
+</li>
+</ul>
+<p>为了解决上述问题，我们在必要时对流水线寄存器实施阻塞或冒泡控制，确保等待一个额外的周期以保证计算结果的正确性。</p>
+<p><code>pipe_s3a.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Taken branch.  Use instruction constant</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; e_cnd : U64_PLACEHOLDER;</span><br>    E.icode == JX &amp;&amp; e_cnd : E.valC;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : e_valM;</span><br>    E.icode == RET : e_valM;<br>    <span class="hljs-comment">// Default: Use incremented PC</span><br>    <span class="hljs-number">1</span> : F.valP;<br>];<br>:=======================: <span class="hljs-string">&quot;Execute Stage (Execute)&quot;</span> :==========================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// If a data hazard occurs, we need to wait for the data to be written to the</span><br><span class="hljs-comment">// registers before proceeding.</span><br><span class="hljs-type">bool</span> data_harzard = d_srcA != RNONE &amp;&amp; d_srcA <span class="hljs-keyword">in</span> &#123; e_dstE, e_dstM &#125;<br>    <span class="hljs-comment">// || U8_PLACEHOLDER != RNONE &amp;&amp; BOOL_PLACEHOLDER;</span><br>    || d_srcB != RNONE &amp;&amp; d_srcB <span class="hljs-keyword">in</span> &#123; e_dstE, e_dstM &#125;;<br><br><span class="hljs-comment">// bool f_stall = D.icode in &#123; JX, RET &#125; || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> f_stall = D.icode <span class="hljs-keyword">in</span> &#123; JX, RET &#125; || data_harzard;<br><br><span class="hljs-comment">// bool d_stall = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> d_stall = data_harzard;<br></code></pre></td></tr></table></figure>
+
+<h2 id="pipe-s3b-rs"><a href="#pipe-s3b-rs" class="headerlink" title="pipe_s3b.rs"></a>pipe_s3b.rs</h2><p>在 <code>pipe_s3b.rs</code> 中，我们需要在 <code>pipe_s3a.rs</code> 的基础上进一步优化。<code>pipe_s3a</code> 的一个问题是停顿和气泡的频率太高，这实际上降低了性能。除了使用停顿和气泡来处理数据冒险之外，也可以通过转发来解决。</p>
+<p><code>pipe_s3b.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Taken branch.  Use instruction constant</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; e_cnd : U64_PLACEHOLDER;</span><br>    E.icode == JX &amp;&amp; e_cnd : E.valC;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : e_valM;</span><br>    E.icode == RET : e_valM;<br>    <span class="hljs-comment">// Default: Use incremented PC</span><br>    <span class="hljs-number">1</span> : F.valP;<br>];<br>:==============================: Decode Stage :================================:<br><span class="hljs-type">u64</span> d_valA = [<br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valE;</span><br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valM;</span><br>    d_srcA == e_dstE : e_valE;<br>    d_srcA == e_dstM : e_valM;<br>    <span class="hljs-number">1</span>: reg_read.valA;<br>];<br><span class="hljs-type">u64</span> d_valB = [<br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcB == e_dstE : e_valE;<br>    d_srcB == e_dstM : e_valM;<br>    <span class="hljs-number">1</span>: reg_read.valB;<br>];<br>:=======================: <span class="hljs-string">&quot;Execute Stage (Execute)&quot;</span> :==========================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// bool f_stall = D.icode in &#123; U8_PLACEHOLDER, U8_PLACEHOLDER &#125;;</span><br><span class="hljs-type">bool</span> f_stall = D.icode <span class="hljs-keyword">in</span> &#123; JX, RET &#125;;<br><br><span class="hljs-comment">// bool d_bubble = D.icode in &#123; U8_PLACEHOLDER, U8_PLACEHOLDER &#125;;</span><br><span class="hljs-type">bool</span> d_bubble = D.icode <span class="hljs-keyword">in</span> &#123; JX, RET &#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="pipe-s3c-rs"><a href="#pipe-s3c-rs" class="headerlink" title="pipe_s3c.rs"></a>pipe_s3c.rs</h2><p>在 <code>pipe_s3c.rs</code> 中，我们需要在 <code>pipe_s3b.rs</code> 的基础上进一步优化。<code>pipe_s3b</code> 的性能提升不是很显著，因为当遇到 JX 指令时，我们总是会停顿&#x2F;产生气泡。实际上，我们在解码阶段就已知两种分支选项，只是必须等到执行阶段才能确定选择哪条分支，我们可以基于此实现分支预测。</p>
+<p><code>pipe_s3c.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Branch misprediction.  Use incremental PC</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; !e_cnd : U64_PLACEHOLDER;</span><br>    E.icode == JX &amp;&amp; !e_cnd : E.valP;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : e_valM;</span><br>    E.icode == RET : e_valM;<br>    <span class="hljs-comment">// Default: Use predicted PC</span><br>    <span class="hljs-number">1</span> : F.pred_pc;<br>];<br>:==============================: Decode Stage :================================:<br><span class="hljs-type">u64</span> d_valA = [<br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valE;</span><br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valM;</span><br>    d_srcA == e_dstE : e_valE;<br>    d_srcA == e_dstM : e_valM;<br>    <span class="hljs-number">1</span>: reg_read.valA;<br>];<br><span class="hljs-type">u64</span> d_valB = [<br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcB == e_dstE : e_valE;<br>    d_srcB == e_dstM : e_valM;<br>    <span class="hljs-number">1</span>: reg_read.valB;<br>];<br>:=======================: <span class="hljs-string">&quot;Execute Stage (Execute)&quot;</span> :==========================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// If a branch misprediction is detected during the Execute stage, it means that</span><br><span class="hljs-comment">// the instruction currently in the Decode stage is invalid. Therefore, the next</span><br><span class="hljs-comment">// cycle’s Execute stage needs to insert a bubble.</span><br><span class="hljs-comment">// bool branch_mispred = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> branch_mispred = E.icode == JX &amp;&amp; !e_cnd;<br><br><span class="hljs-comment">// If both a branch misprediction and a RET hazard occur at the same time, since</span><br><span class="hljs-comment">// the jump instruction is executed before the RET, the RET should not have been</span><br><span class="hljs-comment">// executed, so a stall is not needed.</span><br><span class="hljs-comment">// bool f_stall = BOOL_PLACEHOLDER &amp;&amp; !BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> f_stall = ret_harzard &amp;&amp; !branch_mispred;<br><br><span class="hljs-comment">// If both a branch misprediction and a ret hazard occur at the same time,</span><br><span class="hljs-comment">// since the jump instruction is executed before the RET, the RET should not</span><br><span class="hljs-comment">// have been executed. Therefore, a bubble is not needed.</span><br><span class="hljs-comment">// bool d_bubble = BOOL_PLACEHOLDER &amp;&amp; !BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> d_bubble = ret_harzard &amp;&amp; !branch_mispred;<br></code></pre></td></tr></table></figure>
+
+<h2 id="pipe-s3d-rs"><a href="#pipe-s3d-rs" class="headerlink" title="pipe_s3d.rs"></a>pipe_s3d.rs</h2><p>在 <code>pipe_s3d.rs</code> 中，我们需要在 <code>pipe_s3c.rs</code> 的基础上进一步优化。从 <code>pipe_s3c</code> 到 <code>pipe_s3d</code> 的主要变化在于硬件设计。我们将寄存器读取和写入合并到一个名为 <code>reg_file</code> 的设备中，操作顺序为先写后读。此更改的目的是为了避免结构风险。</p>
+<p><code>pipe_s3d.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Branch misprediction.  Use incremental PC</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; !e_cnd : U64_PLACEHOLDER;</span><br>    E.icode == JX &amp;&amp; !e_cnd : E.valP;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : e_valM;</span><br>    E.icode == RET : e_valM;<br>    <span class="hljs-comment">// Default: Use predicted PC</span><br>    <span class="hljs-number">1</span> : F.pred_pc;<br>];<br>:==============================: Decode Stage :================================:<br><span class="hljs-type">u64</span> d_valA = [<br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valE;</span><br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valM;</span><br>    d_srcA == e_dstE : e_valE;<br>    d_srcA == e_dstM : e_valM;<br>    <span class="hljs-number">1</span>: reg_file.valA;<br>];<br><span class="hljs-type">u64</span> d_valB = [<br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcB == e_dstE : e_valE;<br>    d_srcB == e_dstM : e_valM;<br>    <span class="hljs-number">1</span>: reg_file.valB;<br>];<br>:=======================: <span class="hljs-string">&quot;Execute Stage (Execute)&quot;</span> :==========================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// If a branch misprediction is detected during the Execute stage, it means that</span><br><span class="hljs-comment">// the instruction currently in the Decode stage is invalid. Therefore, the next</span><br><span class="hljs-comment">// cycle’s Execute stage needs to insert a bubble.</span><br><span class="hljs-comment">// bool branch_mispred = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> branch_mispred = E.icode == JX &amp;&amp; !e_cnd;<br><br><span class="hljs-comment">// If both a branch misprediction and a RET hazard occur at the same time, since</span><br><span class="hljs-comment">// the jump instruction is executed before the RET, the RET should not have been</span><br><span class="hljs-comment">// executed, so a stall is not needed.</span><br><span class="hljs-comment">// bool f_stall = BOOL_PLACEHOLDER &amp;&amp; !BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> f_stall = ret_harzard &amp;&amp; !branch_mispred;<br><br><span class="hljs-comment">// If both a branch misprediction and a ret hazard occur at the same time,</span><br><span class="hljs-comment">// since the jump instruction is executed before the RET, the RET should not</span><br><span class="hljs-comment">// have been executed. Therefore, a bubble is not needed.</span><br><span class="hljs-comment">// bool d_bubble = BOOL_PLACEHOLDER &amp;&amp; !BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> d_bubble = ret_harzard &amp;&amp; !branch_mispred;<br></code></pre></td></tr></table></figure>
+
+<h2 id="pipe-s4a-rs"><a href="#pipe-s4a-rs" class="headerlink" title="pipe_s4a.rs"></a>pipe_s4a.rs</h2><p>在 <code>pipe_s4a.rs</code> 中，我们需要在 <code>pipe_s3d.rs</code> 的基础上进一步优化。为了进一步减少计算依赖层级，我们已经将执行阶段与其他阶段分离。实际上，通过在 <code>pipe_s3d</code> 中强制对寄存器执行先写后读的顺序，我们可以避免可能在 <code>pipe_s4</code> 中发生的结构性冒险。</p>
+<p><code>pipe_s4a.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Branch misprediction.  Use incremental PC</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; !e_cnd : U64_PLACEHOLDER;</span><br>    E.icode == JX &amp;&amp; !e_cnd : E.valP;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : U64_PLACEHOLDER;</span><br>    M.icode == RET : m_valM;<br>    <span class="hljs-comment">// Default: Use predicted PC</span><br>    <span class="hljs-number">1</span> : F.pred_pc;<br>];<br>:==============================: Decode Stage :================================:<br><span class="hljs-type">u64</span> d_valA = [<br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valE;</span><br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcA == e_dstE : e_valE;<br>    d_srcA == m_dstM : m_valM;<br>    <span class="hljs-number">1</span>: reg_file.valA;<br>];<br><span class="hljs-type">u64</span> d_valB = [<br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcB == e_dstE : e_valE;<br>    d_srcB == m_dstM : m_valM;<br>    <span class="hljs-number">1</span>: reg_file.valB;<br>];<br>:=============================: Execute Stage :================================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// If a branch misprediction is detected during the Execute stage, it means that</span><br><span class="hljs-comment">// the instruction currently in the Decode stage is invalid. Therefore, the next</span><br><span class="hljs-comment">// cycle’s Execute stage needs to insert a bubble.</span><br><span class="hljs-comment">// bool branch_mispred = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> branch_mispred = E.icode == JX &amp;&amp; !e_cnd;<br><br><span class="hljs-comment">// If a RET instruction is detected in either the Decode or Execute stage, then</span><br><span class="hljs-comment">// the instruction in the current Fetch stage is invalid. Therefore, a bubble</span><br><span class="hljs-comment">// needs to be inserted in the Fetch stage for the next cycle.</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// In fact, when E.icode == RET, the instruction in the current Decode stage is</span><br><span class="hljs-comment">// also invalid, but because the D.icode in the previous cycle was RET, at this</span><br><span class="hljs-comment">// point D.icode == NOP, so there&#x27;s no need to add a condition for e_bubble.</span><br><span class="hljs-comment">// bool ret_harzard = RET in &#123; U8_PLACEHOLDER, U8_PLACEHOLDER &#125;;</span><br><span class="hljs-type">bool</span> ret_harzard = RET <span class="hljs-keyword">in</span> &#123; D.icode, E.icode &#125;;<br><br><span class="hljs-comment">// If both a branch misprediction and a RET hazard occur at the same time,</span><br><span class="hljs-comment">// since the jump instruction is executed before the RET, the RET should not be</span><br><span class="hljs-comment">// executed, so no stall is required.</span><br><span class="hljs-comment">// bool f_stall = BOOL_PLACEHOLDER &amp;&amp; !BOOL_PLACEHOLDER || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> f_stall = ret_harzard &amp;&amp; !branch_mispred || load_use_harzard;<br><br><span class="hljs-comment">// bool d_stall = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> d_stall = load_use_harzard;<br><br><span class="hljs-comment">// If both a branch misprediction and a RET hazard occur at the same time,</span><br><span class="hljs-comment">// since the jump instruction is executed before the RET, the RET should not</span><br><span class="hljs-comment">// have been executed, so a bubble is not needed.</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// Actually, ret_harzard and d_stall cannot be true at the same time.</span><br><span class="hljs-comment">// bool d_bubble = BOOL_PLACEHOLDER &amp;&amp; !BOOL_PLACEHOLDER &amp;&amp; !d_stall;</span><br><span class="hljs-type">bool</span> d_bubble = ret_harzard &amp;&amp; !branch_mispred &amp;&amp; !d_stall;<br><br><span class="hljs-comment">// bool e_bubble = branch_mispred || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> e_bubble = branch_mispred || load_use_harzard;<br></code></pre></td></tr></table></figure>
+
+<h2 id="pipe-s4b-rs"><a href="#pipe-s4b-rs" class="headerlink" title="pipe_s4b.rs"></a>pipe_s4b.rs</h2><p>在 <code>pipe_s4b.rs</code> 中，我们需要在 <code>pipe_s4a.rs</code> 的基础上进一步优化。我们注意到用于计算 <code>f_pc</code> 的 <code>e_cnd</code> 的依赖路径太长。因此，我们可以将 <code>e_cnd</code> 存储在存储阶段寄存器中，并用 <code>M.cnd</code> 替代它。</p>
+<p><code>pipe_s4b.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Branch misprediction.  Use incremental PC</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; !M.cnd : U64_PLACEHOLDER;</span><br>    M.icode == JX &amp;&amp; !M.cnd : M.valP;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : U64_PLACEHOLDER;</span><br>    M.icode == RET : m_valM;<br>    <span class="hljs-comment">// Default: Use predicted PC</span><br>    <span class="hljs-number">1</span> : F.pred_pc;<br>];<br>:==============================: Decode Stage :================================:<br><span class="hljs-type">u64</span> d_valA = [<br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valE;</span><br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcA == e_dstE : e_valE;<br>    d_srcA == m_dstM : m_valM;<br>    <span class="hljs-number">1</span>: reg_file.valA;<br>];<br><span class="hljs-type">u64</span> d_valB = [<br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcB == e_dstE : e_valE;<br>    d_srcB == m_dstM : m_valM;<br>    <span class="hljs-number">1</span>: reg_file.valB;<br>];<br>:=============================: Execute Stage :================================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// If a branch misprediction is detected during the Execute stage, it means that</span><br><span class="hljs-comment">// the instruction currently in the Decode stage is invalid. Therefore, the next</span><br><span class="hljs-comment">// cycle’s Execute stage needs to insert a bubble.</span><br><span class="hljs-comment">// bool branch_mispred = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> branch_mispred = E.icode == JX &amp;&amp; !e_cnd;<br><br><span class="hljs-comment">// If a RET instruction is detected in either the Decode or Execute stage, then</span><br><span class="hljs-comment">// the instruction in the current Fetch stage is invalid. Therefore, a bubble</span><br><span class="hljs-comment">// needs to be inserted in the Fetch stage for the next cycle.</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// In fact, when E.icode == RET, the instruction in the current Decode stage is</span><br><span class="hljs-comment">// also invalid, but because the D.icode in the previous cycle was RET, at this</span><br><span class="hljs-comment">// point D.icode == NOP, so there&#x27;s no need to add a condition for e_bubble.</span><br><span class="hljs-comment">// bool ret_harzard = RET in &#123; U8_PLACEHOLDER, U8_PLACEHOLDER &#125;;</span><br><span class="hljs-type">bool</span> ret_harzard = RET <span class="hljs-keyword">in</span> &#123; D.icode, E.icode &#125;;<br><br><span class="hljs-comment">// Unlike in `pipe_s4a`, here we do not need to consider the case of branch</span><br><span class="hljs-comment">// misprediction (since in the next cycle, Fetch will always get the `f_pc`</span><br><span class="hljs-comment">// from `M.valP`).</span><br><span class="hljs-comment">// bool f_stall = BOOL_PLACEHOLDER || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> f_stall = ret_harzard || load_use_harzard;<br><br><span class="hljs-comment">// bool d_stall = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> d_stall = load_use_harzard;<br><br><span class="hljs-comment">// Unlike in `pipe_s4a`, when a branch misprediction occurs, we directly insert</span><br><span class="hljs-comment">// a bubble, because the instruction in the Fetch stage at that point is invalid.</span><br><span class="hljs-comment">// Actually, ret_harzard and d_stall cannot be true at the same time.</span><br><span class="hljs-comment">// bool d_bubble = BOOL_PLACEHOLDER || BOOL_PLACEHOLDER &amp;&amp; !d_stall;</span><br><span class="hljs-type">bool</span> d_bubble = branch_mispred || ret_harzard &amp;&amp; !d_stall;<br><br><span class="hljs-comment">// bool e_bubble = branch_mispred || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> e_bubble = branch_mispred || load_use_harzard;<br></code></pre></td></tr></table></figure>
+
+<h2 id="pipe-s4c-rs"><a href="#pipe-s4c-rs" class="headerlink" title="pipe_s4c.rs"></a>pipe_s4c.rs</h2><p>在 <code>pipe_s4c.rs</code> 中，我们需要在 <code>pipe_s4b.rs</code> 的基础上进一步优化。类似于 <code>pipe_std.rs</code>，我们在解码阶段将 D.valP 输入到 d_valA 中，以消除执行和存储阶段流水线寄存器中的 valP。</p>
+<p><code>pipe_s4c.rs</code> 的占位符修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs rust">:==============================: Fetch Stage :================================:<br><span class="hljs-type">u64</span> f_pc = [<br>    <span class="hljs-comment">// Call.  Use instruction constant</span><br>    <span class="hljs-comment">// If the previous instruction is CALL, the constant value should be the next PC</span><br>    <span class="hljs-comment">// valC is from Fetch Stage, thus the last cycle</span><br>    D.icode == CALL : D.valC;<br>    <span class="hljs-comment">// Branch misprediction.  Use incremental PC</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == JX &amp;&amp; !M.cnd : U64_PLACEHOLDER;</span><br>    M.icode == JX &amp;&amp; !M.cnd : M.valA;<br>    <span class="hljs-comment">// Completion of RET instruction.  Use value from stack</span><br>    <span class="hljs-comment">// valM is from DEMW stage, thus the current cycle</span><br>    <span class="hljs-comment">// U8_PLACEHOLDER == RET : U64_PLACEHOLDER;</span><br>    M.icode == RET : m_valM;<br>    <span class="hljs-comment">// Default: Use predicted PC</span><br>    <span class="hljs-number">1</span> : F.pred_pc;<br>];<br>:==============================: Decode Stage :================================:<br><span class="hljs-type">u64</span> d_valA = [<br>    D.icode <span class="hljs-keyword">in</span> &#123; CALL, JX &#125; : D.valP;<br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : e_valE;</span><br>    <span class="hljs-comment">// d_srcA == U8_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcA == e_dstE : e_valE;<br>    d_srcA == m_dstM : m_valM;<br>    <span class="hljs-number">1</span>: reg_file.valA;<br>];<br><span class="hljs-type">u64</span> d_valB = [<br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    <span class="hljs-comment">// BOOL_PLACEHOLDER : U64_PLACEHOLDER;</span><br>    d_srcB == e_dstE : e_valE;<br>    d_srcB == m_dstM : m_valM;<br>    <span class="hljs-number">1</span>: reg_file.valB;<br>];<br>:=============================: Execute Stage :================================:<br><span class="hljs-type">u8</span> e_dstE = [<br>    <span class="hljs-comment">// U8_PLACEHOLDER == CMOVX &amp;&amp; !BOOL_PLACEHOLDER : RNONE;</span><br>    E.icode == CMOVX &amp;&amp; !e_cnd : RNONE;<br>    <span class="hljs-number">1</span> : E.dstE;<br>];<br>:==============================: Memory Stage :================================:<br><span class="hljs-comment">// We&#x27;ve feed D.valP into d_valA. Thus M.valP is not needed.</span><br><span class="hljs-comment">// u64 mem_data = U64_PLACEHOLDER;</span><br><span class="hljs-type">u64</span> mem_data = M.valA;<br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// If a branch misprediction is detected during the Execute stage, it means that</span><br><span class="hljs-comment">// the instruction currently in the Decode stage is invalid. Therefore, the next</span><br><span class="hljs-comment">// cycle’s Execute stage needs to insert a bubble.</span><br><span class="hljs-comment">// bool branch_mispred = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> branch_mispred = E.icode == JX &amp;&amp; !e_cnd;<br><br><span class="hljs-comment">// If a RET instruction is detected in either the Decode or Execute stage, then</span><br><span class="hljs-comment">// the instruction in the current Fetch stage is invalid. Therefore, a bubble</span><br><span class="hljs-comment">// needs to be inserted in the Fetch stage for the next cycle.</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// In fact, when E.icode == RET, the instruction in the current Decode stage is</span><br><span class="hljs-comment">// also invalid, but because the D.icode in the previous cycle was RET, at this</span><br><span class="hljs-comment">// point D.icode == NOP, so there&#x27;s no need to add a condition for e_bubble.</span><br><span class="hljs-comment">// bool ret_harzard = RET in &#123; U8_PLACEHOLDER, U8_PLACEHOLDER &#125;;</span><br><span class="hljs-type">bool</span> ret_harzard = RET <span class="hljs-keyword">in</span> &#123; D.icode, E.icode &#125;;<br><br><span class="hljs-comment">// Unlike in `pipe_s4a`, here we do not need to consider the case of branch</span><br><span class="hljs-comment">// misprediction (since in the next cycle, Fetch will always get the `f_pc`</span><br><span class="hljs-comment">// from `M.valP`).</span><br><span class="hljs-comment">// bool f_stall = BOOL_PLACEHOLDER || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> f_stall = ret_harzard || load_use_harzard;<br><br><span class="hljs-comment">// bool d_stall = BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> d_stall = load_use_harzard;<br><br><span class="hljs-comment">// Unlike in `pipe_s4a`, when a branch misprediction occurs, we directly insert</span><br><span class="hljs-comment">// a bubble, because the instruction in the Fetch stage at that point is invalid.</span><br><span class="hljs-comment">// Actually, ret_harzard and d_stall cannot be true at the same time.</span><br><span class="hljs-comment">// bool d_bubble = BOOL_PLACEHOLDER || BOOL_PLACEHOLDER &amp;&amp; !d_stall;</span><br><span class="hljs-type">bool</span> d_bubble = branch_mispred || ret_harzard &amp;&amp; !d_stall;<br><br><span class="hljs-comment">// bool e_bubble = branch_mispred || BOOL_PLACEHOLDER;</span><br><span class="hljs-type">bool</span> e_bubble = branch_mispred || load_use_harzard;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Part-C"><a href="#Part-C" class="headerlink" title="Part C"></a>Part C</h1><p>Part C 中，我们将在 <code>archlab-project/misc</code> 和 <code>archlab-project/sim/src/architectures/extra</code> 目录下开展工作。我们的任务是修改 <code>archlab-project/misc/ncopy.ys</code> 和 <code>archlab-project/sim/src/architectures/extra/ncopy.rs</code>，让 <code>ncopy</code> 运行得尽可能快。最终性能将根据 cpe 和 ac 来评估。</p>
+<ul>
+<li>cpe (cycles per element)：如果模拟代码需要 C 个周期来复制一个包含 N 个元素的块，那么 CPE 就是 C&#x2F;N。</li>
+<li>ac (architecture cost)：ncopy 架构的关键路径长度。形式上，CPU 架构的关键路径是时钟元件之间组合逻辑的最长路径。关键路径的长度可以用来衡量 CPU 的时钟频率，从而用于估算架构性能。在 Part C 中，关键路径的长度简化为：1 加上在架构路径中排列的硬件设备（单元）的最大数量。</li>
+</ul>
+<p>ncopy 的 C 语言描述在 <code>misc/ncopy.c</code> 中。ncopy 函数将一个长度为 len 的整数数组 src 复制到一个不重叠的 dst 中，并返回 src 中正整数的数量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-type">word_t</span>;<br><br><span class="hljs-type">word_t</span> src[<span class="hljs-number">8</span>], dst[<span class="hljs-number">8</span>];<br><br><span class="hljs-comment">/* $begin ncopy */</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * ncopy - copy src to dst, returning number of positive ints</span><br><span class="hljs-comment"> * contained in src array.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">word_t</span> <span class="hljs-title function_">ncopy</span><span class="hljs-params">(<span class="hljs-type">word_t</span> *src, <span class="hljs-type">word_t</span> *dst, <span class="hljs-type">word_t</span> len)</span> &#123;<br>  <span class="hljs-type">word_t</span> count = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">word_t</span> val;<br><br>  <span class="hljs-keyword">while</span> (len &gt; <span class="hljs-number">0</span>) &#123;<br>    val = *src++;<br>    *dst++ = val;<br>    <span class="hljs-keyword">if</span> (val &gt; <span class="hljs-number">0</span>)<br>      count++;<br>    len--;<br>  &#125;<br>  <span class="hljs-keyword">return</span> count;<br>&#125;<br><span class="hljs-comment">/* $end ncopy */</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-type">word_t</span> i, count;<br><br>  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++)<br>    src[i] = i + <span class="hljs-number">1</span>;<br>  count = ncopy(src, dst, <span class="hljs-number">8</span>);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count=%d\n&quot;</span>, count);<br>  <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="应用-PIPE-架构"><a href="#应用-PIPE-架构" class="headerlink" title="应用 PIPE 架构"></a>应用 PIPE 架构</h2><p>由于 <code>ncopy.rs</code> 初始是 SEQ 架构，我们用 <code>archlab-project/sim/src/architectures/builtin/pipe_std.rs</code> 的内容完整替换 <code>ncopy.rs</code> 文件的内容。初步优化处理器架构，减少 ac。</p>
+<h2 id="添加-IOPQ-指令"><a href="#添加-IOPQ-指令" class="headerlink" title="添加 IOPQ 指令"></a>添加 IOPQ 指令</h2><p>查看 <code>ncopy.ys</code> 中的初始汇编代码。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">################################################################################<br># ncopy<span class="hljs-number">.</span>ys - Copy a src block of len words to dst.<br># Return the number of positive words (&gt;<span class="hljs-number">0</span>) contained <span class="hljs-keyword">in</span> src.<br>################################################################################<br># <span class="hljs-built_in">Do</span> <span class="hljs-keyword">not</span> modify this portion<br># Function prologue.<br># %rdi = src, %rsi = dst, %rdx = len<br><span class="hljs-symbol">ncopy:</span><br>################################################################################<br># You can modify this portion<br>    # <span class="hljs-keyword">Loop</span> header<br>    xorq %rax,%rax      # count = <span class="hljs-number">0</span><span class="hljs-comment">;</span><br>    andq %rdx,%rdx      # len &lt;= <span class="hljs-number">0</span>?<br>    <span class="hljs-keyword">jle</span> Done            # if so, goto Done:<br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Loop:</span><br>    mrmovq (%rdi), %r10 # read val from src...<br>    rmmovq %r10, (%rsi) # ...and store it to dst<br>    andq %r10, %r10     # val &lt;= <span class="hljs-number">0</span>?<br>    <span class="hljs-keyword">jle</span> Npos            # if so, goto Npos:<br>    irmovq <span class="hljs-number">$1</span>, %r10<br>    addq %r10, %rax     # count++<br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Npos:</span><br>    irmovq <span class="hljs-number">$1</span>, %r10<br>    subq %r10, %rdx     # len--<br>    irmovq <span class="hljs-number">$8</span>, %r10<br>    addq %r10, %rdi     # src++<br>    addq %r10, %rsi     # dst++<br>    andq %rdx,%rdx      # len &gt; <span class="hljs-number">0</span>?<br>    <span class="hljs-keyword">jg</span> <span class="hljs-keyword">Loop</span>             # if so, goto <span class="hljs-keyword">Loop</span>:<br><span class="hljs-symbol">Done:</span><br>    <span class="hljs-keyword">ret</span><br><br># <span class="hljs-keyword">In</span> grader, we will <span class="hljs-keyword">add</span> a <span class="hljs-string">&quot;trap: jmp trap&quot;</span> here, which traps your program <span class="hljs-keyword">in</span> an<br># infinite <span class="hljs-keyword">loop</span>. Thus your function should always return instead of falling<br># through till the end of the source code :)<br></code></pre></td></tr></table></figure>
+
+<p>发现每次进行 count++ 时，都需要先 irmovq 将立即数 1 加载到寄存器中，然后再进行加法操作。我们可以使用 IOPQ 指令来直接将立即数与寄存器相加，从而减少指令数量和执行时间。为此，我们需要在 <code>ncopy.rs</code> 中添加 IOPQ 指令。具体步骤可参考 Part B 部分针对 seq_full.rs 的修改。</p>
+<h2 id="循环展开"><a href="#循环展开" class="headerlink" title="循环展开"></a>循环展开</h2><p>至此，我们已经将架构从 SEQ 升级到了 PIPE，并通过 IOPQ 指令减少了指令数量。进一步观察发现，每一次循环最后都需要经历一次条件跳转，这意味着每次循环都要经历控制冒险，但却只处理了一个元素。我们可以通过循环展开，在一次循环中处理多个元素来进一步提升 cpe。</p>
+<p>循环展开参考代码如下：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-symbol">Loop:</span><br>    mrmovq (%rdi), %rcx<br>    mrmovq <span class="hljs-number">8</span>(%rdi), %rbx<br>    mrmovq <span class="hljs-number">16</span>(%rdi), %rbp<br>    mrmovq <span class="hljs-number">24</span>(%rdi), %r8<br>    mrmovq <span class="hljs-number">32</span>(%rdi), %r9<br>    mrmovq <span class="hljs-number">40</span>(%rdi), %r10<br>    mrmovq <span class="hljs-number">48</span>(%rdi), %r11<br>    mrmovq <span class="hljs-number">56</span>(%rdi), %r12<br>    mrmovq <span class="hljs-number">64</span>(%rdi), %r13<br>    mrmovq <span class="hljs-number">72</span>(%rdi), %r14<br><span class="hljs-symbol">L1:</span><br>    rmmovq %rcx, (%rsi)<br>    andq %rcx, %rcx<br>    <span class="hljs-keyword">jle</span> L2<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L2:</span><br>    rmmovq %rbx, <span class="hljs-number">8</span>(%rsi)<br>    andq %rbx, %rbx<br>    <span class="hljs-keyword">jle</span> L3<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L3:</span><br>    rmmovq %rbp, <span class="hljs-number">16</span>(%rsi)<br>    andq %rbp, %rbp<br>    <span class="hljs-keyword">jle</span> L4<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L4:</span><br>    rmmovq %r8, <span class="hljs-number">24</span>(%rsi)<br>    andq %r8, %r8<br>    <span class="hljs-keyword">jle</span> L5<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L5:</span><br>    rmmovq %r9, <span class="hljs-number">32</span>(%rsi)<br>    andq %r9, %r9<br>    <span class="hljs-keyword">jle</span> L6<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L6:</span><br>    rmmovq %r10, <span class="hljs-number">40</span>(%rsi)<br>    andq %r10, %r10<br>    <span class="hljs-keyword">jle</span> L7<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L7:</span><br>    rmmovq %r11, <span class="hljs-number">48</span>(%rsi)<br>    andq %r11, %r11<br>    <span class="hljs-keyword">jle</span> L8<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L8:</span><br>    rmmovq %r12, <span class="hljs-number">56</span>(%rsi)<br>    andq %r12, %r12<br>    <span class="hljs-keyword">jle</span> L9<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L9:</span><br>    rmmovq %r13, <span class="hljs-number">64</span>(%rsi)<br>    andq %r13, %r13<br>    <span class="hljs-keyword">jle</span> L10<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L10:</span><br>    rmmovq %r14, <span class="hljs-number">72</span>(%rsi)<br>    andq %r14, %r14<br>    <span class="hljs-keyword">jle</span> N<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">N:</span><br>    iaddq <span class="hljs-number">$80</span>, %rdi     # src++<br>    iaddq <span class="hljs-number">$80</span>, %rsi     # dst++<br>    isubq <span class="hljs-number">$10</span>, %rdx     # len--<br>    <span class="hljs-keyword">jge</span> <span class="hljs-keyword">Loop</span>            # if so, goto <span class="hljs-keyword">Loop</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="余数二分处理"><a href="#余数二分处理" class="headerlink" title="余数二分处理"></a>余数二分处理</h2><p>循环展开带来的问题是当 len 不是展开倍数时，剩余的元素无法通过展开后的循环处理。为了解决这个问题，我们需要针对不同的余数情况编写不同的处理代码，形成类似跳转表的结构。为了避免代码重复和过多的跳转，我们可以针对每个剩余的元素编写处理代码，Rk 对应对第 k 个剩余元素的处理，然后将这些代码块按照从大到小串联起来。对于不同的余数情况，我们只需要跳转到对应的 Rk 代码块即可，程序会顺序执行后续的对第 k-1、k-2、…、1 个剩余元素的处理代码。</p>
+<p>余数处理参考代码如下：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-symbol">R9:</span><br>    mrmovq <span class="hljs-number">64</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">64</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R8</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R8:</span><br>    mrmovq <span class="hljs-number">56</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">56</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R7</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R7:</span><br>    mrmovq <span class="hljs-number">48</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">48</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R6</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R6:</span><br>    mrmovq <span class="hljs-number">40</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">40</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R5</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R5:</span><br>    mrmovq <span class="hljs-number">32</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">32</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R4</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R4:</span><br>    mrmovq <span class="hljs-number">24</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">24</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R3</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R3:</span><br>    mrmovq <span class="hljs-number">16</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">16</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R2</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R2:</span><br>    mrmovq <span class="hljs-number">8</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">8</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R1</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R1:</span><br>    mrmovq (%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, (%rsi)<br>    <span class="hljs-keyword">jle</span> Done<br>    iaddq <span class="hljs-number">$1</span>, %rax<br></code></pre></td></tr></table></figure>
+
+<p>注意这里将 andq 指令插入到 mrmovq 和 rmmovq 之间，从而避免了流水线暂停。</p>
+<p>至于跳转部分，我们可以对余数反复减一并判断是否为零来跳转到对应的代码块。也可以选择使用二分思想来减少跳转次数。</p>
+<p>完整 <code>ncopy.ys</code> 参考代码如下：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">################################################################################<br># ncopy<span class="hljs-number">.</span>ys - Copy a src block of len words to dst.<br># Return the number of positive words (&gt;<span class="hljs-number">0</span>) contained <span class="hljs-keyword">in</span> src.<br>################################################################################<br># <span class="hljs-built_in">Do</span> <span class="hljs-keyword">not</span> modify this portion<br># Function prologue.<br># %rdi = src, %rsi = dst, %rdx = len<br><span class="hljs-symbol">ncopy:</span><br>################################################################################<br># You can modify this portion<br>    # <span class="hljs-keyword">Loop</span> header<br>    xorq %rax,%rax      # count = <span class="hljs-number">0</span><span class="hljs-comment">;</span><br>    isubq <span class="hljs-number">$10</span>, %rdx<br>    <span class="hljs-keyword">jl</span> R<br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Loop:</span><br>    mrmovq (%rdi), %rcx<br>    mrmovq <span class="hljs-number">8</span>(%rdi), %rbx<br>    mrmovq <span class="hljs-number">16</span>(%rdi), %rbp<br>    mrmovq <span class="hljs-number">24</span>(%rdi), %r8<br>    mrmovq <span class="hljs-number">32</span>(%rdi), %r9<br>    mrmovq <span class="hljs-number">40</span>(%rdi), %r10<br>    mrmovq <span class="hljs-number">48</span>(%rdi), %r11<br>    mrmovq <span class="hljs-number">56</span>(%rdi), %r12<br>    mrmovq <span class="hljs-number">64</span>(%rdi), %r13<br>    mrmovq <span class="hljs-number">72</span>(%rdi), %r14<br><span class="hljs-symbol">L1:</span><br>    rmmovq %rcx, (%rsi)<br>    andq %rcx, %rcx<br>    <span class="hljs-keyword">jle</span> L2<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L2:</span><br>    rmmovq %rbx, <span class="hljs-number">8</span>(%rsi)<br>    andq %rbx, %rbx<br>    <span class="hljs-keyword">jle</span> L3<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L3:</span><br>    rmmovq %rbp, <span class="hljs-number">16</span>(%rsi)<br>    andq %rbp, %rbp<br>    <span class="hljs-keyword">jle</span> L4<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L4:</span><br>    rmmovq %r8, <span class="hljs-number">24</span>(%rsi)<br>    andq %r8, %r8<br>    <span class="hljs-keyword">jle</span> L5<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L5:</span><br>    rmmovq %r9, <span class="hljs-number">32</span>(%rsi)<br>    andq %r9, %r9<br>    <span class="hljs-keyword">jle</span> L6<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L6:</span><br>    rmmovq %r10, <span class="hljs-number">40</span>(%rsi)<br>    andq %r10, %r10<br>    <span class="hljs-keyword">jle</span> L7<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L7:</span><br>    rmmovq %r11, <span class="hljs-number">48</span>(%rsi)<br>    andq %r11, %r11<br>    <span class="hljs-keyword">jle</span> L8<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L8:</span><br>    rmmovq %r12, <span class="hljs-number">56</span>(%rsi)<br>    andq %r12, %r12<br>    <span class="hljs-keyword">jle</span> L9<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L9:</span><br>    rmmovq %r13, <span class="hljs-number">64</span>(%rsi)<br>    andq %r13, %r13<br>    <span class="hljs-keyword">jle</span> L10<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">L10:</span><br>    rmmovq %r14, <span class="hljs-number">72</span>(%rsi)<br>    andq %r14, %r14<br>    <span class="hljs-keyword">jle</span> N<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">N:</span><br>    iaddq <span class="hljs-number">$80</span>, %rdi     # src++<br>    iaddq <span class="hljs-number">$80</span>, %rsi     # dst++<br>    isubq <span class="hljs-number">$10</span>, %rdx     # len--<br>    <span class="hljs-keyword">jge</span> <span class="hljs-keyword">Loop</span>            # if so, goto <span class="hljs-keyword">Loop</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">R:</span><br>    iaddq <span class="hljs-number">$10</span>, %rdx<br>    <span class="hljs-keyword">jle</span> Done<br>    isubq <span class="hljs-number">$5</span>, %rdx<br>    <span class="hljs-keyword">je</span> <span class="hljs-built_in">R5</span><br>    <span class="hljs-keyword">jg</span> R6_9<br><span class="hljs-symbol">R1_4:</span><br>    iaddq <span class="hljs-number">$2</span>, %rdx<br>    <span class="hljs-keyword">jl</span> R1_2<br><span class="hljs-symbol">R3_4:</span><br>    <span class="hljs-keyword">je</span> <span class="hljs-built_in">R3</span><br>    <span class="hljs-keyword">jmp</span> <span class="hljs-built_in">R4</span><br><span class="hljs-symbol">R1_2:</span><br>    iaddq <span class="hljs-number">$1</span>, %rdx<br>    <span class="hljs-keyword">je</span> <span class="hljs-built_in">R2</span><br>    <span class="hljs-keyword">jmp</span> <span class="hljs-built_in">R1</span><br><span class="hljs-symbol">R6_9:</span><br>    isubq <span class="hljs-number">$2</span>, %rdx<br>    <span class="hljs-keyword">jg</span> R8_9<br><span class="hljs-symbol">R6_7:</span><br>    <span class="hljs-keyword">je</span> <span class="hljs-built_in">R7</span><br>    <span class="hljs-keyword">jmp</span> <span class="hljs-built_in">R6</span><br><span class="hljs-symbol">R8_9:</span><br>    isubq <span class="hljs-number">$1</span>, %rdx<br>    <span class="hljs-keyword">je</span> <span class="hljs-built_in">R8</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">R9:</span><br>    mrmovq <span class="hljs-number">64</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">64</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R8</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R8:</span><br>    mrmovq <span class="hljs-number">56</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">56</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R7</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R7:</span><br>    mrmovq <span class="hljs-number">48</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">48</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R6</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R6:</span><br>    mrmovq <span class="hljs-number">40</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">40</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R5</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R5:</span><br>    mrmovq <span class="hljs-number">32</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">32</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R4</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R4:</span><br>    mrmovq <span class="hljs-number">24</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">24</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R3</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R3:</span><br>    mrmovq <span class="hljs-number">16</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">16</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R2</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R2:</span><br>    mrmovq <span class="hljs-number">8</span>(%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, <span class="hljs-number">8</span>(%rsi)<br>    <span class="hljs-keyword">jle</span> <span class="hljs-built_in">R1</span><br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol">R1:</span><br>    mrmovq (%rdi), %rcx<br>    andq %rcx, %rcx<br>    rmmovq %rcx, (%rsi)<br>    <span class="hljs-keyword">jle</span> Done<br>    iaddq <span class="hljs-number">$1</span>, %rax<br><span class="hljs-symbol"></span><br><span class="hljs-symbol">Done:</span><br>    <span class="hljs-keyword">ret</span><br><br># <span class="hljs-keyword">In</span> grader, we will <span class="hljs-keyword">add</span> a <span class="hljs-string">&quot;trap: jmp trap&quot;</span> here, which traps your program <span class="hljs-keyword">in</span> an<br># infinite <span class="hljs-keyword">loop</span>. Thus your function should always return instead of falling<br># through till the end of the source code :)<br></code></pre></td></tr></table></figure>
+
+<h2 id="减少关键路径长度"><a href="#减少关键路径长度" class="headerlink" title="减少关键路径长度"></a>减少关键路径长度</h2><p>目前我们的 <code>ncopy.rs</code> 采用的是 PIPE 架构，关键路径长度为 4，正是执行阶段 e_cnd 的依赖路径。</p>
+<p><img src="/img/ics-archlab/execute-stage.png" srcset="/img/loading.gif" lazyload></p>
+<p>回忆 dstE 需要 e_cnd 更新的情况，为条件传送 CMOVX 指令。而 CMOVX 指令并不更新条件码。由此可知，更新条件码和需要计算 e_cnd 更新 dstE 的情况不会在执行阶段同时发生。因此，我们可以在执行阶段寄存器中新增 pre_cc 记录上一条指令的条件码，用于通过 cond 单元计算 e_cnd，从而降低关键路径长度为 3。</p>
+<p><code>ncopy.rs</code> 参考修改如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs rust">crate::define_stages! &#123;<br>    <span class="hljs-comment">// ...</span><br>    ExecuteStage e &#123;<br>        stat: Stat = Bub, icode: <span class="hljs-type">u8</span> = NOP, ifun: <span class="hljs-type">u8</span> = <span class="hljs-number">0</span>,<br>        valC: <span class="hljs-type">u64</span> = <span class="hljs-number">0</span>,<br>        valA: <span class="hljs-type">u64</span> = <span class="hljs-number">0</span>, valB: <span class="hljs-type">u64</span> = <span class="hljs-number">0</span>,<br>        dstE: <span class="hljs-type">u8</span> = RNONE, dstM: <span class="hljs-type">u8</span> = RNONE,<br>        srcA: <span class="hljs-type">u8</span> = RNONE, srcB: <span class="hljs-type">u8</span> = RNONE,<br>        pre_cc: ConditionCode = CC_INIT<br>    &#125;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br><br>sim_macro::hcl! &#123;<br><span class="hljs-comment">// ...</span><br>:==============================: Fetch Stage :================================:<br><span class="hljs-comment">// ...</span><br>:=======================: Decode and Write Back Stage :=======================:<br><span class="hljs-comment">// ...</span><br>@<span class="hljs-title function_ invoke__">set_stage</span>(e, &#123;<br>    icode: d_icode,<br>    ifun: d_ifun,<br>    stat: d_stat,<br>    valC: d_valC,<br>    srcA: d_srcA,<br>    srcB: d_srcB,<br>    valA: d_valA,<br>    valB: d_valB,<br>    dstE: d_dstE,<br>    dstM: d_dstM,<br>    pre_cc: cc,<br>&#125;);<br>:==============================: Execute Stage :===============================:<br><span class="hljs-comment">// ...</span><br>ConditionCode cc = reg_cc.cc;<br><span class="hljs-type">u8</span> e_ifun = E.ifun;<br>ConditionCode pre_cc = E.pre_cc;<br><br>@<span class="hljs-title function_ invoke__">set_input</span>(cond, &#123;<br>    cc: pre_cc,<br>    condfun: e_ifun,<br>&#125;);<br><span class="hljs-comment">// ...</span><br>:===============================: Memory Stage :===============================:<br><span class="hljs-comment">// ...</span><br>:=============================: Write Back Stage :=============================:<br><span class="hljs-comment">// ...</span><br>:========================: Pipeline Register Control :=========================:<br><span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://arthals.ink/blog/arch-lab">更适合北大宝宝体质的 Arch Lab 踩坑记</a><br><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://mcginn7.github.io/2020/02/21/CSAPP-archlab">CSAPP - archlab</a><br><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://github.com/elainafan/Introduction-to-Computer-Systems-2025Fall-PKU">Introduction-to-Computer-Systems-2025Fall-PKU</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NOTE/" class="category-chain-item">NOTE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pku/" class="print-no-link">#pku</a>
+      
+        <a href="/tags/ics/" class="print-no-link">#ics</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ICS - Arch Lab | 处理器太慢怎么办？</div>
+      <div>https://staaaaaaaaar.github.io/2025/11/05/ics-archlab/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sam</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 5, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - Non-commercial">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - Share-alike">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/18/ics-attacklab/" title="ICS - Attack Lab | 缓冲区溢出，你看你干的好事！">
+                        <span class="hidden-mobile">ICS - Attack Lab | 缓冲区溢出，你看你干的好事！</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> · <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        Views: 
+        <span id="leancloud-site-pv"></span>
+        
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        Visitors: 
+        <span id="leancloud-site-uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
