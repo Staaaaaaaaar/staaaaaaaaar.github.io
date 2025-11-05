@@ -1,5 +1,5 @@
 ---
-title: ICS - Arch Lab | 处理器有点慢怎么办？
+title: ICS - Arch Lab | 处理器太慢怎么办？
 date: 2025-11-05 11:28:43
 categories:
   - NOTE
