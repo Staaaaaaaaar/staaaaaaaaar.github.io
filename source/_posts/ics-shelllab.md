@@ -316,8 +316,8 @@ parseline(const char *cmdline, struct cmdline_tokens *tok)
 
 在 `tsh` 创建新作业时，**竞争条件** 是一个需要避免的关键问题。具体来说，如果在父进程将子进程添加到作业列表之前，子进程就结束了，并向父进程发送了 `SIGCHLD` 信号，那么信号处理函数 (`sigchld_handler`) 将无法识别该 PID，导致作业信息丢失。
 
-为了防止这种竞争，父进程在 `fork` 之前，必须先阻塞可能影响作业列表的关键信号，这里主要是 `SIGCHLD`。
-
+为了防止这种竞争，父进程在 `fork` 之前，必须先阻塞可能影响作业列表的关键信号，这里主要是 `SIGCHLD`，`SIGINT` 和 `SIGTSTP`。
+    
 ```c
 // tsh.c - eval 函数片段
 pid_t pid;
@@ -325,11 +325,16 @@ sigset_t mask, prev;
 
 Sigemptyset(&mask);
 Sigaddset(&mask, SIGCHLD);
-
+Sigaddset(&mask, SIGINT);
+Sigaddset(&mask, SIGTSTP);
+/* Block SIGCHLD */
 Sigprocmask(SIG_BLOCK, &mask, &prev);
 
 if ((pid = Fork()) == 0) {
     // ... 子进程逻辑
+} else {
+    addjob(job_list, pid, bg ? BG : FG, cmdline);
+    Sigprocmask(SIG_SETMASK, &prev, NULL);
 }
 
 addjob(job_list, pid, bg ? BG : FG, cmdline);
@@ -390,8 +395,7 @@ if (!bg) {
 if (!bg) {
     while(pid == fgpid(job_list))
         Sigsuspend(&prev);
-}
-else {
+} else {
     printf("[%d] (%d) %s\n", pid2jid(pid), pid, cmdline);
 }
 ```
@@ -825,17 +829,16 @@ void eval(char *cmdline)
             Signal(SIGTSTP, SIG_DFL);
             Setpgid(0, 0); /* Set a new process group */
             Execve(tok.argv[0], tok.argv, environ);
+        } else {
+            addjob(job_list, pid, bg ? BG : FG, cmdline);
+            Sigprocmask(SIG_SETMASK, &prev, NULL);
         }
-
-        addjob(job_list, pid, bg ? BG : FG, cmdline);
-        Sigprocmask(SIG_SETMASK, &prev, NULL);
 
         /* Parent waits for foreground job to terminate */
         if (!bg) {
             while(pid == fgpid(job_list))
                 Sigsuspend(&prev);
-        }
-        else {
+        } else {
             printf("[%d] (%d) %s\n", pid2jid(pid), pid, cmdline);
         }
     }
