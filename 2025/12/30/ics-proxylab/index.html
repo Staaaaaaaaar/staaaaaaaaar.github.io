@@ -1,0 +1,1059 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ico.svg">
+  <link rel="icon" href="/img/ico.svg">
+  
+    <link rel="canonical" href="https://staaaaaaaaar.github.io/2025/12/30/ics-proxylab/"/>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sam">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="北京大学 2025 年秋季学期计算机系统导论 - Proxy Lab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ICS - Proxy Lab | 论一个代理的自我修养">
+<meta property="og:url" content="https://staaaaaaaaar.github.io/2025/12/30/ics-proxylab/index.html">
+<meta property="og:site_name" content="Sam&#39;s Blog">
+<meta property="og:description" content="北京大学 2025 年秋季学期计算机系统导论 - Proxy Lab">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-12-30T16:33:16.000Z">
+<meta property="article:modified_time" content="2025-12-30T16:40:58.418Z">
+<meta property="article:author" content="Sam">
+<meta property="article:tag" content="ics">
+<meta property="article:tag" content="pku">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>ICS - Proxy Lab | 论一个代理的自我修养 - Sam&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5041124_rijwqilvw8k.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"staaaaaaaaar.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"3a3Cp4NiDrGee9qpOahv5XgE-gzGzoHsz","app_key":"BESWGe4b2P4LbQ81Wqhin03D","server_url":"https://3a3cp4ni.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sam&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ICS - Proxy Lab | 论一个代理的自我修养"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-30 16:33" pubdate>
+          December 30, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          15k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          123 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ICS - Proxy Lab | 论一个代理的自我修养</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    Last updated on December 30, 2025 pm
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在 Proxy Lab 中，我们将编写一个简单的 HTTP 代理，用于将客户端的请求转发到网页服务器，读取服务器的响应，然后将响应转发给客户端。Lab 分为三个部分：</p>
+<ul>
+<li>在第一部分，我们要设置代理以接受传入的连接，读取并解析请求，将请求转发到 Web 服务器，读取服务器的响应，并将这些响应转发给相应的客户端。</li>
+<li>在第二部分，我们要升级代理以处理多个并发连接。</li>
+<li>在第三部分，我们要为代理添加缓存功能。</li>
+</ul>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="Makefile-基础"><a href="#Makefile-基础" class="headerlink" title="Makefile 基础"></a>Makefile 基础</h2><p>Makefile 是自动化构建系统的核心工具，它通过定义规则和依赖关系，高效地管理项目编译过程。</p>
+<p><strong>基本语法</strong>：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment"># 变量定义</span><br><span class="hljs-comment"># 变量名 = 值</span><br>CC = gcc<br>CFLAGS = -g -Wall<br><br><span class="hljs-comment"># 目标: 依赖文件</span><br><span class="hljs-comment"># 	命令（注意：命令前必须使用Tab缩进）</span><br><span class="hljs-section">csapp.o: csapp.c csapp.h</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> -c csapp.c<br></code></pre></td></tr></table></figure>
+
+<p><strong>常用规则</strong>：</p>
+<ul>
+<li><code>all</code>：默认目标，通常依赖于主要可执行文件</li>
+<li><code>clean</code>：清理编译生成的文件</li>
+<li>编译模式：<code>$(CC) $(CFLAGS) -c 源文件</code></li>
+</ul>
+<h2 id="网络编程基础"><a href="#网络编程基础" class="headerlink" title="网络编程基础"></a>网络编程基础</h2><ul>
+<li><strong>Socket API</strong>：网络通信的基础接口，包括<code>socket()</code>、<code>bind()</code>、<code>listen()</code>、<code>accept()</code>、<code>connect()</code>等</li>
+<li><strong>HTTP 协议</strong>：理解请求&#x2F;响应格式、头部字段、状态码</li>
+<li><strong>I&#x2F;O 模型</strong>：掌握 RIO 函数（如<code>rio_readlineb</code>）</li>
+<li><strong>地址转换</strong>：<code>getaddrinfo</code>&#x2F;<code>getnameinfo</code> 用于主机名与 IP 地址的转换</li>
+</ul>
+<h2 id="并发编程基础"><a href="#并发编程基础" class="headerlink" title="并发编程基础"></a>并发编程基础</h2><ul>
+<li><strong>多线程模型</strong>：使用 <code>pthread_create</code> 创建线程，<code>pthread_detach</code> 设置分离状态</li>
+<li><strong>共享资源</strong>：使用信号量用于协调多线程访问共享资源</li>
+<li><strong>读者-写者问题</strong>：经典同步模式，适用于缓存等读多写少的场景</li>
+<li><strong>线程安全</strong>：理解可重入函数，避免在信号处理程序中调用非异步信号安全函数</li>
+</ul>
+<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>参照 <code>writeup</code>，我们需要安装一些包来支持本地测试和调试。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install net-tools curl<br><span class="hljs-built_in">sudo</span> apt install python3-selenium chromium-chromedriver<br><span class="hljs-built_in">sudo</span> snap install chromium<br></code></pre></td></tr></table></figure>
+
+<h2 id="TINY-Web-Server"><a href="#TINY-Web-Server" class="headerlink" title="TINY Web Server"></a>TINY Web Server</h2><p>Proxy Lab 为我们提供了一个简易的 Web 服务器供调试和本地评测使用。</p>
+<p>使用方式为在 <code>./tiny</code> 目录下编译并运行 <code>tiny</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ./tiny &amp;&amp; make clean &amp;&amp; make &amp;&amp; ./tiny &lt;port&gt;<br></code></pre></td></tr></table></figure>
+
+<p>服务器会解析 HTTP 请求并提供相应内容，我们可以使用 <code>curl</code> 工具向这个服务器发送请求来查看其响应内容。例如，在确保服务器运行的情况下在终端输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl -v http://localhost:&lt;port&gt;/home.html<br></code></pre></td></tr></table></figure>
+
+<p>注意使用服务端对应的端口号，会得到下面文本：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs text">* Host localhost:12345 was resolved.<br>* IPv6: ::1<br>* IPv4: 127.0.0.1<br>*   Trying [::1]:12345...<br>* connect to ::1 port 12345 from ::1 port 42792 failed: Connection refused<br>*   Trying 127.0.0.1:12345...<br>* Connected to localhost (127.0.0.1) port 12345<br>&gt; GET /home.html HTTP/1.1<br>&gt; Host: localhost:12345<br>&gt; User-Agent: curl/8.5.0<br>&gt; Accept: */*<br>&gt;<br>* HTTP 1.0, assume close after body<br>&lt; HTTP/1.0 200 OK<br>&lt; Server: Tiny Web Server<br>&lt; Connection: close<br>&lt; Content-length: 120<br>&lt; Vary: *<br>&lt; Cache-Control: no-cache, no-store, must-revalidate<br>&lt; Content-type: text/html<br>&lt;<br>&lt;html&gt;<br>&lt;head&gt;&lt;title&gt;test&lt;/title&gt;&lt;/head&gt;<br>&lt;body&gt;<br>&lt;img align=&quot;middle&quot; src=&quot;godzilla.gif&quot;&gt;<br>Dave O&#x27;Hallaron<br>&lt;/body&gt;<br>&lt;/html&gt;<br>* Closing connection<br></code></pre></td></tr></table></figure>
+
+<h2 id="csapp-h"><a href="#csapp-h" class="headerlink" title="csapp.h"></a>csapp.h</h2><p>Lab 的工作目录中包含了 <code>csapp.h</code> 和 <code>csapp.c</code>。鉴于网络编程的完整实现比较繁琐，我们可以使用其中的一些封装函数来简化代码并提高可读性。</p>
+<p>但请注意：</p>
+<ul>
+<li><code>csapp.h</code> 中的错误处理包装函数可能并不适合在代理中使用，因为它们默认的处理方式往往是终止进程，这不是一个需要长期稳定运行的代理所希望的。</li>
+<li>如果认为需要，你也可以自行修改相关函数的实现。</li>
+</ul>
+<h2 id="代理测试"><a href="#代理测试" class="headerlink" title="代理测试"></a>代理测试</h2><p>除了运行 <code>driver.sh</code> 进行本地评测外，我们还可以自行对代理进行一些基本功能的测试。</p>
+<p><code>curl</code> 是一个强大的命令行工具，可以用来发送各种 HTTP 请求，并将响应内容显示在终端。我们可以使用它来测试代理服务器是否正确地转发请求和响应。</p>
+<p>在两个终端中分别运行 TINY Web Server 和代理：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ./tiny &amp;&amp; ./tiny 1234<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./proxy 12345<br></code></pre></td></tr></table></figure>
+
+<p>使用 <code>curl</code> 经代理向 TINY Web Server 发送请求：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl -v --proxy http://localhost:12345 http://localhost:1234/home.html<br></code></pre></td></tr></table></figure>
+
+<p>也可以向其他服务端发送请求：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl -v --proxy http://localhost:12345 http://www.baidu.com<br></code></pre></td></tr></table></figure>
+
+<h1 id="Part-1-Basic-Proxy"><a href="#Part-1-Basic-Proxy" class="headerlink" title="Part 1: Basic Proxy"></a>Part 1: Basic Proxy</h1><h2 id="主循环"><a href="#主循环" class="headerlink" title="主循环"></a>主循环</h2><p>在我们的代码里，主循环负责初始化代理服务器，监听指定端口，接受客户端连接，并为每个连接调用请求处理函数，我们可以在 <code>main</code> 函数中实现主循环。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">int</span> listenfd, connfd;<br>    <span class="hljs-type">char</span> hostname[MAXLINE], port[MAXLINE];<br>    <span class="hljs-type">socklen_t</span> clientlen;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_storage</span> <span class="hljs-title">clientaddr</span>;</span><br><br>    <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;usage: %s &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    Signal(SIGPIPE, SIG_IGN);<br><br>    listenfd = Open_listenfd(argv[<span class="hljs-number">1</span>]);<br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        clientlen = <span class="hljs-keyword">sizeof</span>(clientaddr);<br>        connfd = Accept(listenfd, (SA *) &amp;clientaddr, &amp;clientlen);<br>        Getnameinfo((SA *) &amp;clientaddr, clientlen, hostname, MAXLINE, port, MAXLINE, <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Accepted connection from (%s, %s)\n&quot;</span>, hostname, port);<br>        doit(connfd);<br>        Close(connfd);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><p><strong>命令行参数检查</strong>：确保用户提供了端口号参数</p>
+</li>
+<li><p><strong>忽略 SIGPIPE 信号</strong>：防止因写入已关闭的 socket 而导致进程意外退出</p>
+</li>
+<li><p><strong>创建监听套接字</strong>：使用 <code>Open_listenfd()</code> 函数创建并绑定到指定端口</p>
+</li>
+<li><p><strong>主循环</strong>：无限循环接受客户端连接，每次接受连接后：</p>
+<ul>
+<li><p>获取客户端信息（主机名和端口）</p>
+</li>
+<li><p>打印连接信息用于调试</p>
+</li>
+<li><p>调用<code>doit()</code>函数处理请求</p>
+</li>
+<li><p>处理完成后关闭连接</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="请求处理"><a href="#请求处理" class="headerlink" title="请求处理"></a>请求处理</h2><p><code>doit</code> 函数是代理的核心，负责读取客户端请求，解析请求，连接目标服务器，转发请求，并将响应返回给客户端。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">doit</span><span class="hljs-params">(<span class="hljs-type">int</span> fd)</span><br>&#123;<br>    <span class="hljs-type">char</span> buf[MAXLINE], method[MAXLINE], uri[MAXLINE], version[MAXLINE];<br>    <span class="hljs-type">char</span> hostname[MAXLINE], path[MAXLINE], port[MAXLINE];<br>    <span class="hljs-type">char</span> http_header[MAXLINE];<br>    <span class="hljs-type">rio_t</span> rio;<br>    <span class="hljs-type">int</span> serverfd;<br>    <span class="hljs-type">ssize_t</span> n;<br><br>    Rio_readinitb(&amp;rio, fd);<br>    <span class="hljs-keyword">if</span> (rio_readlineb(&amp;rio, buf, MAXLINE) &lt;= <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-comment">/* Reject overlong request lines to avoid buffer misuse */</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strlen</span>(buf) &gt;= MAXLINE - <span class="hljs-number">1</span> &amp;&amp; buf[MAXLINE - <span class="hljs-number">2</span>] != <span class="hljs-string">&#x27;\n&#x27;</span>) &#123;<br>        <span class="hljs-type">const</span> <span class="hljs-type">char</span> *body = <span class="hljs-string">&quot;URI too long\n&quot;</span>;<br>        <span class="hljs-type">char</span> resp[MAXLINE];<br>        <span class="hljs-type">int</span> resp_len = <span class="hljs-built_in">snprintf</span>(resp, <span class="hljs-keyword">sizeof</span>(resp),<br>                                 <span class="hljs-string">&quot;HTTP/1.0 414 Request-URI Too Long\r\n&quot;</span><br>                                 <span class="hljs-string">&quot;Connection: close\r\n&quot;</span><br>                                 <span class="hljs-string">&quot;Content-Type: text/plain\r\n&quot;</span><br>                                 <span class="hljs-string">&quot;Content-Length: %zu\r\n\r\n%s&quot;</span>,<br>                                <span class="hljs-built_in">strlen</span>(body), body);<br>        <span class="hljs-keyword">if</span> (resp_len &gt; <span class="hljs-number">0</span>) &#123;<br>            rio_writen(fd, resp, resp_len);<br>        &#125;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Request:\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, buf);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(buf, <span class="hljs-string">&quot;%s %s %s&quot;</span>, method, uri, version) != <span class="hljs-number">3</span>) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (strcasecmp(method, <span class="hljs-string">&quot;GET&quot;</span>)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Proxy does not implement the method&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    parse_uri(uri, hostname, path, port);<br><br>    build_http_header(http_header, hostname, path, port, &amp;rio);<br><br>    serverfd = open_clientfd(hostname, port);<br>    <span class="hljs-keyword">if</span> (serverfd &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Connection failed\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (rio_writen(serverfd, http_header, <span class="hljs-built_in">strlen</span>(http_header)) != <span class="hljs-built_in">strlen</span>(http_header)) &#123;<br>        Close(serverfd);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">while</span> ((n = read(serverfd, buf, MAXLINE)) != <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">if</span> (errno == EINTR) <span class="hljs-keyword">continue</span>;<br>            <span class="hljs-keyword">if</span> (errno == ECONNRESET) <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (rio_writen(fd, buf, n) != n) &#123;<br>             <span class="hljs-keyword">if</span> (errno == EPIPE) <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    Close(serverfd);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><p><strong>初始化读缓冲区</strong>：使用 <code>rio_readinitb</code> 初始化一个带缓冲的 I&#x2F;O 流</p>
+</li>
+<li><p><strong>读取请求行</strong>：读取 HTTP 请求的第一行，形如</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">GET http://www.cmu.edu/hub/index.html HTTP/1.1<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>请求行验证</strong>：</p>
+<ul>
+<li>检查请求行长度，防止缓冲区溢出（主要针对超长 URI 的测试用例）</li>
+<li>解析请求行，提取方法、URI 和 HTTP 版本</li>
+<li>验证请求方法是否为 GET（本代理仅支持 GET 方法）</li>
+</ul>
+</li>
+<li><p><strong>URI 解析</strong>：调用 <code>parse_uri</code> 函数解析 URI，提取目标主机名、路径和端口号</p>
+</li>
+<li><p><strong>构建 HTTP 头</strong>：调用 <code>build_http_header</code> 构建发送给目标服务器的 HTTP 请求头</p>
+</li>
+<li><p><strong>连接目标服务器</strong>：使用 <code>open_clientfd</code> 建立到目标服务器的连接</p>
+</li>
+<li><p><strong>转发请求</strong>：将构建好的 HTTP 请求头发送到目标服务器</p>
+</li>
+<li><p><strong>转发响应</strong>：循环读取目标服务器的响应，并将其转发给客户端（注意谨慎处理各种错误，以保证代理持续运行）</p>
+</li>
+</ul>
+<h2 id="URI-解析"><a href="#URI-解析" class="headerlink" title="URI 解析"></a>URI 解析</h2><p><code>parse_uri</code> 函数负责解析客户端请求中的 URI，提取主机名、路径和端口号。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">parse_uri</span><span class="hljs-params">(<span class="hljs-type">char</span> *uri, <span class="hljs-type">char</span> *hostname, <span class="hljs-type">char</span> *path, <span class="hljs-type">char</span> *port)</span><br>&#123;<br>    <span class="hljs-type">char</span> *ptr;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strstr</span>(uri, <span class="hljs-string">&quot;http://&quot;</span>)) &#123;<br>        ptr = uri + <span class="hljs-number">7</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        ptr = uri;<br>    &#125;<br><br>    <span class="hljs-type">char</span> *port_ptr = <span class="hljs-built_in">strstr</span>(ptr, <span class="hljs-string">&quot;:&quot;</span>);<br>    <span class="hljs-type">char</span> *path_ptr = <span class="hljs-built_in">strstr</span>(ptr, <span class="hljs-string">&quot;/&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (path_ptr == <span class="hljs-literal">NULL</span>) &#123;<br>        <span class="hljs-built_in">strcpy</span>(path, <span class="hljs-string">&quot;/&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">strcpy</span>(path, path_ptr);<br>        *path_ptr = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (port_ptr != <span class="hljs-literal">NULL</span>) &#123;<br>        *port_ptr = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-built_in">strcpy</span>(port, port_ptr + <span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">strcpy</span>(hostname, ptr);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">strcpy</span>(port, <span class="hljs-string">&quot;80&quot;</span>);<br>        <span class="hljs-built_in">strcpy</span>(hostname, ptr);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><p><strong>处理 URI 格式</strong>：支持两种格式的 URI：</p>
+<ul>
+<li><p>完整格式：<code>http://hostname:port/path</code></p>
+</li>
+<li><p>简化格式：<code>hostname/path</code></p>
+</li>
+</ul>
+</li>
+<li><p><strong>提取路径</strong>：</p>
+<ul>
+<li>查找第一个 <code>/</code> 字符，将其作为路径的开始</li>
+<li>如果没有找到 <code>/</code>，则使用默认路径 <code>/</code></li>
+<li>将路径部分复制到 <code>path</code> 参数中</li>
+</ul>
+</li>
+<li><p><strong>提取端口和主机名</strong>：</p>
+<ul>
+<li>查找 <code>:</code> 字符，判断是否有自定义端口</li>
+<li>如果有自定义端口，将其分离并复制到 <code>port</code> 参数</li>
+<li>如果没有指定端口，使用默认 HTTP 端口 80</li>
+<li>剩余部分作为主机名</li>
+</ul>
+</li>
+</ul>
+<h2 id="HTTP-请求头构建"><a href="#HTTP-请求头构建" class="headerlink" title="HTTP 请求头构建"></a>HTTP 请求头构建</h2><p><code>build_http_header</code> 函数负责构建发送给目标服务器的 HTTP 请求头。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">build_http_header</span><span class="hljs-params">(<span class="hljs-type">char</span> *http_header, <span class="hljs-type">char</span> *hostname, <span class="hljs-type">char</span> *path, <span class="hljs-type">char</span> *port, <span class="hljs-type">rio_t</span> *client_rio)</span><br>&#123;<br>    <span class="hljs-type">char</span> buf[MAXLINE], request_hdr[MAXLINE], other_hdr[MAXLINE], host_hdr[MAXLINE];<br><br>    <span class="hljs-built_in">sprintf</span>(request_hdr, <span class="hljs-string">&quot;GET %s HTTP/1.0\r\n&quot;</span>, path);<br><br>    other_hdr[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>    host_hdr[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br>    <span class="hljs-keyword">while</span>(rio_readlineb(client_rio, buf, MAXLINE) &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">strcmp</span>(buf, <span class="hljs-string">&quot;\r\n&quot;</span>) == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">if</span>(!strncasecmp(buf, <span class="hljs-string">&quot;Host&quot;</span>, <span class="hljs-number">4</span>)) &#123;<br>            <span class="hljs-built_in">strcpy</span>(host_hdr, buf);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span>(!strncasecmp(buf, <span class="hljs-string">&quot;Connection&quot;</span>, <span class="hljs-number">10</span>) ||<br>           !strncasecmp(buf, <span class="hljs-string">&quot;Proxy-Connection&quot;</span>, <span class="hljs-number">16</span>) ||<br>           !strncasecmp(buf, <span class="hljs-string">&quot;User-Agent&quot;</span>, <span class="hljs-number">10</span>)) &#123;<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-built_in">strcat</span>(other_hdr, buf);<br>    &#125;<br><br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">strlen</span>(host_hdr) == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">sprintf</span>(host_hdr, <span class="hljs-string">&quot;Host: %s\r\n&quot;</span>, hostname);<br>    &#125;<br><br>    <span class="hljs-built_in">sprintf</span>(http_header, <span class="hljs-string">&quot;%s%s%s%s%s%s\r\n&quot;</span>,<br>            request_hdr,<br>            host_hdr,<br>            <span class="hljs-string">&quot;Connection: close\r\n&quot;</span>,<br>            <span class="hljs-string">&quot;Proxy-Connection: close\r\n&quot;</span>,<br>            user_agent_hdr,<br>            other_hdr);<br><br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><strong>构建请求行</strong>：使用 GET 方法和提取的路径构建请求行，使用 HTTP&#x2F;1.0 协议</li>
+<li><strong>处理客户端请求头</strong>：<ul>
+<li>逐行读取客户端发送的所有请求头</li>
+<li>特殊处理 <code>Host</code> 头：保留客户端提供的 <code>Host</code> 头，如果客户端没有提供 <code>Host</code> 头，使用从 URI 中提取的主机名构建</li>
+<li>设置 <code>Connection: close</code>，确保服务器在响应后关闭连接</li>
+<li>设置 <code>Proxy-Connection: close</code>，与旧版代理兼容</li>
+<li>设置统一的 <code>User-Agent</code> 头，伪装成标准浏览器</li>
+<li>保存其他所有头字段</li>
+</ul>
+</li>
+<li><strong>组合最终请求头</strong>：将所有部分组合成完整的 HTTP 请求头</li>
+</ul>
+<h1 id="Part-2-Concurrency"><a href="#Part-2-Concurrency" class="headerlink" title="Part 2: Concurrency"></a>Part 2: Concurrency</h1><h2 id="多线程架构设计"><a href="#多线程架构设计" class="headerlink" title="多线程架构设计"></a>多线程架构设计</h2><p>在多线程架构中，主循环负责接受客户端连接，但不再直接处理请求，而是为每个新连接创建一个独立的工作线程。这样，主线程可以立即返回继续接受新的连接，而不必等待当前请求处理完成。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">int</span> listenfd, *connfdp;<br>    <span class="hljs-type">char</span> hostname[MAXLINE], port[MAXLINE];<br>    <span class="hljs-type">socklen_t</span> clientlen;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_storage</span> <span class="hljs-title">clientaddr</span>;</span><br>    <span class="hljs-type">pthread_t</span> tid;<br><br>    <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;usage: %s &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    Signal(SIGPIPE, SIG_IGN);<br><br>    listenfd = Open_listenfd(argv[<span class="hljs-number">1</span>]);<br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        clientlen = <span class="hljs-keyword">sizeof</span>(clientaddr);<br>        connfdp = Malloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));<br>        *connfdp = Accept(listenfd, (SA *) &amp;clientaddr, &amp;clientlen);<br>        Getnameinfo((SA *) &amp;clientaddr, clientlen, hostname, MAXLINE, port, MAXLINE, <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Accepted connection from (%s, %s)\n&quot;</span>, hostname, port);<br>        Pthread_create(&amp;tid, <span class="hljs-literal">NULL</span>, thread, connfdp);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><strong>动态内存分配</strong>：为<strong>避免竞争</strong>，为每个连接描述符动态分配内存，确保每个线程有自己独立的连接描述符副本</li>
+<li><strong>线程创建</strong>：使用 <code>Pthread_create</code> 为每个新连接创建一个工作线程，将连接描述符指针作为参数传递给线程函数 <code>thread</code></li>
+<li><strong>非阻塞接受连接</strong>：主线程在创建线程后立即返回继续接受新连接，不需要等待请求处理完成</li>
+<li><strong>资源管理</strong>：线程负责在处理完成后释放连接描述符和相关内存资源</li>
+</ul>
+<h2 id="线程函数实现"><a href="#线程函数实现" class="headerlink" title="线程函数实现"></a>线程函数实现</h2><p>线程函数是每个工作线程的入口点，负责处理单个客户端连接的完整生命周期。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> *<span class="hljs-title function_">thread</span><span class="hljs-params">(<span class="hljs-type">void</span> *vargp)</span><br>&#123;<br>    <span class="hljs-type">int</span> connfd = *((<span class="hljs-type">int</span> *)vargp);<br>    Pthread_detach(pthread_self());<br>    Free(vargp);<br>    doit(connfd);<br>    Close(connfd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><strong>参数解引用</strong>：从传入的参数指针中获取连接描述符</li>
+<li><strong>线程分离</strong>：调用 <code>Pthread_detach(pthread_self())</code> 将线程设置为分离状态，这样线程终止时系统会自动回收其资源，无需主线程调用 <code>pthread_join</code></li>
+<li><strong>内存释放</strong>：立即释放动态分配的内存，避免内存泄漏</li>
+<li><strong>请求处理</strong>：调用 <code>doit</code> 函数处理客户端请求</li>
+<li><strong>资源清理</strong>：处理完成后关闭连接描述符，释放文件描述符资源</li>
+</ul>
+<h1 id="Part-3-Cache"><a href="#Part-3-Cache" class="headerlink" title="Part 3: Cache"></a>Part 3: Cache</h1><h2 id="缓存数据结构设计"><a href="#缓存数据结构设计" class="headerlink" title="缓存数据结构设计"></a>缓存数据结构设计</h2><p>我们可以设计一个简单的缓存系统，使用固定大小的块来存储 HTTP 响应内容，在缓存头文件 <code>cache.h</code> 中声明相关结构和函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;csapp.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_CACHE_SIZE 1049000</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_OBJECT_SIZE 102400</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_CACHE 10</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">char</span> obj[MAX_OBJECT_SIZE];<br>    <span class="hljs-type">char</span> uri[MAXLINE];<br>    <span class="hljs-type">int</span> lru_cnt;<br>    <span class="hljs-type">int</span> isEmpty;<br>    <span class="hljs-type">int</span> size;<br>&#125; Block;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span><br><span class="hljs-class">&#123;</span><br>    Block data[MAX_CACHE];<br>    <span class="hljs-type">int</span> num;<br>&#125; Cache;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">cache_init</span><span class="hljs-params">()</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">cache_find</span><span class="hljs-params">(<span class="hljs-type">char</span> *url, <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> *size)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">cache_add</span><span class="hljs-params">(<span class="hljs-type">char</span> *url, <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> size)</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>缓存块定义</strong>：每个<code>Block</code>包含：<ul>
+<li><code>obj</code>：存储响应内容的缓冲区</li>
+<li><code>uri</code>：对应的请求 URI（作为缓存键）</li>
+<li><code>lru_cnt</code>：最近最少使用计数器，用于缓存替换策略</li>
+<li><code>isEmpty</code>：标记块是否为空</li>
+<li><code>size</code>：存储内容的实际大小</li>
+</ul>
+</li>
+<li><strong>缓存结构</strong>：<code>Cache</code> 结构包含一个固定大小的块数组和当前已使用的块数量</li>
+<li><strong>缓存参数</strong>：<ul>
+<li><code>MAX_CACHE_SIZE</code>：整个缓存的最大大小（约 1MB）</li>
+<li><code>MAX_OBJECT_SIZE</code>：单个对象的最大大小（100KB）</li>
+<li><code>MAX_CACHE</code>：缓存中最多可存储的对象数量（10 个）</li>
+</ul>
+</li>
+</ul>
+<h2 id="读者-写者模型"><a href="#读者-写者模型" class="headerlink" title="读者-写者模型"></a>读者-写者模型</h2><p>由于多个线程可能同时访问缓存，因此我们需要确保线程安全。这里采用了经典的第一类读者-写者模型。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> Cache cache;<br><span class="hljs-type">static</span> <span class="hljs-type">int</span> read_cnt;<br><span class="hljs-type">static</span> <span class="hljs-type">sem_t</span> mutex, w;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">cache_init</span><span class="hljs-params">()</span> &#123;<br>    cache.num = <span class="hljs-number">0</span>;<br>    read_cnt = <span class="hljs-number">0</span>;<br>    Sem_init(&amp;mutex, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);<br>    Sem_init(&amp;w, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MAX_CACHE; i++) &#123;<br>        cache.data[i].isEmpty = <span class="hljs-number">1</span>;<br>        cache.data[i].lru_cnt = <span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="线程安全语句封装"><a href="#线程安全语句封装" class="headerlink" title="线程安全语句封装"></a>线程安全语句封装</h3><p>将第一类读者-写者模型所需的<strong>加锁</strong>和<strong>解锁</strong>语句封装，使后续代码更直观。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">reader_lock</span><span class="hljs-params">()</span> &#123;<br>    P(&amp;mutex);<br>    read_cnt++;<br>    <span class="hljs-keyword">if</span> (read_cnt == <span class="hljs-number">1</span>) &#123;<br>        P(&amp;w);<br>    &#125;<br>    V(&amp;mutex);<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">reader_unlock</span><span class="hljs-params">()</span> &#123;<br>    P(&amp;mutex);<br>    read_cnt--;<br>    <span class="hljs-keyword">if</span> (read_cnt == <span class="hljs-number">0</span>) &#123;<br>        V(&amp;w);<br>    &#125;<br>    V(&amp;mutex);<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">writer_lock</span><span class="hljs-params">()</span> &#123;<br>    P(&amp;w);<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">writer_unlock</span><span class="hljs-params">()</span> &#123;<br>    V(&amp;w);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>信号量设计</strong>：<ul>
+<li><code>mutex</code>：保护对<code>read_cnt</code>的访问</li>
+<li><code>w</code>：写者锁，确保写操作的互斥性</li>
+</ul>
+</li>
+<li><strong>读者优先策略</strong>：<ul>
+<li>第一个读者获取写锁，最后一个读者释放写锁</li>
+<li>允许多个读者同时读取</li>
+</ul>
+</li>
+<li><strong>写者独占</strong>：写者必须获取独占锁，确保在修改缓存时没有其他线程可以访问</li>
+</ul>
+<h3 id="缓存查找"><a href="#缓存查找" class="headerlink" title="缓存查找"></a>缓存查找</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">cache_find</span><span class="hljs-params">(<span class="hljs-type">char</span> *url, <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> *size)</span> &#123;<br>    <span class="hljs-type">int</span> found = <span class="hljs-number">0</span>;<br>    reader_lock();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MAX_CACHE; i++) &#123;<br>        <span class="hljs-keyword">if</span> (!cache.data[i].isEmpty &amp;&amp; <span class="hljs-built_in">strcmp</span>(cache.data[i].uri, url) == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-built_in">memcpy</span>(buf, cache.data[i].obj, cache.data[i].size);<br>            *size = cache.data[i].size;<br>            found = <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    reader_unlock();<br><br>    <span class="hljs-keyword">if</span> (found) &#123;<br>        <span class="hljs-comment">// Update LRU - this is a write operation on metadata</span><br>        writer_lock();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MAX_CACHE; i++) &#123;<br>            <span class="hljs-keyword">if</span> (!cache.data[i].isEmpty &amp;&amp; <span class="hljs-built_in">strcmp</span>(cache.data[i].uri, url) == <span class="hljs-number">0</span>) &#123;<br>                cache.data[i].lru_cnt = <span class="hljs-number">0</span>;<br>                <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; MAX_CACHE; j++) &#123;<br>                    <span class="hljs-keyword">if</span>(j != i &amp;&amp; !cache.data[j].isEmpty) &#123;<br>                        cache.data[j].lru_cnt++;<br>                    &#125;<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        writer_unlock();<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><p><strong>读锁保护</strong>：在查找过程中使用读锁，允许多个线程同时查询缓存</p>
+</li>
+<li><p><strong>LRU 更新</strong>：找到缓存项后，需要更新 LRU 计数器：</p>
+<ul>
+<li><p>获取写锁（因为要修改缓存元数据）</p>
+</li>
+<li><p>将找到的项的 LRU 计数器重置为 0（表示最近使用）</p>
+</li>
+<li><p>增加其他所有非空项的 LRU 计数器</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="缓存添加"><a href="#缓存添加" class="headerlink" title="缓存添加"></a>缓存添加</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">cache_add</span><span class="hljs-params">(<span class="hljs-type">char</span> *url, <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> size)</span> &#123;<br>    <span class="hljs-keyword">if</span> (size &gt; MAX_OBJECT_SIZE) <span class="hljs-keyword">return</span>;<br><br>    writer_lock();<br><br>    <span class="hljs-type">int</span> victim = <span class="hljs-number">-1</span>;<br>    <span class="hljs-type">int</span> max_lru = <span class="hljs-number">-1</span>;<br><br>    <span class="hljs-keyword">if</span> (cache.num &lt; MAX_CACHE) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MAX_CACHE; i++) &#123;<br>            <span class="hljs-keyword">if</span> (cache.data[i].isEmpty) &#123;<br>                victim = i;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (victim == <span class="hljs-number">-1</span>) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; MAX_CACHE; i++) &#123;<br>            <span class="hljs-keyword">if</span> (!cache.data[i].isEmpty &amp;&amp; cache.data[i].lru_cnt &gt; max_lru) &#123;<br>                max_lru = cache.data[i].lru_cnt;<br>                victim = i;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (victim != <span class="hljs-number">-1</span>) &#123;<br>        <span class="hljs-keyword">if</span> (cache.data[victim].isEmpty) &#123;<br>            cache.num++;<br>        &#125;<br><br>        <span class="hljs-built_in">strcpy</span>(cache.data[victim].uri, url);<br>        <span class="hljs-built_in">memcpy</span>(cache.data[victim].obj, buf, size);<br>        cache.data[victim].size = size;<br>        cache.data[victim].isEmpty = <span class="hljs-number">0</span>;<br>        cache.data[victim].lru_cnt = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; MAX_CACHE; j++) &#123;<br>            <span class="hljs-keyword">if</span>(j != victim &amp;&amp; !cache.data[j].isEmpty) &#123;<br>                cache.data[j].lru_cnt++;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    writer_unlock();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>实现思路：</strong></p>
+<ul>
+<li><p><strong>大小限制</strong>：首先检查对象大小是否超过单个对象的最大限制</p>
+</li>
+<li><p><strong>写锁保护</strong>：整个添加过程在写锁保护下进行，确保操作的原子性</p>
+</li>
+<li><p><strong>缓存替换策略</strong>：</p>
+<ul>
+<li><p>如果缓存未满，优先使用空闲块</p>
+</li>
+<li><p>如果缓存已满，选择 LRU 计数器最大的块作为替换目标</p>
+</li>
+</ul>
+</li>
+<li><p><strong>LRU 更新</strong>：</p>
+<ul>
+<li>新添加的项 LRU 计数器设为 0（最近使用）</li>
+<li>其他所有非空项的 LRU 计数器增加 1</li>
+</ul>
+</li>
+<li><p><strong>元数据更新</strong>：更新 URI、内容、大小和空闲状态</p>
+</li>
+</ul>
+<h2 id="代理中集成缓存功能"><a href="#代理中集成缓存功能" class="headerlink" title="代理中集成缓存功能"></a>代理中集成缓存功能</h2><h3 id="更新-main-函数"><a href="#更新-main-函数" class="headerlink" title="更新 main 函数"></a>更新 main 函数</h3><p>在 <code>main</code> 函数的开头部分输出化缓存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-comment">// ... 其他初始化代码</span><br><br>    Signal(SIGPIPE, SIG_IGN);<br>    cache_init();  <span class="hljs-comment">// 初始化缓存系统</span><br><br>    listenfd = Open_listenfd(argv[<span class="hljs-number">1</span>]);<br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-comment">// ... 接受连接和创建线程的代码</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="更新-doit-函数"><a href="#更新-doit-函数" class="headerlink" title="更新 doit 函数"></a>更新 doit 函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">doit</span><span class="hljs-params">(<span class="hljs-type">int</span> fd)</span><br>&#123;<br>    <span class="hljs-comment">// ... 变量声明</span><br>    <span class="hljs-type">char</span> *cache_buf = Malloc(MAX_OBJECT_SIZE);<br>    <span class="hljs-type">int</span> obj_size = <span class="hljs-number">0</span>; <span class="hljs-comment">/* accumulate full object size for caching */</span><br>    <span class="hljs-type">char</span> url_key[MAXLINE];<br><br>    Rio_readinitb(&amp;rio, fd);<br>    <span class="hljs-comment">// ... 读取请求行和验证</span><br><br>    <span class="hljs-built_in">strncpy</span>(url_key, uri, MAXLINE - <span class="hljs-number">1</span>);<br>    url_key[MAXLINE - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br>    <span class="hljs-comment">// ... 验证GET方法</span><br><br>    <span class="hljs-comment">/* 检查缓存 - 如果找到，直接返回缓存内容 */</span><br>    <span class="hljs-keyword">if</span> (cache_find(url_key, cache_buf, &amp;obj_size)) &#123;<br>        rio_writen(fd, cache_buf, obj_size);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Served from cache\n&quot;</span>);<br>        Free(cache_buf);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// ... 解析URI、构建请求头、连接服务器的代码</span><br><br>    <span class="hljs-comment">/* 读取服务器响应并转发给客户端，同时累积内容到缓存缓冲区 */</span><br>    <span class="hljs-keyword">while</span> ((n = read(serverfd, buf, MAXLINE)) != <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// ... 错误处理</span><br><br>        <span class="hljs-keyword">if</span> (rio_writen(fd, buf, n) != n) &#123;<br>            <span class="hljs-comment">// ... 错误处理</span><br>        &#125;<br><br>        <span class="hljs-comment">/* 累积整个对象到缓存缓冲区，直到达到大小限制 */</span><br>        <span class="hljs-keyword">if</span> (obj_size &gt;= <span class="hljs-number">0</span> &amp;&amp; obj_size + n &lt;= MAX_OBJECT_SIZE) &#123;<br>            <span class="hljs-built_in">memcpy</span>(cache_buf + obj_size, buf, n);<br>            obj_size += n;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            obj_size = <span class="hljs-number">-1</span>; <span class="hljs-comment">/* 标记为太大无法缓存 */</span><br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/* 如果对象大小合适，添加到缓存 */</span><br>    <span class="hljs-keyword">if</span> (obj_size &gt;= <span class="hljs-number">0</span>) &#123;<br>        cache_add(url_key, cache_buf, obj_size);<br>    &#125;<br><br>    Close(serverfd);<br>    Free(cache_buf);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>缓存缓冲区</strong>：为每个请求分配一个缓存缓冲区，用于累积响应内容</li>
+<li><strong>缓存查找</strong>：<ul>
+<li>在连接目标服务器前，先检查缓存中是否有对应 URI 的内容</li>
+<li>如果找到，直接将缓存内容写回客户端，跳过后续处理</li>
+</ul>
+</li>
+<li><strong>缓存累积</strong>：<ul>
+<li>在转发服务器响应给客户端的同时，将内容累积到缓存缓冲区</li>
+<li>检查累积大小，如果超过限制，标记为不可缓存</li>
+</ul>
+</li>
+<li><strong>缓存添加</strong>：<ul>
+<li>请求处理完成后，如果对象大小合适，将其添加到缓存</li>
+<li>使用原始请求 URI 作为缓存键，确保相同请求可以命中缓存</li>
+</ul>
+</li>
+</ul>
+<h2 id="修改-Makefile"><a href="#修改-Makefile" class="headerlink" title="修改 Makefile"></a>修改 Makefile</h2><p>由于我们引入了缓存模块，因此需要修改 <code>Makefile</code> 文件。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment">#</span><br><span class="hljs-comment"># Makefile for Proxy Lab</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># You may modify this file any way you like (except for the handin</span><br><span class="hljs-comment"># rule). Autolab will execute the command &quot;make&quot; on your specific</span><br><span class="hljs-comment"># Makefile to build your proxy from sources.</span><br><span class="hljs-comment">#</span><br>CC = gcc<br>CFLAGS = -g -Wall<br>LDFLAGS = -lpthread<br><br><span class="hljs-section">all: proxy</span><br><br><span class="hljs-section">csapp.o: csapp.c csapp.h</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> -c csapp.c<br><br><span class="hljs-section">cache.o: cache.c cache.h csapp.h</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> -c cache.c<br><br><span class="hljs-section">proxy.o: proxy.c csapp.h cache.h</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> -c proxy.c<br><br><span class="hljs-section">proxy: proxy.o csapp.o cache.o</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> proxy.o csapp.o cache.o -o proxy <span class="hljs-variable">$(LDFLAGS)</span><br><br><span class="hljs-comment"># Creates a tarball in ../proxylab-handin.tar that you should then</span><br><span class="hljs-comment"># hand in to Autolab. DO NOT MODIFY THIS!</span><br><span class="hljs-section">handin:</span><br>	(make clean; cd ..; tar czvf proxylab-handin.tar.gz proxylab-handout)<br><br><span class="hljs-section">clean:</span><br>	rm -rf *~ *.o proxy core *.tar *.zip *.gzip *.bzip *.gz .proxy .noproxy<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://arthals.ink/blog/proxy-lab">更适合北大宝宝体质的 Proxy Lab 踩坑记</a><br><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/497982541">CSAPP | Lab9-Proxy Lab 深入解析</a><br><i class="iconfont icon-href"></i> <a target="_blank" rel="noopener" href="https://lonelyuan.github.io/p/csapp-proxylab">CSAPP - Proxylab</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NOTE/" class="category-chain-item">NOTE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pku/" class="print-no-link">#pku</a>
+      
+        <a href="/tags/ics/" class="print-no-link">#ics</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ICS - Proxy Lab | 论一个代理的自我修养</div>
+      <div>https://staaaaaaaaar.github.io/2025/12/30/ics-proxylab/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sam</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 30, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - Non-commercial">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - Share-alike">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/30/ics-shelllab/" title="ICS - Shell Lab | 信号屏蔽中，勿扰！">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ICS - Shell Lab | 信号屏蔽中，勿扰！</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/17/ics-malloclab/" title="ICS - Malloc Lab | 令人头疼的内存碎片……">
+                        <span class="hidden-mobile">ICS - Malloc Lab | 令人头疼的内存碎片……</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> · <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        Views: 
+        <span id="leancloud-site-pv"></span>
+        
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        Visitors: 
+        <span id="leancloud-site-uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
