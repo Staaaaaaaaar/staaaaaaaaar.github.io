@@ -6,7 +6,7 @@ tags:
   - github
   - blog
 createTime: 2025/10/13 21:44:50
-permalink: /en/blog/ghp4oo4t/
+permalink: /en/article/ghp4oo4t/
 ---
 
 # 前言
