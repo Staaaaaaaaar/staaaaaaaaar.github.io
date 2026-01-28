@@ -23,8 +23,8 @@ export const enNavbar = defineNavbarConfig([
   // { text: 'Tags', link: '/en/blog/tags/' },
   // { text: 'Archives', link: '/en/blog/archives/' },
   {
-    text: 'Notes', link: '',
-    // items: [{ text: 'Demo', link: '/en/demo/README.md' }]
+    text: 'Notes',
+    items: [{ text: 'Fundamentals of Geomechanics', link: '/en/FoG/README.md' }]
   },
 ])
 
