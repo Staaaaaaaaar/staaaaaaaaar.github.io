@@ -7,7 +7,8 @@
  * 但同时部分配置项不支持热更新，请查看文档说明
  * 对于不支持热更新的配置项，请在 `.vuepress/config.ts` 文件中配置
  *
- * 特别的，请不要在两个配置文件中重复配置相同的项，当前文件的配置项会覆盖 `.vuepress/config.ts` 文件中的配置
+ * 特别的，请不要在两个配置文件中重复
+ * 配置相同的项，当前文件的配置项会覆盖 `.vuepress/config.ts` 文件中的配置
  */
 
 import { defineThemeConfig } from 'vuepress-theme-plume'
@@ -18,12 +19,12 @@ import { enNavbar, zhNavbar } from './navbar'
  * @see https://theme-plume.vuejs.press/config/theme/
  */
 export default defineThemeConfig({
-  logo: 'https://theme-plume.vuejs.press/plume.png',
+  logo: '/star.svg',
 
   appearance: true,  // 配置 深色模式
 
   social: [
-    { icon: 'github', link: '/' },
+    { icon: 'github', link: 'https://github.com/staaaaaaaaar' },
   ],
   // navbarSocialInclude: ['github'], // 允许显示在导航栏的 social 社交链接
   // aside: true, // 页内侧边栏， 默认显示在右侧
@@ -33,11 +34,11 @@ export default defineThemeConfig({
    * 文章版权信息
    * @see https://theme-plume.vuejs.press/guide/features/copyright/
    */
-  // copyright: true,
+  copyright: 'CC-BY-NC-SA-4.0',
 
-  // prevPage: true,   // 是否启用上一页链接
-  // nextPage: true,   // 是否启用下一页链接
-  // createTime: true, // 是否显示文章创建时间
+  prevPage: true,   // 是否启用上一页链接
+  nextPage: true,   // 是否启用下一页链接
+  createTime: true, // 是否显示文章创建时间
 
   /* 站点页脚 */
   // footer: {
@@ -46,11 +47,11 @@ export default defineThemeConfig({
   // },
 
   /* 过渡动画 @see https://theme-plume.vuejs.press/config/theme/#transition */
-  // transition: {
-  //   page: true,        // 启用 页面间跳转过渡动画
-  //   postList: true,    // 启用 博客文章列表过渡动画
-  //   appearance: 'fade',  // 启用 深色模式切换过渡动画, 或配置过渡动画类型
-  // },
+  transition: {
+    page: true,        // 启用 页面间跳转过渡动画
+    postList: true,    // 启用 博客文章列表过渡动画
+    appearance: 'fade',  // 启用 深色模式切换过渡动画, 或配置过渡动画类型
+  },
 
   locales: {
     '/': {
@@ -58,10 +59,10 @@ export default defineThemeConfig({
        * @see https://theme-plume.vuejs.press/config/theme/#profile
        */
       profile: {
-        avatar: 'https://theme-plume.vuejs.press/plume.png',
-        name: 'My Vuepress Site',
+        avatar: 'avatar.jpg',
+        name: 'Sam',
         description: '',
-        // circle: true,
+        circle: true,
         // location: '',
         // organization: '',
       },
@@ -85,10 +86,10 @@ export default defineThemeConfig({
        * @see https://theme-plume.vuejs.press/config/theme/#profile
        */
       profile: {
-        avatar: 'https://theme-plume.vuejs.press/plume.png',
-        name: 'My Vuepress Site',
+        avatar: 'avatar.jpg',
+        name: 'Sam',
         description: '',
-        // circle: true,
+        circle: true,
         // location: '',
         // organization: '',
       },
