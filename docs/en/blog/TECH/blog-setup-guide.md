@@ -9,7 +9,7 @@ createTime: 2025/10/13 21:44:50
 permalink: /en/article/ghp4oo4t/
 ---
 
-# 前言
+## 前言
 
 在开始搭建博客之前，希望你对 Git 的基本操作有一定了解，并确保你的计算机上已经安装了以下软件：
 
@@ -24,15 +24,15 @@ npm -v
 git --version
 ```
 
-# 创建 Github 仓库
+## 创建 Github 仓库
 
 在 GitHub 上新建一个仓库，需要特别注意的是仓库名需要为 `<your_github_username>.github.io` 。
 
 ![](/blog/blog-setup-guide/create-repo.png)
 
-# 搭建 Hexo 博客框架
+## 搭建 Hexo 博客框架
 
-## 初始化 Hexo 项目
+### 初始化 Hexo 项目
 
 1. 将新建的仓库 clone 到本地（HTTPS 或 SSH 均可）：
 
@@ -74,7 +74,7 @@ cd <your_github_username>.github.io
 └── themes
 ```
 
-## 配置主题
+### 配置主题
 
 选择一个心仪 Hexo 主题，这里以 [Fluid](https://github.com/fluid-dev/hexo-theme-fluid) 为例。
 
@@ -107,7 +107,7 @@ theme: fluid
 
 4. 在仓库目录下创建 `_config.fluid.yml` ，将主题的 `_config.yml` 内容复制过去，原因参见 [Fluid 用户手册](https://hexo.fluid-dev.com/docs/guide/#%E8%A6%86%E7%9B%96%E9%85%8D%E7%BD%AE)。
 
-## 本地部署
+### 本地部署
 
 安装依赖并启动服务器：
 
@@ -118,9 +118,9 @@ hexo server
 
 打开浏览器访问 `http://localhost:4000` 即可预览博客。
 
-# 通过 GitHub Pages 部署
+## 通过 GitHub Pages 部署
 
-## 修改配置
+### 修改配置
 
 修改仓库目录下的 `_config.yml` 中的 `url` ，将其更改为仓库地址：
 
@@ -128,7 +128,7 @@ hexo server
 url: https://<your_github_username>.github.io
 ```
 
-## 添加工作流文件
+### 添加工作流文件
 
 通常，将 `Hexo` 生成的页面通过 `GitHub Pages` 挂载后，每次提交博客都需要使用 `hexo clean && hexo generate && hexo deploy` 命令来部署，比较繁琐。本文将介绍一种借助 `GitHub Actions` 来实现自动部署的方案，每当我们提交源代码到 GitHub 存放源码的分支上，便会启动工作流，自动将构建并将静态文件 push 到发布分支，实现部署。
 
@@ -183,7 +183,7 @@ jobs:
           publish_branch: gh-pages
 ```
 
-## 启用 GitHub Pages
+### 启用 GitHub Pages
 
 1. 保存并提交所有更改到 `main` 分支：
 
@@ -203,7 +203,7 @@ git push origin main
 
 3. 访问 `https://<your_github_username>.github.io` 即可看到你的博客上线了！
 
-# 本地开发
+### 本地开发
 
 在本地进行开发时，可以通过以下命令来创建一篇新文章或者新的页面：
 
