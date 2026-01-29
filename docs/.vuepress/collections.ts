@@ -62,12 +62,21 @@ const zhFoGDoc = defineCollection({
   sidebar: 'auto',
 })
 
+const zhGSPDoc = defineCollection({
+  type: 'doc',
+  dir: 'GSP',
+  linkPrefix: 'GSP',
+  title: '地球物理信号处理',
+  sidebar: 'auto',
+})
+
 /**
  * 导出所有的 collections
  */
 export const zhCollections = defineCollections([
   zhBlog,
   zhFoGDoc,
+  zhGSPDoc,
 ])
 
 /* =================== locale: en-US ======================= */
@@ -107,11 +116,19 @@ const enFoGDoc = defineCollection({
   sidebar: 'auto',
 })
 
+const enGSPDoc = defineCollection({
+  type: 'doc',
+  dir: 'GSP',
+  linkPrefix: 'GSP',
+  title: 'Geophysical Signal Processing',
+  sidebar: 'auto',
+})
+
 /**
  * 导出所有的 collections
  */
 export const enCollections = defineCollections([
   enBlog,
   enFoGDoc,
+  enGSPDoc,
 ])
-
