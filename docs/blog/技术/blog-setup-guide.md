@@ -5,6 +5,7 @@ tags:
   - fluid
   - github
   - blog
+excerpt: 一个基于 Hexo 和 GitHub Pages 并借助 GitHub Actions 实现自动部署的个人博客搭建方案
 createTime: 2025/10/13 21:44:50
 permalink: /article/ghp4oo4t/
 ---

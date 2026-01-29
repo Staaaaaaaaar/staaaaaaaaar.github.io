@@ -5,6 +5,7 @@ tags:
   - fluid
   - blog
   - leancloud
+excerpt: 注册 LeanCloud 并配合 Fluid 主题配置添加网页统计功能
 createTime: 2025/10/17 00:54:24
 permalink: /article/5yq4gosl/
 
