@@ -13,7 +13,7 @@ export const zhNavbar = defineNavbarConfig([
   // { text: '归档', link: '/blog/archives/' },
   {
     text: '笔记',
-    items: [{ text: '地球介质力学基础', link: '/FoG/96jgayke/' }]
+    items: [{ text: '地球介质力学基础', link: '/FoG/intro/' }]
   },
 ])
 
@@ -24,7 +24,7 @@ export const enNavbar = defineNavbarConfig([
   // { text: 'Archives', link: '/en/blog/archives/' },
   {
     text: 'Notes',
-    items: [{ text: 'Fundamentals of Geomechanics', link: '/en/FoG/96jgayke/' }]
+    items: [{ text: 'Fundamentals of Geomechanics', link: '/en/FoG/intro/' }]
   },
 ])
 
