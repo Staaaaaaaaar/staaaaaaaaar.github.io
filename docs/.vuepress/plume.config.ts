@@ -59,7 +59,7 @@ export default defineThemeConfig({
        * @see https://theme-plume.vuejs.press/config/theme/#profile
        */
       profile: {
-        avatar: 'avatar.jpg',
+        avatar: 'avatar.png',
         name: 'Sam',
         description: '',
         circle: true,
@@ -86,7 +86,7 @@ export default defineThemeConfig({
        * @see https://theme-plume.vuejs.press/config/theme/#profile
        */
       profile: {
-        avatar: 'avatar.jpg',
+        avatar: 'avatar.png',
         name: 'Sam',
         description: '',
         circle: true,
