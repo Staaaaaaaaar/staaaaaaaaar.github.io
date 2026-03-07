@@ -16,6 +16,7 @@ export const zhNavbar = defineNavbarConfig([
     items: [
       { text: '地球介质力学基础', link: '/FoG/intro/' },
       { text: '地球物理信号处理', link: '/GSP/gzium104/' },
+      { text: '地震学', link: '/Seis/h85vdjpn/' },
     ]
   },
 ])

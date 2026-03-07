@@ -70,6 +70,14 @@ const zhGSPDoc = defineCollection({
   sidebar: 'auto',
 })
 
+const zhSeisDoc = defineCollection({
+  type: 'doc',
+  dir: 'Seis',
+  linkPrefix: 'Seis',
+  title: '地震学',
+  sidebar: 'auto',
+})
+
 /**
  * 导出所有的 collections
  */
@@ -77,6 +85,7 @@ export const zhCollections = defineCollections([
   zhBlog,
   zhFoGDoc,
   zhGSPDoc,
+  zhSeisDoc,
 ])
 
 /* =================== locale: en-US ======================= */
