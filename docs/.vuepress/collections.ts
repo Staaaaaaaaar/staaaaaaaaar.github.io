@@ -78,6 +78,14 @@ const zhSeisDoc = defineCollection({
   sidebar: 'auto',
 })
 
+const zhNMGDoc = defineCollection({
+  type: 'doc',
+  dir: 'NMG',
+  linkPrefix: 'NMG',
+  title: '地球物理数值计算方法',
+  sidebar: 'auto',
+})
+
 /**
  * 导出所有的 collections
  */
@@ -86,6 +94,7 @@ export const zhCollections = defineCollections([
   zhFoGDoc,
   zhGSPDoc,
   zhSeisDoc,
+  zhNMGDoc,
 ])
 
 /* =================== locale: en-US ======================= */
