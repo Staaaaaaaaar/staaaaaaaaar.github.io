@@ -142,6 +142,22 @@ const enGSPDoc = defineCollection({
   sidebar: 'auto',
 })
 
+const enSeisDoc = defineCollection({
+  type: 'doc',
+  dir: 'Seis',
+  linkPrefix: 'Seis',
+  title: 'Seismology',
+  sidebar: 'auto',
+})
+
+const enNMGDoc = defineCollection({
+  type: 'doc',
+  dir: 'NMG',
+  linkPrefix: 'NMG',
+  title: 'Numerical Methods in Geophysics',
+  sidebar: 'auto',
+})
+
 /**
  * 导出所有的 collections
  */
