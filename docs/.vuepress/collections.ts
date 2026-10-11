@@ -86,6 +86,14 @@ const zhNMGDoc = defineCollection({
   sidebar: 'auto',
 })
 
+const zhEGDoc = defineCollection({
+  type: 'doc',
+  dir: 'EG',
+  linkPrefix: 'EG',
+  title: '地球重力学',
+  sidebar: 'auto',
+})
+
 /**
  * 导出所有的 collections
  */
@@ -95,6 +103,7 @@ export const zhCollections = defineCollections([
   zhGSPDoc,
   zhSeisDoc,
   zhNMGDoc,
+  zhEGDoc,
 ])
 
 /* =================== locale: en-US ======================= */

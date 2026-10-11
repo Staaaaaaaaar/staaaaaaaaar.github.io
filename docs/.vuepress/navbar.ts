@@ -18,6 +18,7 @@ export const zhNavbar = defineNavbarConfig([
       { text: '地球物理信号处理', link: '/GSP/gzium104/' },
       { text: '地震学', link: '/Seis/tmu6i7ad/' },
       { text: '地球物理数值计算方法', link: '/NMG/cog2fs5q/' },
+      { text: '地球重力学', link: '/EG/b52l68hf/' },
     ]
   },
 ])
